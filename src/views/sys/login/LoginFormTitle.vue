@@ -20,6 +20,6 @@
       [LoginStateEnum.MOBILE]: t('sys.login.mobileSignInFormTitle'),
       [LoginStateEnum.QR_CODE]: t('sys.login.qrSignInFormTitle'),
     };
-    return titleObj[unref(getLoginState)];
+    return titleObj[unref(getLoginState)]; // ref对象，需要解包
   });
 </script>

@@ -31,6 +31,46 @@ const dashboard: AppRouteModule = {
         title: t('routes.dashboard.workbench'),
       },
     },
+    {
+      path: 'userManage',
+      name: 'UserManage',
+      component: () => import('/@/views/dashboard/userManage/index.vue'),
+      meta: {
+        title: t('routes.dashboard.userManage'),
+      },
+    },
+    {
+      path: 'deviceManage',
+      name: 'deviceManage',
+      component: () => import('/@/views/dashboard/deviceManage/index.vue'),
+      meta: {
+        title: t('routes.dashboard.deviceManage'),
+      },
+    },
+    {
+      path: 'historyManage',
+      name: 'historyManage',
+      component: () => import('/@/views/dashboard/historyManage/index.vue'),
+      meta: {
+        title: t('routes.dashboard.historyManage'),
+      },
+    },
+    {
+      path: 'databaseManage',
+      name: 'databaseManage',
+      component: () => import('/@/views/dashboard/databaseManage/index.vue'),
+      meta: {
+        title: t('routes.dashboard.databaseManage'),
+      },
+    },
+    {
+      path: 'deviceInfoManage',
+      name: 'deviceInfoManage',
+      component: () => import('/@/views/dashboard/deviceInfoManage/index.vue'),
+      meta: {
+        title: t('routes.dashboard.deviceInfoManage'),
+      },
+    },
   ],
 };
 

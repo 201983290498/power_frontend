@@ -1,6 +1,15 @@
 export default {
-  dashboard: 'Dashboard',
+  dashboard: '系统管理',
   about: '关于',
   workbench: '工作台',
   analysis: '分析页',
+  deviceManage: '设备管理',
+  historyManage: '历史数据管理',
+  deviceInfoManage: '设备信息管理',
+  databaseManage: '数据库管理',
+  userManage: '用户管理',
+  reliability: '变压器可靠性寿命预测',
+  stateEvaluation: '变压器状态评估',
+  economyPrediction: '变压器经济寿命预测',
+  devops: '运维决策',
 };

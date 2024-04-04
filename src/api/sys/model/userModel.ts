@@ -1,8 +1,10 @@
+import { RoleEnum } from '/@/enums/roleEnum';
+
 /**
  * @description: Login interface parameters
  */
 export interface LoginParams {
-  username: string;
+  userName: string;
   password: string;
 }
 
@@ -20,6 +22,10 @@ export interface LoginResultModel {
   role: RoleInfo;
 }
 
+export interface PowLoginResultModel {
+  token: string;
+}
+
 /**
  * @description: Get user information return value
  */
@@ -34,5 +40,13 @@ export interface GetUserInfoModel {
   // 头像
   avatar: string;
   // 介绍
+  desc?: string;
+}
+
+export interface PowGetUserInfoModel {
+  role: RoleEnum;
+  userId: string | number;
+  userName: string;
+  avatar?: string;
   desc?: string;
 }

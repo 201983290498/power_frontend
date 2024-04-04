@@ -3,4 +3,13 @@ export default {
   about: 'About',
   workbench: 'Workbench',
   analysis: 'Analysis',
+  deviceManage: 'Device Manage',
+  historyManage: 'History Manage',
+  deviceInfoManage: 'Device Info Manage',
+  databaseManage: 'Database Manage',
+  userManage: 'User Manage',
+  reliability: 'Reliability',
+  stateEvaluation: 'State Evaluation',
+  economyPrediction: 'Enconomy Prediction',
+  devops: 'Devops',
 };

@@ -1,12 +1,13 @@
 import { defHttp } from '/@/utils/http/axios';
-import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userModel';
-
+import { LoginParams, PowLoginResultModel, PowGetUserInfoModel } from './model/userModel';
 import { ErrorMessageMode } from '/#/axios';
+import { AxiosRequestHeaders } from 'axios';
+import { getToken } from '/@/utils/auth';
 
 enum Api {
-  Login = '/login',
+  Login = '/powergrid/user/account/token/',
   Logout = '/logout',
-  GetUserInfo = '/getUserInfo',
+  GetUserInfo = '/powergrid/user/account/info/',
   GetPermCode = '/getPermCode',
 }
 
@@ -14,7 +15,7 @@ enum Api {
  * @description: user login api
  */
 export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') {
-  return defHttp.post<LoginResultModel>(
+  return defHttp.post<PowLoginResultModel>( // 指定返回的对象
     {
       url: Api.Login,
       params,
@@ -29,7 +30,14 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
  * @description: getUserInfo
  */
 export function getUserInfo() {
-  return defHttp.get<GetUserInfoModel>({ url: Api.GetUserInfo }, { errorMessageMode: 'none' });
+  const headers: AxiosRequestHeaders = {
+    Authorization: 'Bearer ' + getToken(),
+  };
+  // 获取用户信息
+  return defHttp.post<PowGetUserInfoModel>(
+    { url: Api.GetUserInfo, headers },
+    { errorMessageMode: 'none' },
+  );
 }
 
 export function getPermCode() {

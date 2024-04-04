@@ -1,5 +1,5 @@
 <template>
-  <template v-if="getShow">
+  <template v-if="getShow"> 
     <LoginFormTitle class="enter-x" />
     <div class="enter-x min-w-64 min-h-64">
       <QrCode
@@ -27,5 +27,5 @@
   const { t } = useI18n();
   const { handleBackLogin, getLoginState } = useLoginState();
 
-  const getShow = computed(() => unref(getLoginState) === LoginStateEnum.QR_CODE);
+  const getShow = computed(() => unref(getLoginState) === LoginStateEnum.QR_CODE); // 是否展示二维码
 </script>

@@ -39,6 +39,7 @@ export function useFormValid<T extends Object = any>(formRef: Ref<any>) {
 }
 
 export function useFormRules(formData?: Recordable) {
+  // 用来对数据校验, 定义了数据校验的规则
   const { t } = useI18n();
 
   const getAccountFormRule = computed(() => createRule(t('sys.login.accountPlaceholder')));
