@@ -5,6 +5,7 @@
     :active-tab-key="activeKey"
     @tabChange="onTabChange"
   >
+    <!-- 表格切换 -->
     <p v-if="activeKey === 'tab1'">
       <VisitAnalysis />
     </p>

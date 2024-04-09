@@ -18,8 +18,10 @@
       default: '300px',
     },
   });
+  // ECharts实例的使用
   const chartRef = ref<HTMLDivElement | null>(null);
   const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
+  // 数据变化监听, 当数据发生变化是会触发相关的函数, 三个参数: 观察对象, 变化之后的回调函数, 初始化操作, 其中immediate: true表示在watch开始时立即执行一次回调函数，即使数据源还没有发生变化。
   watch(
     () => props.loading,
     () => {

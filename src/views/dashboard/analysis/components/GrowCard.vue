@@ -1,5 +1,6 @@
 <template>
   <div class="md:flex">
+    <!-- 卡片 -->
     <template v-for="(item, index) in growCardList" :key="item.title">
       <Card
         size="small"
@@ -13,11 +14,12 @@
           <Tag :color="item.color">{{ item.action }}</Tag>
         </template>
 
+        <!-- 金钱和图片 -->
         <div class="py-4 px-4 flex justify-between">
           <CountTo prefix="$" :startVal="1" :endVal="item.value" class="text-2xl" />
           <Icon :icon="item.icon" :size="40" />
         </div>
-
+        <!-- 总共多少 -->
         <div class="p-2 px-4 flex justify-between">
           <span>总{{ item.title }}</span>
           <CountTo prefix="$" :startVal="1" :endVal="item.total" />
@@ -27,9 +29,9 @@
   </div>
 </template>
 <script lang="ts" setup>
+  import { Tag, Card } from 'ant-design-vue';
   import { CountTo } from '/@/components/CountTo/index';
   import { Icon } from '/@/components/Icon';
-  import { Tag, Card } from 'ant-design-vue';
   import { growCardList } from '../data';
 
   defineProps({

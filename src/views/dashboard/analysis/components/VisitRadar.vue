@@ -1,4 +1,5 @@
 <template>
+  <!-- 卡片 -->
   <Card title="转化率" :loading="loading">
     <div ref="chartRef" :style="{ width, height }"></div>
   </Card>
@@ -7,7 +8,7 @@
   import { Ref, ref, watch } from 'vue';
   import { Card } from 'ant-design-vue';
   import { useECharts } from '/@/hooks/web/useECharts';
-
+  // 接受传递的参数
   const props = defineProps({
     loading: Boolean,
     width: {
