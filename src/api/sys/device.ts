@@ -1,6 +1,5 @@
 import { defHttp } from '/@/utils/http/axios';
 import { getDevicePageListParmas, getDevicePageListData } from './model/deviceModel';
-import { ErrorMessageMode } from '/#/axios';
 
 enum Api {
   GetPageList = '/powergrid/sys/equipment',
@@ -14,14 +13,6 @@ const demoParam: getDevicePageListParmas = {
   pageSize: 10,
 };
 
-export function getDeviceList(
-  params: getDevicePageListParmas = demoParam,
-  mode: ErrorMessageMode = 'modal',
-) {
-  return defHttp.get<getDevicePageListData>(
-    { url: Api.GetPageList, params },
-    { errorMessageMode: mode },
-  );
-}
-
+export const getDeviceList = (params: getDevicePageListParmas = demoParam) =>
+  defHttp.get<getDevicePageListData>({ url: Api.GetPageList, params });
 // 新增

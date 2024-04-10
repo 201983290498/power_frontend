@@ -9,15 +9,11 @@
   import { BasicForm, useForm } from '/@/components/Form';
   import { formSchema } from './device.data';
 
-  // import { getDeptList } from '/@/api/demo/system';
-
-  defineOptions({ name: 'DeviceModal' });
-
   const emit = defineEmits(['success', 'register']);
 
   const isUpdate = ref(true);
 
-  const [registerForm, { resetFields, setFieldsValue, updateSchema, validate }] = useForm({
+  const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
     labelWidth: 100,
     baseColProps: { span: 24 },
     schemas: formSchema,
@@ -34,12 +30,6 @@
         ...data.record,
       });
     }
-    const treeData: Array<any> = [];
-
-    updateSchema({
-      field: 'parentDept',
-      componentProps: { treeData },
-    });
   });
 
   const getTitle = computed(() => (!unref(isUpdate) ? '新增设备' : '编辑设备'));
