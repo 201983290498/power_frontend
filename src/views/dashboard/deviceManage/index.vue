@@ -31,14 +31,25 @@
 <script lang="ts" setup>
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getDeviceList } from '/@/api/sys/device';
+  import { PaginationProps } from '/@/components/Table/src/types/pagination';
 
   import { columns, searchFormSchema } from './device.data';
   import { useModal } from '/@/components/Modal';
 
-  import DeviceModal from './DeviceModal.vue'; // 不是问题
+  // import DeviceModal from './DeviceModal.vue'; // 不是问题
 
   defineOptions({ name: 'DeviceManagement' });
   const [registerModal, { openModal }] = useModal();
+
+  let pagination: PaginationProps = {
+    total: 10,
+    defaultCurrent: 1,
+    defaultPageSize: 10,
+    showSizeChanger: true,
+    showQuickJumper: true,
+    pageSizeOptions: ['5', '10', '20', '30', '40'],
+    showTotal: (total) => `共 ${total} 条数据`,
+  };
 
   const [registerTable, { reload }] = useTable({
     title: '设备列表',
@@ -51,10 +62,15 @@
       labelWidth: 120,
       schemas: searchFormSchema,
     },
+    fetchSetting: {
+      pageField: 'page',
+      sizeField: 'pageSize',
+    },
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
     showIndexColumn: false,
+    pagination,
     actionColumn: {
       width: 80,
       title: '操作',
