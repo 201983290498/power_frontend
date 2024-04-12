@@ -7,4 +7,21 @@ export enum PageEnum {
   ERROR_PAGE = '/exception',
   // error log page path
   ERROR_LOG_PAGE = '/error-log/list',
+  // state evaluation main
+  State_Main_Page = '/state',
+  // state evaluation detail
+  State_Evaluate_Page = '/state/evaluate',
+  Economy_Main_Page = '/economy',
+  Economy_Evaluate_Page = '/economy/evaluate',
+  Reliability_Main_Page = '/reliability',
+  Reliability_Evaluate_Page = '/reliability/evaluate',
+  Devops_Main_Page = '/devops',
+  Devops_Evaluate_Page = '/devops/evaluate',
+  Analysis_Page = '/dashboard/analysis',
+  Workbench_Page = '/dashboard/workbench',
+  UserManage_Page = '/dashboard/userManage',
+  deviceManage_Page = '/dashboard/deviceManage',
+  HistoryManage_Page = '/dashboard/historyManage',
+  DatabaseManage_Page = '/dashboard/databaseManage',
+  DeviceInfoManage_Page = '/dashboard/deviceInfoManage',
 }

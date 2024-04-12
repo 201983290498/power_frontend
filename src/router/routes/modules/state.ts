@@ -17,10 +17,20 @@ const State: AppRouteModule = {
   children: [
     {
       path: 'index',
-      name: 'StatePage',
-      component: () => import('/@/views/evaluation/state/index.vue'),
+      name: 'StateIndexPage',
+      component: () => import('../../../views/evaluation/state/main/index.vue'),
       meta: {
         title: t('routes.dashboard.stateEvaluation'),
+        icon: 'ion:albums',
+        hideMenu: true,
+      },
+    },
+    {
+      path: 'evaluate',
+      name: 'StateEvaluatePage',
+      component: () => import('../../../views/evaluation/state/evaluate/index.vue'),
+      meta: {
+        title: t('routes.dashboard.stateEvaluationSub'),
         icon: 'ion:albums',
         hideMenu: true,
       },

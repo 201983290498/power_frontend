@@ -19,6 +19,10 @@ export interface Device {
  */
 export interface StateInput {
   /**
+   * 测试id
+   */
+  evaluate_id?: string;
+  /**
    * 吸收比，高中低依次存储
    */
   absorptionRatio: number[];
