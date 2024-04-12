@@ -11,7 +11,7 @@
         <template v-if="content">
           {{ content }}
         </template>
-        <!-- <slot name="headerContent" v-else></slot> -->
+        <slot name="headerContent" v-else></slot>
       </template>
       <template #[item]="data" v-for="item in getHeaderSlots">
         <slot :name="item" v-bind="data || {}"></slot>

@@ -9,9 +9,9 @@
         </span>
       </div>
     </template>
-    <Description @register="infoRegister" class="enter-y" />
-    <Description @register="register" class="my-4 enter-y" />
-    <Description @register="registerDev" class="enter-y" />
+    <!-- <Description @register="infoRegister" class="enter-y" /> -->
+    <!-- <Description @register="register" class="my-4 enter-y" /> -->
+    <!-- <Description @register="registerDev" class="enter-y" /> -->
   </PageWrapper>
 </template>
 <script lang="ts" setup>
@@ -20,13 +20,9 @@
   import { PageWrapper } from '/@/components/Page';
   import { Description, DescItem, useDescription } from '/@/components/Description/index';
   import { GITHUB_URL, SITE_URL, DOC_URL } from '/@/settings/siteSetting';
-  import { stateEvaluation } from '/@/api/evalution/state';
-  import { inputDemo } from './state.data'
 
   const { pkg, lastBuildTime } = __APP_INFO__;
-  stateEvaluation(inputDemo).then((res) => {
-    console.log(res);
-  });
+
   const { dependencies, devDependencies, name, version } = pkg;
 
   const schema: DescItem[] = [];
