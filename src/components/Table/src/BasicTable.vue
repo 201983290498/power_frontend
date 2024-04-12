@@ -28,9 +28,9 @@
       <template #[`header-${column.dataIndex}`] v-for="column in columns" :key="column.dataIndex">
         <HeaderCell :column="column" />
       </template>
-      <!-- <template #bodyCell="data">
+      <template #bodyCell="data">
         <slot name="bodyCell" v-bind="data || {}"></slot>
-      </template> -->
+      </template>
     </Table>
   </div>
 </template>
