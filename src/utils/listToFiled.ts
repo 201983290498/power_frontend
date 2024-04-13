@@ -1,6 +1,6 @@
 import { FormSchema } from '../components/Form/src/types/form';
 import { DEFAULT_VALUE } from '../enums/defaultValueEnum';
-
+import { StateInput } from '/#/baseClass';
 export function transformListToField(demoList: any[], name: string) {
   let jsonStr = '{ ';
   demoList.forEach((item, index) => {
@@ -80,4 +80,60 @@ export function createList(
     res.push(createFormSchema(field + '.' + i, subNames[i], width, digital, span));
   }
   return res;
+}
+
+export const stateInputFields: (keyof StateInput)[] = [
+  'evaluateId',
+  'absorptionRatio',
+  'acetylene',
+  'acidValue',
+  'breakdownVoltage',
+  'bushingCapacitance',
+  'bushingDielectricLoss',
+  'capacitance',
+  'co',
+  'co2',
+  'coolingSystemStatus',
+  'coreLeakage',
+  'dcResistanceUnbalanceHigh',
+  'dcResistanceUnbalanceLow',
+  'dcResistanceUnbalanceMid',
+  'dielectricLoss',
+  'ethane',
+  'ethylene',
+  'familyDefect',
+  'furfuralContent',
+  'humidity',
+  'hydrogen',
+  'inspectionRecord',
+  'insRes',
+  'methane',
+  'microWaterContent',
+  'oilDielectricLoss',
+  'oilTemperature',
+  'partDischargeNum',
+  'protectionDeviceStatus',
+  'tapSwitcherStatus',
+  'temperature',
+  'testingDeviceStatus',
+  'totalHAbsolute',
+  'totalHRelative',
+  'totalHydrocarbon',
+  'windingDcResistanceHighAO',
+  'windingDcResistanceHighBO',
+  'windingDcResistanceHighCO',
+  'windingDcResistanceLow',
+  'windingDcResistanceMid',
+];
+
+export function mapObjectToInterface<T>(obj: Object, interfaceKeys: (keyof T)[]): T {
+  const mappedObject: Partial<T> = {};
+  interfaceKeys.forEach((key) => {
+    if (Object.keys(obj).includes(key)) {
+      mappedObject[key] = obj[key];
+    } else {
+      mappedObject[key] = DEFAULT_VALUE.INPUT_VALUE;
+    }
+  });
+  return mappedObject as T;
 }

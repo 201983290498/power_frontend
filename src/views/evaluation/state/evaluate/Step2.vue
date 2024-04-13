@@ -19,8 +19,7 @@
 </template>
 <script lang="ts" setup>
   import { BasicForm, useForm } from '/@/components/Form';
-  import { step1Schemas, step2Schemas, step3Schemas, step4Schemas, step5Schemas } from './data';
-  import { ref, watch } from 'vue';
+  import { step1Schemas, step2Schemas, step3Schemas, step4Schemas, step5Schemas } from './data';  import { ref, watch } from 'vue';
   import { Card } from 'ant-design-vue';
 
   const [register1] = useForm({

@@ -54,10 +54,18 @@
       >
       <a-button type="primary" class="mr-4" color="warning" @click="handleGiveup"> 放弃 </a-button>
     </template>
+    <HistoryModal @register="registerModal" @success="chooseSuccess" />
+    <input
+      ref="inputRef"
+      type="file"
+      v-show="false"
+      accept=".xlsx, .xls, .csv"
+      @change="handleInputClick"
+    />
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-  import { ref, reactive } from 'vue';
+  import { ref, reactive, unref } from 'vue';
   import Step1 from './Step1.vue';
   import Step2 from './Step2.vue';
   import Step3 from './Step3.vue';
@@ -68,16 +76,22 @@
   import { PageEnum } from '/@/enums/pageEnum';
   import { useRoute, useRouter } from 'vue-router';
   import { useMultipleTabStore } from '/@/store/modules/multipleTab';
+  import HistoryModal from '../../common/HistoryModal.vue';
+  import { useModal } from '/@/components/Modal';
+  import { readCsv } from './xlsx';
+  import { mapObjectToInterface, stateInputFields } from '/@/utils/listToFiled';
 
   const go = useGo();
   const route = useRoute();
   const router = useRouter();
   const tabStore = useMultipleTabStore();
   const boardered = ref(false);
+  const inputRef = ref<HTMLInputElement | null>(null);
 
   defineOptions({ name: 'FormStepPage' });
 
   const current = ref(0);
+  const [registerModal, { openModal }] = useModal();
 
   const state = reactive({
     initStep2: false,
@@ -112,7 +126,10 @@
   }
 
   function analysisFile() {
+    // console.log(excelDataList);
     // TODO uploadFiles
+    const inputRefDom = unref(inputRef);
+    inputRefDom && inputRefDom.click();
   }
 
   function downloadRecord() {
@@ -124,11 +141,17 @@
   }
 
   function historyFilledIn() {
-    // TODO historyFilledIn
+    // TODO 传入参数, 设备Id和排序字段, 排序方式
+    openModal(true, {
+      equipId: '1', // 设备Id
+      sortField: 'createTime', // 按照时间
+      decending: true, // 降序
+      searched: true, // 是否排序
+    });
   }
 
   function evaluate() {
-    // TODO 
+    // TODO
   }
   function goHistory() {
     go(PageEnum.HistoryManage_Page);
@@ -138,6 +161,26 @@
   function goReliability() {
     go(PageEnum.Reliability_Main_Page);
     closeTab();
+  }
+
+  function chooseSuccess(evaluateId: string) {
+    // TODO loadRecord
+  }
+
+  async function handleInputClick(e: Event) {
+    const files = e && (e.target as HTMLInputElement).files;
+    const rawFile = files && files[0]; // only setting files[0]
+    if (!rawFile) return;
+    const inputRefDom = unref(inputRef);
+    if (inputRefDom) {
+      // fix can't select the same excel
+      inputRefDom.value = '';
+    }
+    const dataList = await readCsv(rawFile);
+    if (typeof dataList[0] === 'object') {
+      const result = mapObjectToInterface(dataList[0], stateInputFields);
+      console.log(result);
+    }
   }
 </script>
 <script lang="ts">
