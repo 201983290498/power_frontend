@@ -1,5 +1,5 @@
 <template>
-  <div class="step1">
+  <Card class="step1">
     <div class="step1-form">
       <BasicForm @register="register">
         <template #fac="{ model, field }">
@@ -24,19 +24,19 @@
     <p>
       如果需要，这里可以放一些关于产品的常见问题说明。如果需要，这里可以放一些关于产品的常见问题说明。如果需要，这里可以放一些关于产品的常见问题说明。
     </p>
-  </div>
+  </Card>
 </template>
 <script lang="ts" setup>
   import { BasicForm, useForm } from '/@/components/Form';
-  import { step1Schemas } from './data';
+  import { stepSchemas } from './data';
 
-  import { Select, Input, Divider } from 'ant-design-vue';
+  import { Select, Input, Divider, Card } from 'ant-design-vue';
 
   const emit = defineEmits(['next']);
 
   const [register, { validate }] = useForm({
     labelWidth: 100,
-    schemas: step1Schemas,
+    schemas: stepSchemas,
     actionColOptions: {
       span: 14,
     },

@@ -21,7 +21,7 @@ export interface StateInput {
   /**
    * 测试id
    */
-  evaluate_id?: string;
+  evaluateId?: string;
   /**
    * 吸收比，高中低依次存储
    */
@@ -189,6 +189,7 @@ export interface StateInput {
  * StateEvaluation Output
  */
 export interface StateOutput {
+  evaluateId: string;
   /**
    * 变压器（本次评价的变压器的编号等简要变压器信息）
    */

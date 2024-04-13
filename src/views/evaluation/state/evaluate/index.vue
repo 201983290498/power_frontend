@@ -4,23 +4,16 @@
     content="请按照步骤完成下列表单的填写，最终会得到相关的状态测评结果。"
     contentClass="p-4"
   >
-    <Card :bordered="false">
+    <Card :bordered="boardered" class="!mb-4">
       <Steps :current="current" class="step-form-form">
         <Steps.Step title="基本信息" />
         <Steps.Step title="状态评估" />
         <Steps.Step title="评估结果" />
       </Steps>
     </Card>
-    <Card :bordered="false" class="!mt-5">
-      <Step1 @next="handleStepNext" v-show="current === 0" />
-      <Step2
-        @prev="handleStepPrev"
-        @next="handleStepNext"
-        v-show="current === 1"
-        v-if="state.initStep2"
-      />
-      <Step3 v-show="current === 2" @redo="handleGiveup" v-if="state.initStep3" />
-    </Card>
+    <Step1 @next="handleStepNext" v-show="current === 0" />
+    <Step2 v-show="current === 1" v-if="state.initStep2" :bordered="boardered" />
+    <Step3 v-show="current === 2" v-if="state.initStep3" :bordered="boardered" />
     <template #rightFooter>
       <a-button ghost type="primary" class="mr-4" @click="analysisFile" v-if="current === 1">
         数据导入
@@ -28,6 +21,9 @@
       <a-button ghost type="primary" class="mr-4" @click="historyFilledIn" v-if="current === 1">
         历史数据填充</a-button
       >
+      <a-button ghost type="primary" class="mr-4" @click="evaluate" v-if="current === 1">
+        提交
+      </a-button>
       <a-button ghost type="primary" class="mr-4" @click="goHistory" v-if="current === 2">
         历史评估结果
       </a-button>
@@ -37,9 +33,7 @@
       <a-button ghost type="primary" class="mr-4" @click="downloadRecord" v-if="current === 2">
         导出
       </a-button>
-      <a-button type="primary" class="mr-4" color="primary" @click="handleStepPrev">
-        上一步
-      </a-button>
+      <a-button type="primary" class="mr-4" @click="handleStepPrev"> 上一步 </a-button>
       <a-button
         type="primary"
         color="success"
@@ -79,6 +73,7 @@
   const route = useRoute();
   const router = useRouter();
   const tabStore = useMultipleTabStore();
+  const boardered = ref(false);
 
   defineOptions({ name: 'FormStepPage' });
 
@@ -132,6 +127,9 @@
     // TODO historyFilledIn
   }
 
+  function evaluate() {
+    // TODO 
+  }
   function goHistory() {
     go(PageEnum.HistoryManage_Page);
     closeTab();

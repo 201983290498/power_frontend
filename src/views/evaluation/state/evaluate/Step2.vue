@@ -1,61 +1,87 @@
 <template>
-  <div class="w-120 m-auto">
-    <Alert message="确认转账后，资金将直接打入对方账户，无法退回。" show-icon />
-    <Descriptions :column="1" class="mt-5">
-      <Descriptions.Item label="付款账户"> ant-design@alipay.com </Descriptions.Item>
-      <Descriptions.Item label="收款账户"> test@example.com </Descriptions.Item>
-      <Descriptions.Item label="收款人姓名"> Vben </Descriptions.Item>
-      <Descriptions.Item label="转账金额"> 500元 </Descriptions.Item>
-    </Descriptions>
-    <Divider />
-    <BasicForm @register="register" />
+  <div>
+    <Card title="运行环境" :bordered="bordered">
+      <BasicForm @register="register1" />
+    </Card>
+    <Card title="油色谱分析" :bordered="bordered" class="!mt-2">
+      <BasicForm @register="register2" />
+    </Card>
+    <Card title="电气试验" :bordered="bordered" class="!mt-2">
+      <BasicForm @register="register3" />
+    </Card>
+    <Card title="油化试验" :bordered="bordered" class="!mt-2">
+      <BasicForm @register="register4" />
+    </Card>
+    <Card title="其他项目" :bordered="bordered" class="!mt-2">
+      <BasicForm @register="register5" />
+    </Card>
   </div>
 </template>
 <script lang="ts" setup>
   import { BasicForm, useForm } from '/@/components/Form';
-  import { step2Schemas } from './data';
-  import { Alert, Divider, Descriptions } from 'ant-design-vue';
+  import { step1Schemas, step2Schemas, step3Schemas, step4Schemas, step5Schemas } from './data';
+  import { ref, watch } from 'vue';
+  import { Card } from 'ant-design-vue';
 
-  const emit = defineEmits(['next', 'prev']);
-
-  const [register, { validate, setProps }] = useForm({
-    labelWidth: 80,
-    schemas: step2Schemas,
+  const [register1] = useForm({
+    labelWidth: 200,
+    schemas: step1Schemas,
     actionColOptions: {
-      span: 14,
+      span: 24,
     },
-    resetButtonOptions: {
-      text: '上一步',
-    },
-    submitButtonOptions: {
-      text: '提交',
-    },
-    resetFunc: customResetFunc,
-    submitFunc: customSubmitFunc,
+    showResetButton: false,
+    showAdvancedButton: false,
+    showSubmitButton: false,
   });
 
-  async function customResetFunc() {
-    emit('prev');
-  }
+  const [register2] = useForm({
+    labelWidth: 200,
+    schemas: step2Schemas,
+    actionColOptions: {
+      span: 24,
+    },
+    showResetButton: false,
+    showAdvancedButton: false,
+    showSubmitButton: false,
+  });
 
-  async function customSubmitFunc() {
-    try {
-      const values = await validate();
-      setProps({
-        submitButtonOptions: {
-          loading: true,
-        },
-      });
-      setTimeout(() => {
-        setProps({
-          submitButtonOptions: {
-            loading: false,
-          },
-        });
-        emit('next', values);
-      }, 1500);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  const [register3] = useForm({
+    labelWidth: 200,
+    schemas: step3Schemas,
+    actionColOptions: {
+      span: 24,
+    },
+    showResetButton: false,
+    showAdvancedButton: false,
+    showSubmitButton: false,
+  });
+
+  const [register4] = useForm({
+    labelWidth: 200,
+    schemas: step4Schemas,
+    actionColOptions: {
+      span: 24,
+    },
+    showResetButton: false,
+    showAdvancedButton: false,
+    showSubmitButton: false,
+  });
+
+  const [register5] = useForm({
+    labelWidth: 200,
+    schemas: step5Schemas,
+    actionColOptions: {
+      span: 24,
+    },
+    showResetButton: false,
+    showAdvancedButton: false,
+    showSubmitButton: false,
+  });
+
+  defineProps({
+    bordered: {
+      type: Boolean,
+      default: true,
+    },
+  });
 </script>

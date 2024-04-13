@@ -38,6 +38,7 @@
     { [`${prefixCls}-show-span`]: props.span && slots.default },
     { [`${prefixCls}-normal`]: props.normal },
   ]);
+  console.log(getClass.value);
 </script>
 <style lang="less" scoped>
   @prefix-cls: ~'@{namespace}-basic-title';
@@ -69,8 +70,8 @@
       content: '';
     }
 
-    &-help {
-      margin-left: 10px;
-    }
+    // &-help {
+    //   margin-left: 100px;
+    // }
   }
 </style>
