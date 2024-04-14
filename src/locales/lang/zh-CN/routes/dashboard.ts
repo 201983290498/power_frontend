@@ -10,6 +10,7 @@ export default {
   userManage: '用户管理',
   reliability: '变压器可靠性寿命预测',
   stateEvaluation: '变压器状态评估',
+  stateEvaluationSub: '状态评估页面',
   economyPrediction: '变压器经济寿命预测',
   devops: '运维决策',
 };

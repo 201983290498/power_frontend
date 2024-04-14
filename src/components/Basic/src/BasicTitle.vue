@@ -70,7 +70,7 @@
     }
 
     &-help {
-      margin-left: 10px;
+      margin-left: 100px;
     }
   }
 </style>

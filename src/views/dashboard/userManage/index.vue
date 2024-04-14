@@ -33,8 +33,7 @@
   import { getUserList } from '/@/api/sys/Euser';
   import { columns, searchFormSchema } from './user.data';
   import { useModal } from '/@/components/Modal';
-  import UserModal from './UserModel.vue'; // 不是问题
-
+  import { UserModal } from './UserModel.vue'; // 不是问题
   defineOptions({ name: 'UserManagement' });
   const [registerModal, { openModal }] = useModal();
   const [registerTable, { reload }] = useTable({
