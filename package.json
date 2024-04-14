@@ -45,7 +45,7 @@
     "echarts": "^5.2.2",
     "lodash-es": "^4.17.21",
     "mockjs": "^1.1.0",
-    "moment": "^2.29.1",
+    "moment": "^2.30.1",
     "nprogress": "^0.2.0",
     "path-to-regexp": "^6.2.0",
     "pinia": "2.0.0",
@@ -133,7 +133,6 @@
     "vue-tsc": "^0.28.10"
   },
   "resolutions": {
-    "//": "Used to install imagemin dependencies, because imagemin may not be installed in China. If it is abroad, you can delete it",
     "bin-wrapper": "npm:bin-wrapper-china",
     "rollup": "^2.56.3"
   },

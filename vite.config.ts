@@ -47,7 +47,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         },
         // /#/xxxx => types/xxxx
         {
-          find: /\/#\//,
+          find: /\/@\//,
           replacement: pathResolve('types') + '/',
         },
       ],
