@@ -31,14 +31,60 @@
 <script lang="ts" setup>
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getDeviceList } from '/@/api/sys/device';
+  import { PaginationProps } from '/@/components/Table/src/types/pagination';
+
   import { columns, searchFormSchema } from './device.data';
   import { useModal } from '/@/components/Modal';
-  import DeviceModal from './DeviceModal.vue'; // 不是问题
 
-  defineOptions({ name: 'DeviceManagement' });
+  import DeviceModal from './DeviceModal.vue'; // 不是问题
+  import { watch } from 'vue';
+
+  defineOptions({ name: 'DeviceManagement' }); // 定义组件的名称
+
+  const props = defineProps({
+    // 这里定义的props，在父组件中使用时, 父亲组件向子组件传递值，需要加上v-model
+    // 例如：<DeviceManagement v-model:visible="visible" />
+    reSize: {
+      type: Boolean,
+      default: true,
+    },
+    maxHeight: {
+      type: Number,
+      default: -1,
+    },
+  });
+
+  // 监控父组件值的变化
+  watch(
+    () => props.maxHeight,
+    (newValue) => {
+      setProps({
+        maxHeight: newValue,
+      });
+    },
+  );
+  watch(
+    () => props.reSize,
+    (newValue) => {
+      setProps({
+        canResize: newValue,
+      });
+    },
+  );
+
   const [registerModal, { openModal }] = useModal();
 
-  const [registerTable, { reload }] = useTable({
+  let pagination: PaginationProps = {
+    total: 10,
+    defaultCurrent: 1,
+    defaultPageSize: 10,
+    showSizeChanger: true,
+    showQuickJumper: true,
+    pageSizeOptions: ['5', '10', '20', '30', '40'],
+    showTotal: (total) => `共 ${total} 条数据`,
+  };
+
+  const [registerTable, { reload, setProps }] = useTable({
     title: '设备列表',
     api: getDeviceList,
     afterFetch: (data) => {
@@ -49,10 +95,16 @@
       labelWidth: 120,
       schemas: searchFormSchema,
     },
+    fetchSetting: {
+      pageField: 'page',
+      sizeField: 'pageSize',
+    },
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
     showIndexColumn: false,
+    pagination,
+    canResize: props.reSize,
     actionColumn: {
       width: 80,
       title: '操作',
@@ -61,6 +113,7 @@
       fixed: undefined,
     },
   });
+  props.maxHeight == -1 || setProps({ maxHeight: props.maxHeight });
 
   function handleCreate() {
     openModal(true, {
