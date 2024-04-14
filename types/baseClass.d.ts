@@ -13,6 +13,26 @@ export interface Device {
   evaluateTime: string;
   status: string;
 }
+export interface User {
+  // 上次登录时间
+  lastLogin: string;
+  // 权限等级
+  level: number | string;
+  // 所属单位
+  organization: string;
+  // 密码
+  password: string;
+  //责任人
+  personCharge: string;
+  //用户了
+  role: string;
+  /**
+   * ID编号，前端不展示
+   */
+  userID: number;
+  //用户名
+  userName: string;
+}
 
 /**
  * StateEvaluation Input

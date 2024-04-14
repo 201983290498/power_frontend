@@ -1,5 +1,8 @@
 import { RoleEnum } from '/@/enums/roleEnum';
-
+import { User } from '/#/baseClass';
+/**
+ * @description: get device pagelist interface parameters
+ */
 /**
  * @description: Login interface parameters
  */
@@ -49,4 +52,29 @@ export interface PowGetUserInfoModel {
   userName: string;
   avatar?: string;
   desc?: string;
+}
+
+export interface getUserPageListParmas {
+  page: string | number;
+  pageSize: string | number;
+  // 上次登录时间
+  lastLogin?: string;
+  // 权限等级
+  level?: number | string;
+  // 所属单位
+  organization?: string;
+  // 密码
+  password?: string;
+  //责任人
+  personCharge?: string;
+  //用户了
+  role?: string;
+  //用户名
+  userName?: string;
+}
+
+export interface getUserPageListData {
+  pageCount: number; // 总页数
+  rowCount: number; // 总的数据数量
+  Users: User[]; // 用户总数
 }
