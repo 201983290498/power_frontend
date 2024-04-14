@@ -60,7 +60,7 @@ export interface getUserPageListParmas {
   // 上次登录时间
   lastLogin?: string;
   // 权限等级
-  level?: number | string;
+  level?: number;
   // 所属单位
   organization?: string;
   // 密码
@@ -76,5 +76,5 @@ export interface getUserPageListParmas {
 export interface getUserPageListData {
   pageCount: number; // 总页数
   rowCount: number; // 总的数据数量
-  Users: User[]; // 用户总数
+  users: User[]; // 用户总数
 }
