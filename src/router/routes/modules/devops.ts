@@ -12,7 +12,7 @@ const Devops: AppRouteModule = {
     hideChildrenInMenu: true,
     icon: 'ion:heart',
     title: t('routes.dashboard.devops'),
-    orderNo: 100000,
+    orderNo: 14,
   },
   children: [
     {

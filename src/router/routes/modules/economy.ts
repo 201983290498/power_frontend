@@ -12,7 +12,7 @@ const Economy: AppRouteModule = {
     hideChildrenInMenu: true,
     icon: 'ion:airplane',
     title: t('routes.dashboard.economyPrediction'),
-    orderNo: 100000,
+    orderNo: 13,
   },
   children: [
     {

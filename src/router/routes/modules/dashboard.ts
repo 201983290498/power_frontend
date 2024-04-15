@@ -15,28 +15,12 @@ const dashboard: AppRouteModule = {
   },
   children: [
     {
-      path: 'analysis',
-      name: 'Analysis',
-      component: () => import('/@/views/dashboard/analysis/index.vue'),
-      meta: {
-        // affix: true,
-        title: t('routes.dashboard.analysis'),
-      },
-    },
-    {
-      path: 'workbench',
-      name: 'Workbench',
-      component: () => import('/@/views/dashboard/workbench/index.vue'),
-      meta: {
-        title: t('routes.dashboard.workbench'),
-      },
-    },
-    {
       path: 'userManage',
       name: 'UserManage',
       component: () => import('/@/views/dashboard/userManage/index.vue'),
       meta: {
         title: t('routes.dashboard.userManage'),
+        orderNo: 1,
       },
     },
     {
@@ -45,22 +29,7 @@ const dashboard: AppRouteModule = {
       component: () => import('/@/views/dashboard/deviceManage/index.vue'),
       meta: {
         title: t('routes.dashboard.deviceManage'),
-      },
-    },
-    {
-      path: 'historyManage',
-      name: 'historyManage',
-      component: () => import('/@/views/dashboard/historyManage/index.vue'),
-      meta: {
-        title: t('routes.dashboard.historyManage'),
-      },
-    },
-    {
-      path: 'databaseManage',
-      name: 'databaseManage',
-      component: () => import('/@/views/dashboard/databaseManage/index.vue'),
-      meta: {
-        title: t('routes.dashboard.databaseManage'),
+        orderNo: 2,
       },
     },
     {
@@ -69,6 +38,44 @@ const dashboard: AppRouteModule = {
       component: () => import('/@/views/dashboard/deviceInfoManage/index.vue'),
       meta: {
         title: t('routes.dashboard.deviceInfoManage'),
+        orderNo: 3,
+      },
+    },
+    {
+      path: 'historyManage',
+      name: 'historyManage',
+      component: () => import('/@/views/dashboard/historyManage/index.vue'),
+      meta: {
+        title: t('routes.dashboard.historyManage'),
+        orderNo: 4,
+      },
+    },
+    {
+      path: 'databaseManage',
+      name: 'databaseManage',
+      component: () => import('/@/views/dashboard/databaseManage/index.vue'),
+      meta: {
+        title: t('routes.dashboard.databaseManage'),
+        orderNo: 5,
+      },
+    },
+    {
+      path: 'workbench',
+      name: 'Workbench',
+      component: () => import('/@/views/dashboard/workbench/index.vue'),
+      meta: {
+        title: t('routes.dashboard.workbench'),
+        orderNo: 6,
+      },
+    },
+    {
+      path: 'analysis',
+      name: 'Analysis',
+      component: () => import('/@/views/dashboard/analysis/index.vue'),
+      meta: {
+        // affix: true,
+        title: t('routes.dashboard.analysis'),
+        orderNo: 7,
       },
     },
   ],

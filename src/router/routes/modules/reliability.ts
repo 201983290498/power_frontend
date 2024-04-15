@@ -12,7 +12,7 @@ const reliability: AppRouteModule = {
     hideChildrenInMenu: true,
     icon: 'ion:home',
     title: t('routes.dashboard.reliability'),
-    orderNo: 100000,
+    orderNo: 12,
   },
   children: [
     {

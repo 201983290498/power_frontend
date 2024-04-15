@@ -12,7 +12,7 @@ const State: AppRouteModule = {
     hideChildrenInMenu: true,
     icon: 'ion:albums',
     title: t('routes.dashboard.stateEvaluation'),
-    orderNo: 100000,
+    orderNo: 11,
   },
   children: [
     {
