@@ -7,6 +7,11 @@ export const columns: BasicColumn[] = [
     width: 50,
   },
   {
+    title: '用户id',
+    dataIndex: 'userId',
+    width: 50,
+  },
+  {
     title: '所属单位',
     dataIndex: 'organization',
     width: 100,
