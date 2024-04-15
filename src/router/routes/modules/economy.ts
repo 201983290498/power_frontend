@@ -18,9 +18,19 @@ const Economy: AppRouteModule = {
     {
       path: 'index',
       name: 'EconomyPage',
-      component: () => import('/@/views/evaluation/economy/index.vue'),
+      component: () => import('../../../views/evaluation/economy/main/index.vue'),
       meta: {
         title: t('routes.dashboard.economyPrediction'),
+        icon: 'ion:airplane',
+        hideMenu: true,
+      },
+    },
+    {
+      path: 'evaluate',
+      name: 'EconomyEvaluatePage',
+      component: () => import('../../../views/evaluation/economy/evaluate/index.vue'),
+      meta: {
+        title: t('routes.dashboard.economyPredictionSub'),
         icon: 'ion:airplane',
         hideMenu: true,
       },

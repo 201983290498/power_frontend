@@ -1,7 +1,7 @@
 <template>
   <PageWrapper
-    title="设备状态评估详情页"
-    content="请按照步骤完成下列表单的填写，最终会得到相关的状态测评结果。"
+    title="可靠性寿命评估详情页"
+    content="请按照步骤完成下列表单的填写，最终会得到相关的可靠性寿命评估结果。"
     contentClass="p-4"
   >
     <Card :bordered="boardered" class="!mb-4">
@@ -78,9 +78,13 @@
   import HistoryModal from '../../common/HistoryModal.vue';
   import { useModal } from '/@/components/Modal';
   import { readCsv } from '../../common/xlsx';
-  import { mapObjectToInterface, stateInputFields } from '/@/utils/listToFiled';
+  import { mapObjectToInterface, economyInputFields } from '/@/utils/listToFiled';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import { getStateRecordInput, saveStateRcord, stateEvaluation } from '/@/api/evalution/state';
+  import {
+    getEconomyRecordInput,
+    saveEconomyRcord,
+    economyEvaluation,
+  } from '/@/api/evalution/economy';
 
   const go = useGo();
   const route = useRoute();
@@ -93,7 +97,7 @@
   const { createMessage, createConfirm } = useMessage();
   const { warning } = createMessage;
   const results = ref();
-  defineOptions({ name: 'StateEvaluatePage' });
+  defineOptions({ name: 'EconomyEvaluatePage' });
 
   const current = ref(0);
   const [registerModal, { openModal }] = useModal();
@@ -134,7 +138,7 @@
   function handleGiveup() {
     current.value = 0;
     hasAnalysis = false;
-    go(PageEnum.State_Main_Page);
+    go(PageEnum.Economy_Main_Page);
     closeTab();
   }
 
@@ -148,7 +152,7 @@
   }
 
   function saveRecord() {
-    hasAnalysis && saveStateRcord({ evaluateId: results.value?.evaluateId });
+    hasAnalysis && saveEconomyRcord({ evaluateId: results.value?.evaluateId });
     !hasAnalysis && warning('请先测评！');
   }
 
@@ -165,7 +169,7 @@
   async function evaluate() {
     if (childRef.value !== null) {
       const formData = childRef.value.submitData();
-      const evaluateResult = await stateEvaluation({ items: formData });
+      const evaluateResult = await economyEvaluation({ items: formData });
       results.value = evaluateResult;
       hasAnalysis = true;
       current.value++;
@@ -179,12 +183,12 @@
   }
 
   function goReliability() {
-    go(PageEnum.Reliability_Main_Page);
+    go(PageEnum.Economy_Main_Page);
     closeTab();
   }
 
   async function chooseSuccess(evaluateId: string) {
-    const formData: Partial<StateInput> = await getStateRecordInput({ evaluateId });
+    const formData = await getEconomyRecordInput({ evaluateId });
     childRef.value?.setFormFields(formData);
   }
 
@@ -199,9 +203,9 @@
     }
     const dataList = await readCsv(rawFile);
     if (typeof dataList[0] === 'object') {
-      const result: StateInput = mapObjectToInterface(
+      let result: any = mapObjectToInterface(
         dataList[0],
-        JSON.parse(JSON.stringify(stateInputFields)),
+        JSON.parse(JSON.stringify(economyInputFields)),
       );
       childRef.value !== null && childRef.value.setFormFields(result);
     }
@@ -209,7 +213,7 @@
 </script>
 <script lang="ts">
   export default {
-    name: 'StateEvaluatePage',
+    name: 'EconomyEvaluatePage',
   };
 </script>
 <style lang="less" scoped>

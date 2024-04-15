@@ -97,7 +97,7 @@
   const { createMessage, createConfirm } = useMessage();
   const { warning } = createMessage;
   const results = ref();
-  defineOptions({ name: 'FormStepPage' });
+  defineOptions({ name: 'ReliabilityEvaluatePage' });
 
   const current = ref(0);
   const [registerModal, { openModal }] = useModal();
@@ -169,9 +169,7 @@
   async function evaluate() {
     if (childRef.value !== null) {
       const formData = childRef.value.submitData();
-      console.log(formData);
       const evaluateResult = await reliableEvaluation({ items: formData });
-      console.log(evaluateResult);
       results.value = evaluateResult;
       hasAnalysis = true;
       current.value++;
@@ -205,17 +203,18 @@
     }
     const dataList = await readCsv(rawFile);
     if (typeof dataList[0] === 'object') {
-      const result = mapObjectToInterface(
+      let result: any = mapObjectToInterface(
         dataList[0],
         JSON.parse(JSON.stringify(reliabilityInputFields)),
       );
+      result.appearanceScore = JSON.parse(result.appearanceScore);
       childRef.value !== null && childRef.value.setFormFields(result);
     }
   }
 </script>
 <script lang="ts">
   export default {
-    name: 'FormStepPage',
+    name: 'ReliabilityEvaluatePage',
   };
 </script>
 <style lang="less" scoped>

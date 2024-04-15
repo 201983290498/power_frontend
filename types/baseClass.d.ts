@@ -282,7 +282,7 @@ export interface ReliabilityInput {
    * 外观检查评分"五项复选 输入参数为XXXXX五位二进制数0表示选中 最低位：变压器外观异常 第二位：变压器外壳接地不良 第三位：套管存在裂纹或放电痕迹 第四位：运行声响异常
    * 第五位：变压器存在漏油情况 "
    */
-  appearanceScore?: number[];
+  appearanceScore?: number[] | string;
   /**
    * 每月平均热点温度
    */
@@ -451,5 +451,123 @@ export interface ReliabilityInput {
    * 三相电抗最大差值
    */
   threePhaseRactanceMaxDiff?: number;
+  [property: string]: any;
+}
+
+/**
+ * EconomyInput
+ */
+export interface EconomyInput {
+  /**
+   * 年平均故障次数
+   */
+  annualAvgFailure?: number;
+  /**
+   * 年故障中断供电时间
+   */
+  annualPowerOutageTime?: number;
+  /**
+   * 年小修总费用
+   */
+  annualRepairCost?: number;
+  /**
+   * 平均负载率
+   */
+  avgLoadRate?: number;
+  /**
+   * 平均功率因数
+   */
+  avgPowerFactor?: number;
+  /**
+   * 平均修复时间MTTR
+   */
+  avgRepairTime?: number;
+  /**
+   * 清理费费率
+   */
+  cleaningFeeRate?: number;
+  /**
+   * 电价
+   */
+  electricityPrice?: number;
+  /**
+   * 测试Id
+   */
+  evaluateId: string | number;
+  /**
+   * 初始其他成本
+   */
+  initialOtherCosts: number;
+  /**
+   * 安装调试成本
+   */
+  installationAndDebuggingCost: number;
+  /**
+   * 设备安装费
+   */
+  installFee?: number;
+  /**
+   * 负载损耗
+   */
+  loadLoss?: number;
+  /**
+   * 空载损耗（KW）
+   */
+  noneLoadLoss?: number;
+  /**
+   * 单次大修总费用
+   */
+  overhaulCost?: number;
+  /**
+   * 单位时间平均修复成本
+   */
+  pertimeAvgRepairCost?: number;
+  /**
+   * 供电利润 （元/kwh）
+   */
+  powerProfit?: number;
+  /**
+   * 购置成本（万元）
+   */
+  purchaseCost: number;
+  /**
+   * 额定容量
+   */
+  ratedCapacity: number;
+  /**
+   * 设备残值率
+   */
+  residualValueRate?: number;
+  [property: string]: any;
+}
+
+/**
+ * EconomyOutput
+ */
+export interface EconomyOutput {
+  /**
+   * 年均成本
+   */
+  avgAnnualCost: number;
+  /**
+   * 测试Id
+   */
+  evaluateId: string;
+  /**
+   * 寿命进程（经济性寿命/设计寿命）
+   */
+  lifespanProcess: number;
+  /**
+   * 检修周期
+   */
+  maintenanceCycle: number;
+  /**
+   * 检修程度
+   */
+  maintenanceLevel: number;
+  /**
+   * 运行年限
+   */
+  operatingYears: number;
   [property: string]: any;
 }

@@ -81,13 +81,6 @@
   }
 
   function setFormFields(data) {
-    let tem: string = data.appearanceScore;
-    let result: number[] = [];
-    for (let i = 0; i < tem.length; i++) {
-      tem[i] === '1' && result.push(i + 1);
-    }
-    data.appearanceScore = result;
-    console.log(data);
     setFieldsValue1(data);
     setFieldsValue2(data);
     setFieldsValue3(data);

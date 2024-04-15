@@ -1,6 +1,6 @@
 import { FormSchema } from '../components/Form/src/types/form';
 import { DEFAULT_VALUE } from '../enums/defaultValueEnum';
-import { ReliabilityInput, StateInput } from '/#/baseClass';
+import { EconomyInput, ReliabilityInput, StateInput } from '/#/baseClass';
 export function transformListToField(demoList: any[], name: string): Record<string, any> {
   let jsonStr = '{ ';
   demoList.forEach((item, index) => {
@@ -260,4 +260,27 @@ export const reliabilityInputFields: ReliabilityInput = {
   familyHealth: 3,
   appearanceScore: [],
   operatingEnvironment: '00',
+};
+
+export const economyInputFields: EconomyInput = {
+  evaluateId: DEFAULT_VALUE.INPUT_VALUE,
+  purchaseCost: DEFAULT_VALUE.INPUT_VALUE,
+  installationAndDebuggingCost: DEFAULT_VALUE.INPUT_VALUE,
+  initialOtherCosts: DEFAULT_VALUE.INPUT_VALUE,
+  electricityPrice: DEFAULT_VALUE.INPUT_VALUE,
+  noneLoadLoss: DEFAULT_VALUE.INPUT_VALUE,
+  loadLoss: DEFAULT_VALUE.INPUT_VALUE,
+  avgLoadRate: DEFAULT_VALUE.INPUT_VALUE,
+  overhaulCost: DEFAULT_VALUE.INPUT_VALUE,
+  annualRepairCost: DEFAULT_VALUE.INPUT_VALUE,
+  powerProfit: DEFAULT_VALUE.INPUT_VALUE,
+  ratedCapacity: DEFAULT_VALUE.INPUT_VALUE,
+  avgPowerFactor: DEFAULT_VALUE.INPUT_VALUE,
+  annualPowerOutageTime: DEFAULT_VALUE.INPUT_VALUE,
+  annualAvgFailure: DEFAULT_VALUE.INPUT_VALUE,
+  pertimeAvgRepairCost: DEFAULT_VALUE.INPUT_VALUE,
+  avgRepairTime: DEFAULT_VALUE.INPUT_VALUE,
+  InstallFee: DEFAULT_VALUE.INPUT_VALUE,
+  residualValueRate: DEFAULT_VALUE.INPUT_VALUE,
+  cleaningFeeRate: DEFAULT_VALUE.INPUT_VALUE,
 };
