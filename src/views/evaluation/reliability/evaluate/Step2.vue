@@ -15,8 +15,6 @@
   import { BasicForm, useForm } from '/@/components/Form';
   import { step1Schemas, step2Schemas, step3Schemas } from './data';
   import { Card } from 'ant-design-vue';
-  import { StateInput } from '/#/baseClass';
-  import { transformDataToField } from '/@/utils/listToFiled';
 
   const [register1, { getFieldsValue: getFieldsValue1, setFieldsValue: setFieldsValue1 }] = useForm(
     {
@@ -82,7 +80,7 @@
     return record;
   }
 
-  function setFormFields(data: StateInput) {
+  function setFormFields(data) {
     let tem: string = data.appearanceScore;
     let result: number[] = [];
     for (let i = 0; i < tem.length; i++) {

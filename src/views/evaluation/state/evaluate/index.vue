@@ -80,7 +80,6 @@
   import { readCsv } from '../../common/xlsx';
   import { mapObjectToInterface, stateInputFields } from '/@/utils/listToFiled';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import { StateInput, StateOutput } from '/#/baseClass';
   import { getStateRecordInput, saveStateRcord, stateEvaluation } from '/@/api/evalution/state';
 
   const go = useGo();
@@ -93,7 +92,7 @@
   let hasAnalysis = false; // 是否已经提交了
   const { createMessage, createConfirm } = useMessage();
   const { warning } = createMessage;
-  const results = ref<StateOutput>();
+  const results = ref();
   defineOptions({ name: 'FormStepPage' });
 
   const current = ref(0);
@@ -165,8 +164,8 @@
 
   async function evaluate() {
     if (childRef.value !== null) {
-      const formData: Partial<StateInput> = childRef.value.submitData();
-      const evaluateResult: StateOutput = await stateEvaluation({ items: formData });
+      const formData = childRef.value.submitData();
+      const evaluateResult = await stateEvaluation({ items: formData });
       results.value = evaluateResult;
       hasAnalysis = true;
       current.value++;

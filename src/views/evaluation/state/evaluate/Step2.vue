@@ -21,7 +21,6 @@
   import { BasicForm, useForm } from '/@/components/Form';
   import { step1Schemas, step2Schemas, step3Schemas, step4Schemas, step5Schemas } from './data';
   import { Card } from 'ant-design-vue';
-  import { StateInput } from '/#/baseClass';
   import { transformDataToField } from '/@/utils/listToFiled';
 
   const [register1, { getFieldsValue: getFieldsValue1, setFieldsValue: setFieldsValue1 }] = useForm(
@@ -112,7 +111,7 @@
     return record;
   }
 
-  function setFormFields(data: StateInput) {
+  function setFormFields(data) {
     const fileds: Record<string, any> = transformDataToField(data);
     setFieldsValue1(fileds);
     setFieldsValue2(fileds);

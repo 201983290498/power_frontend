@@ -85,7 +85,6 @@
     reliableEvaluation,
     getReliableRecordInput,
   } from '/@/api/evalution/reliability';
-  import { ReliabilityInput, ReliabilityOutput } from '/#/baseClass';
 
   const go = useGo();
   const route = useRoute();
@@ -97,7 +96,7 @@
   let hasAnalysis = false; // 是否已经提交了
   const { createMessage, createConfirm } = useMessage();
   const { warning } = createMessage;
-  const results = ref<StateOutput>();
+  const results = ref();
   defineOptions({ name: 'FormStepPage' });
 
   const current = ref(0);
@@ -169,9 +168,9 @@
 
   async function evaluate() {
     if (childRef.value !== null) {
-      const formData: Partial<ReliabilityInput> = childRef.value.submitData();
+      const formData = childRef.value.submitData();
       console.log(formData);
-      const evaluateResult: ReliabilityOutput = await reliableEvaluation({ items: formData });
+      const evaluateResult = await reliableEvaluation({ items: formData });
       console.log(evaluateResult);
       results.value = evaluateResult;
       hasAnalysis = true;
@@ -191,7 +190,7 @@
   }
 
   async function chooseSuccess(evaluateId: string) {
-    const formData: Partial<ReliabilityInput> = await getReliableRecordInput({ evaluateId });
+    const formData = await getReliableRecordInput({ evaluateId });
     childRef.value?.setFormFields(formData);
   }
 
@@ -206,7 +205,7 @@
     }
     const dataList = await readCsv(rawFile);
     if (typeof dataList[0] === 'object') {
-      const result: ReliabilityInput = mapObjectToInterface(
+      const result = mapObjectToInterface(
         dataList[0],
         JSON.parse(JSON.stringify(reliabilityInputFields)),
       );

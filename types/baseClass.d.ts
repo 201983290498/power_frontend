@@ -1,5 +1,3 @@
-import { StateEnum } from '/@/enums/stateEnum';
-
 export type DetailType = undefined;
 // 编写数据库中的基础类
 export interface Device {
