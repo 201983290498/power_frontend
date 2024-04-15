@@ -4,6 +4,6 @@ export type StateParam = Partial<StateInput>;
 
 export type StateReponse = StateOutput;
 
-export type SaveParam = {
-  evaluateId: string;
-};
+export interface SaveParam {
+  evaluateId: string | undefined;
+}

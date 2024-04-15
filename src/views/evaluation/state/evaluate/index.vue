@@ -21,9 +21,6 @@
       <a-button ghost type="primary" class="mr-4" @click="historyFilledIn" v-if="current === 1">
         历史数据填充</a-button
       >
-      <a-button ghost type="primary" class="mr-4" @click="evaluate" v-if="current === 1">
-        提交
-      </a-button>
       <a-button ghost type="primary" class="mr-4" @click="goHistory" v-if="current === 2">
         历史评估结果
       </a-button>
@@ -46,12 +43,14 @@
       <a-button
         type="primary"
         class="mr-4"
-        color="success"
         @click="handleStepNext"
-        v-if="current === 0 || current === 1"
+        v-if="current === 0 || (current === 1 && hasAnalysis)"
       >
         下一步</a-button
       >
+      <a-button type="primary" class="mr-4" color="success" @click="evaluate" v-if="current === 1">
+        提交
+      </a-button>
       <a-button type="primary" class="mr-4" color="warning" @click="handleGiveup"> 放弃 </a-button>
     </template>
     <HistoryModal @register="registerModal" @success="chooseSuccess" />
@@ -82,7 +81,7 @@
   import { mapObjectToInterface, stateInputFields } from '/@/utils/listToFiled';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { StateInput, StateOutput } from '/#/baseClass';
-  import { stateEvaluation } from '/@/api/evalution/state';
+  import { getStateRecordInput, saveStateRcord, stateEvaluation } from '/@/api/evalution/state';
 
   const go = useGo();
   const route = useRoute();
@@ -134,8 +133,8 @@
   }
 
   function handleGiveup() {
-    // TODO 放弃 需要发送删除的请求
     current.value = 0;
+    hasAnalysis = false;
     go(PageEnum.State_Main_Page);
     closeTab();
   }
@@ -150,7 +149,8 @@
   }
 
   function saveRecord() {
-    // TODO saveRecord
+    hasAnalysis && saveStateRcord({ evaluateId: results.value?.evaluateId });
+    !hasAnalysis && warning('请先测评！');
   }
 
   function historyFilledIn() {
@@ -169,6 +169,8 @@
       const evaluateResult: StateOutput = await stateEvaluation(formData);
       results.value = evaluateResult;
       hasAnalysis = true;
+      current.value++;
+      current.value === 2 && (state.initStep3 = true);
     }
   }
 
@@ -182,8 +184,9 @@
     closeTab();
   }
 
-  function chooseSuccess(evaluateId: string) {
-    // TODO loadRecord
+  async function chooseSuccess(evaluateId: string) {
+    const formData: Partial<StateInput> = await getStateRecordInput({ evaluateId });
+    childRef.value?.setFormFields(formData);
   }
 
   async function handleInputClick(e: Event) {
