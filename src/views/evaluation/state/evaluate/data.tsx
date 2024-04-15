@@ -73,7 +73,7 @@ export const stepSchemas: FormSchema[] = [
 ];
 
 export const step1Schemas: FormSchema[] = [
-  createFormSchema('annualTemperature', '运行环境年平均温度', '50%', 2, 12),
+  createFormSchema('temperature', '运行环境年平均温度', '50%', 2, 12),
   createFormSchema('humidity', '湿度', '50%', 2, 12),
 ];
 
@@ -97,11 +97,12 @@ export const step3Schemas: FormSchema[] = [
   ...createList('绝缘电阻', 'insRes', dirNames, '60%', 8, 2),
   ...createList('吸收比', 'absorptionRatio', dirNames, '60%', 8, 3),
   ...createList('绕组介质损耗tanδ(%)', 'dielectricLoss', dirNames, '60%', 8, 3),
+  ...createList('绕组电容量Cx(pF)', 'capacitance', dirNames, '60%', 8, 2),
   ...createList('绕组直流电阻(高压侧)AO', 'windingDcResistanceHighAO', rankNames),
   ...createList('绕组直流电阻(高压侧)BO', 'windingDcResistanceHighBO', rankNames),
   ...createList('绕组直流电阻(高压侧)CO', 'windingDcResistanceHighCO', rankNames),
   ...createList('绕组直流电阻(中压侧)', 'windingDcResistanceMid', AmOm, '60%', 8, 3),
-  ...createList('绕组直流电阻(低压侧)', 'dcResistanceUnbalanceLow', abc, '60%', 8, 3),
+  ...createList('绕组直流电阻(低压侧)', 'windingDcResistanceLow', abc, '60%', 8, 3),
   ...createList('直流电阻不平衡系数高压侧', 'dcResistanceUnbalanceHigh', rankNames),
   ...createList(
     '直流电阻不平衡系数中压侧',

@@ -12,7 +12,7 @@
       </Steps>
     </Card>
     <Step1 @next="handleStepNext" v-show="current === 0" />
-    <Step2 v-show="current === 1" v-if="state.initStep2" :bordered="boardered" />
+    <Step2 ref="childRef" v-show="current === 1" v-if="state.initStep2" :bordered="boardered" />
     <Step3 v-show="current === 2" v-if="state.initStep3" :bordered="boardered" />
     <template #rightFooter>
       <a-button ghost type="primary" class="mr-4" @click="analysisFile" v-if="current === 1">
@@ -80,14 +80,21 @@
   import { useModal } from '/@/components/Modal';
   import { readCsv } from './xlsx';
   import { mapObjectToInterface, stateInputFields } from '/@/utils/listToFiled';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { StateInput, StateOutput } from '/#/baseClass';
+  import { stateEvaluation } from '/@/api/evalution/state';
 
   const go = useGo();
   const route = useRoute();
   const router = useRouter();
   const tabStore = useMultipleTabStore();
   const boardered = ref(false);
-  const inputRef = ref<HTMLInputElement | null>(null);
-
+  const inputRef = ref(null);
+  const childRef = ref(null);
+  let hasAnalysis = false; // 是否已经提交了
+  const { createMessage, createConfirm } = useMessage();
+  const { warning } = createMessage;
+  const results = ref<StateOutput>();
   defineOptions({ name: 'FormStepPage' });
 
   const current = ref(0);
@@ -106,16 +113,24 @@
   function handleStepPrev() {
     current.value--;
     if (current.value === -1) {
-      console.log(PageEnum.State_Main_Page);
       go(PageEnum.State_Main_Page);
       closeTab();
     }
   }
 
   function handleStepNext() {
+    if (current.value === 1 && !hasAnalysis) {
+      createConfirm({
+        iconType: 'error',
+        title: 'tips',
+        content: '请先提交数据进行测评。',
+      });
+      return;
+    }
     current.value++;
     current.value === 1 && (state.initStep2 = true);
     current.value === 2 && (state.initStep3 = true);
+    current.value === 2 && hasAnalysis && warning('显示上次的测评结果！');
   }
 
   function handleGiveup() {
@@ -126,8 +141,6 @@
   }
 
   function analysisFile() {
-    // console.log(excelDataList);
-    // TODO uploadFiles
     const inputRefDom = unref(inputRef);
     inputRefDom && inputRefDom.click();
   }
@@ -150,10 +163,16 @@
     });
   }
 
-  function evaluate() {
-    // TODO
+  async function evaluate() {
+    if (childRef.value !== null) {
+      const formData: Partial<StateInput> = childRef.value.submitData();
+      const evaluateResult: StateOutput = await stateEvaluation(formData);
+      results.value = evaluateResult;
+      hasAnalysis = true;
+    }
   }
-  function goHistory() {
+
+  function goHistory(): void {
     go(PageEnum.HistoryManage_Page);
     closeTab();
   }
@@ -178,8 +197,11 @@
     }
     const dataList = await readCsv(rawFile);
     if (typeof dataList[0] === 'object') {
-      const result = mapObjectToInterface(dataList[0], stateInputFields);
-      console.log(result);
+      const result: StateInput = mapObjectToInterface(
+        dataList[0],
+        JSON.parse(JSON.stringify(stateInputFields)),
+      );
+      childRef.value !== null && childRef.value.setFormFields(result);
     }
   }
 </script>

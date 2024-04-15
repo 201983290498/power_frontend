@@ -37,11 +37,10 @@ export interface User {
 /**
  * StateEvaluation Input
  */
+/**
+ * StateInput
+ */
 export interface StateInput {
-  /**
-   * 测试id
-   */
-  evaluateId?: string;
   /**
    * 吸收比，高中低依次存储
    */
@@ -165,19 +164,11 @@ export interface StateInput {
   /**
    * 运行环境年平均温度
    */
-  temperature: number | string;
+  temperature: number;
   /**
    * 测试装置状态
    */
   testingDeviceStatus: number;
-  /**
-   * 总烃绝对产气速率(%/月)
-   */
-  totalHAbsolute: number;
-  /**
-   * 总烃相对产气速率(%/月)
-   */
-  totalHRelative: number;
   /**
    * 总烃含量(uL/L)
    */
@@ -202,22 +193,40 @@ export interface StateInput {
    * 绕组直流电阻(中压侧)，ABC
    */
   windingDcResistanceMid: number[];
+  /**
+   * 测试id
+   */
+  evaluateId?: string | number;
+  /**
+   * 总烃绝对产气速率(%/月)
+   */
+  totalHyAbsolute: number;
+  /**
+   * 总烃相对产气速率(%/月)
+   */
+  totalHyRelative: number;
   [property: string]: any;
 }
 
 /**
  * StateEvaluation Output
  */
+/**
+ * StateOutput
+ */
 export interface StateOutput {
-  evaluateId: string;
   /**
    * 变压器（本次评价的变压器的编号等简要变压器信息）
    */
   equiment: { [key: string]: any };
   /**
+   * 测试id
+   */
+  evaluateId: string;
+  /**
    * 时间（在何时进行的本次状态评价）
    */
-  evalTime: string;
+  evaluateTime: string;
   /**
    * 负责人（执行本次状态评价的负责人姓名）
    */
@@ -225,10 +234,10 @@ export interface StateOutput {
   /**
    * 状态（输出：正常、严重等状态）
    */
-  status: StateEnum;
+  status: string;
   /**
    * 状态值（变压器健康指数或者劣化度等用来衡量变压器状态的一个数值）
    */
-  statusValue: number;
+  statusValue: string;
   [property: string]: any;
 }
