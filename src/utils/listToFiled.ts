@@ -1,7 +1,6 @@
-import { ComponentType } from '../components/Form/src/types';
 import { FormSchema } from '../components/Form/src/types/form';
 import { DEFAULT_VALUE } from '../enums/defaultValueEnum';
-import { StateInput } from '/#/baseClass';
+import { ReliabilityInput, StateInput } from '/#/baseClass';
 export function transformListToField(demoList: any[], name: string): Record<string, any> {
   let jsonStr = '{ ';
   demoList.forEach((item, index) => {
@@ -60,24 +59,18 @@ export function createFormSchema(
   width = '60%',
   digital = 2,
   span = 4,
-  type: ComponentType = 'InputNumber',
 ): FormSchema {
   return {
     field: field,
     label: label,
-    component: type,
+    component: 'InputNumber',
     componentProps: {
       step: Math.pow(10, -digital),
       style: { width: width }, // 设置输入框宽度为100%，可根据需要调整
     },
-    defaultValue: type === 'InputNumber' ? DEFAULT_VALUE.INPUT_VALUE : DEFAULT_VALUE.TEXT_VALUE,
+    defaultValue: DEFAULT_VALUE.INPUT_VALUE,
     rules: [
       { required: true, message: '请输入数值', trigger: 'blur' },
-      {
-        pattern: new RegExp(`^-{0,1}\\d{0,7}(\\.\\d{1,${digital})?$`),
-        message: '请输入有效的值',
-        trigger: 'blur',
-      },
       { type: 'number', message: '输入必须是一个数字', trigger: 'blur' },
     ],
     colProps: {
@@ -122,6 +115,30 @@ export function createTimeSchema(
     component: 'DatePicker',
     componentProps: {
       style: { width: width }, // 设置输入框宽度为100%，可根据需要调整
+    },
+    required: true,
+    colProps: {
+      span: span, // 根据需要调整每个字段占据的栅格数
+    },
+  };
+}
+
+export function createOptionSchema(
+  field: string,
+  label: string,
+  options,
+  width = '60%',
+  span = 4,
+  mode = undefined,
+): FormSchema {
+  return {
+    field: field,
+    label: label,
+    component: 'Select',
+    componentProps: {
+      style: { width: width }, // 设置输入框宽度为100%，可根据需要调整
+      options,
+      mode,
     },
     required: true,
     colProps: {
@@ -198,3 +215,49 @@ export function mapObjectToInterface<T>(obj: Object, interfaceKeys: Record<strin
   });
   return interfaceKeys as T;
 }
+
+export const reliabilityInputFields: ReliabilityInput = {
+  evaluateId: DEFAULT_VALUE.INPUT_VALUE,
+  equipNo: DEFAULT_VALUE.TEXT_VALUE,
+  organization: DEFAULT_VALUE.TEXT_VALUE,
+  substationName: DEFAULT_VALUE.TEXT_VALUE,
+  runNo: DEFAULT_VALUE.TEXT_VALUE,
+  operationTime: '2012-05-14 04:46:57',
+  systemNominalVoltage: DEFAULT_VALUE.INPUT_VALUE,
+  model: DEFAULT_VALUE.TEXT_VALUE,
+  phase: DEFAULT_VALUE.INPUT_VALUE,
+  location: DEFAULT_VALUE.TEXT_VALUE,
+  capacity: DEFAULT_VALUE.INPUT_VALUE,
+  ratedVoltage: DEFAULT_VALUE.INPUT_VALUE,
+  connectionSymbol: DEFAULT_VALUE.TEXT_VALUE,
+  noLoadCurrent: DEFAULT_VALUE.INPUT_VALUE,
+  noLoadLoss: DEFAULT_VALUE.INPUT_VALUE,
+  manufacturer: DEFAULT_VALUE.TEXT_VALUE,
+  manufactureDate: '1976-03-26 04:46:57',
+  factoryNo: DEFAULT_VALUE.TEXT_VALUE,
+  avgmonthHotspotTemper: DEFAULT_VALUE.INPUT_VALUE,
+  thermalModification: 0,
+  oilFurfuralindex: DEFAULT_VALUE.INPUT_VALUE,
+  temperature: DEFAULT_VALUE.INPUT_VALUE,
+  phaseAChange: DEFAULT_VALUE.INPUT_VALUE,
+  phaseBChange: DEFAULT_VALUE.INPUT_VALUE,
+  phaseCChange: DEFAULT_VALUE.INPUT_VALUE,
+  threePhaseRactanceMaxDiff: DEFAULT_VALUE.INPUT_VALUE,
+  loadLossChange: DEFAULT_VALUE.INPUT_VALUE,
+  noLoadLossChange: DEFAULT_VALUE.INPUT_VALUE,
+  ratedCurrent: DEFAULT_VALUE.INPUT_VALUE,
+  loadCurrent: DEFAULT_VALUE.INPUT_VALUE,
+  noloadCurrent: DEFAULT_VALUE.INPUT_VALUE,
+  noLoadLossKey: DEFAULT_VALUE.INPUT_VALUE,
+  loadLoss: DEFAULT_VALUE.INPUT_VALUE,
+  designLife: DEFAULT_VALUE.INPUT_VALUE,
+  maintenanceCondition: 0,
+  oilChromatographicSituation: 0,
+  electricalRecordSituation: 0,
+  oilSituation: 0,
+  operatingOrLightningOvervoltage: 0,
+  shortTermAidLoad: 0,
+  familyHealth: 3,
+  appearanceScore: [],
+  operatingEnvironment: '00',
+};

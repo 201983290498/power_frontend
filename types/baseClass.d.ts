@@ -276,12 +276,15 @@ export interface ReliabilityOutput {
 /**
  * ReliabilityInput
  */
+/**
+ * ReliabilityInput
+ */
 export interface ReliabilityInput {
   /**
    * 外观检查评分"五项复选 输入参数为XXXXX五位二进制数0表示选中 最低位：变压器外观异常 第二位：变压器外壳接地不良 第三位：套管存在裂纹或放电痕迹 第四位：运行声响异常
    * 第五位：变压器存在漏油情况 "
    */
-  appearanceScore?: string;
+  appearanceScore?: number[];
   /**
    * 每月平均热点温度
    */
@@ -305,11 +308,11 @@ export interface ReliabilityInput {
   /**
    * 变压器编号
    */
-  equipNo: number;
+  equipNo: string;
   /**
    * 测试Id
    */
-  evaluateId: string;
+  evaluateId?: string | number;
   /**
    * 出厂序号
    */
@@ -425,7 +428,7 @@ export interface ReliabilityInput {
   /**
    * 运行编号
    */
-  runNo?: number;
+  runNo?: string;
   /**
    * 有无短期急救负载（0无/ 1有）
    */

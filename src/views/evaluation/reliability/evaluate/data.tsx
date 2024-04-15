@@ -2,18 +2,46 @@ import { FormSchema } from '/@/components/Form/src/types/form';
 import {
   createFormSchema,
   createTextSchema,
-  createList,
   createTimeSchema,
+  createOptionSchema,
 } from '/@/utils/listToFiled';
 
-const rankNames: string[] = [];
-for (let i = 1; i <= 17; i++) {
-  rankNames.push(`档位${i}`);
-}
-const dirNames: string[] = ['高-中低及地', '中-高低及地', '低-高中及地'];
-const AmOm: string[] = ['AmOm', 'BmOm', 'CmOm'];
-const abc: string[] = ['ab', 'bc', 'ca'];
-const ABCD: string[] = ['A', 'B', 'C', 'D'];
+const demoOption1 = [
+  { label: '热改性', value: 0 },
+  { label: '非热改性', value: 1 },
+];
+
+const demoOption2 = [
+  { label: '检修处理得当，无缺陷', value: 0 },
+  { label: '检修后投运但有轻微缺陷', value: 1 },
+];
+
+const demoOption3 = [
+  { label: '无异常', value: 0 },
+  { label: '有异常', value: 1 },
+];
+
+const demoOption4 = [
+  { label: '同类变压器存在大量不良记录', value: 1 },
+  { label: '同类变压器存在个别不良记录', value: 2 },
+  { label: '同类变压器无不良记录', value: 3 },
+];
+
+const demoOption5 = [
+  { label: '变压器外观异常', value: 1 },
+  { label: '变压器外壳接地不良', value: 2 },
+  { label: '套管存在裂纹或放电痕迹', value: 3 },
+  { label: '运行声响异常', value: 4 },
+  { label: '变压器存在漏油情况', value: 5 },
+];
+
+const demoOption6 = [
+  { label: '无特殊环境', value: '00' },
+  { label: '高海拔环境', value: '01' },
+  { label: '高温环境', value: '10' },
+  { label: '雨雪、低温环境', value: '11' },
+];
+
 export const stepSchemas: FormSchema[] = [
   {
     field: 'account',
@@ -99,55 +127,49 @@ export const step1Schemas: FormSchema[] = [
 
 export const step2Schemas: FormSchema[] = [
   createFormSchema('avgmonthHotspotTemper', '每月平均热点温度', '60%', 2, 6),
+  createOptionSchema('thermalModification', '热改性/非热改性', demoOption1, '60%', 6),
+  createFormSchema('oilFurfuralindex', '油中糠醛指数', '60%', 2, 6),
+  createFormSchema('temperature', '环境温度', '60%', 2, 6),
+  createFormSchema('phaseAChange', 'A相短路阻抗变化量', '60%', 2, 6),
+  createFormSchema('phaseBChange', 'B相短路阻抗变化量', '60%', 2, 6),
+  createFormSchema('phaseCChange', 'C相短路阻抗变化量', '60%', 2, 6),
+  createFormSchema('threePhaseRactanceMaxDiff', '三相电抗最大差值', '60%', 2, 6),
+  createFormSchema('loadLossChange', '空载损耗变化量', '60%', 2, 6),
+  createFormSchema('noLoadLossChange', '负载损耗变化量', '60%', 2, 6),
+  createFormSchema('ratedCurrent', '额定电流', '60%', 2, 6),
+  createFormSchema('loadCurrent', '负载电流', '60%', 2, 6),
+  createFormSchema('noloadCurrent', '空载电流', '60%', 2, 6),
+  createFormSchema('noLoadLossKey', '空载损耗', '60%', 2, 6),
+  createFormSchema('loadLoss', '负载损耗', '60%', 2, 6),
+  createFormSchema('designLife', '设计寿命', '60%', 2, 6),
 ];
 
 export const step3Schemas: FormSchema[] = [
-  createFormSchema('oilTemperature', '油温', '60%', 2, 8),
-  createFormSchema('coreLeakage', '铁心泄露电流(uA)', '60%', 2, 8),
-  createFormSchema('partDischargeNum', '局部放电量', '60%', 2, 8),
-  ...createList('绝缘电阻', 'insRes', dirNames, '60%', 8, 2),
-  ...createList('吸收比', 'absorptionRatio', dirNames, '60%', 8, 3),
-  ...createList('绕组介质损耗tanδ(%)', 'dielectricLoss', dirNames, '60%', 8, 3),
-  ...createList('绕组电容量Cx(pF)', 'capacitance', dirNames, '60%', 8, 2),
-  ...createList('绕组直流电阻(高压侧)AO', 'windingDcResistanceHighAO', rankNames),
-  ...createList('绕组直流电阻(高压侧)BO', 'windingDcResistanceHighBO', rankNames),
-  ...createList('绕组直流电阻(高压侧)CO', 'windingDcResistanceHighCO', rankNames),
-  ...createList('绕组直流电阻(中压侧)', 'windingDcResistanceMid', AmOm, '60%', 8, 3),
-  ...createList('绕组直流电阻(低压侧)', 'windingDcResistanceLow', abc, '60%', 8, 3),
-  ...createList('直流电阻不平衡系数高压侧', 'dcResistanceUnbalanceHigh', rankNames),
-  ...createList(
-    '直流电阻不平衡系数中压侧',
-    'dcResistanceUnbalanceMid',
-    rankNames.slice(0, 3),
+  createOptionSchema('maintenanceCondition', '检修情况', demoOption2, '60%', 8),
+  createOptionSchema(
+    'oilChromatographicSituation',
+    '油色谱分析试验异常情况',
+    demoOption3,
     '60%',
-    6,
-    3,
+    8,
   ),
-  ...createList(
-    '直流电阻不平衡系数低压侧',
-    'dcResistanceUnbalanceLow',
-    rankNames.slice(0, 1),
+  createOptionSchema(
+    'electricalRecordSituation',
+    '电气试验记录试验异常情况',
+    demoOption3,
     '60%',
-    6,
-    3,
+    8,
   ),
-  ...createList('高压侧套管介质损耗tanδ(%)', 'bushingDielectricLoss', ABCD, '60%', 6, 4),
-  ...createList('高压侧套管电容值Cx(pF)', 'bushingCapacitance', ABCD, '60%', 6, 2),
-];
-
-export const step4Schemas: FormSchema[] = [
-  createFormSchema('microWaterContent', '微水', '60%', 2, 8),
-  createFormSchema('breakdownVoltage', '击穿电压', '60%', 2, 8),
-  createFormSchema('oilDielectricLoss', '油介损', '60%', 2, 8),
-  createFormSchema('furfuralContent', '糠醛含量', '60%', 2, 8),
-  createFormSchema('acidValue', '酸值', '60%', 2, 8),
-];
-
-export const step5Schemas: FormSchema[] = [
-  createFormSchema('inspectionRecord', '巡检记录', '60%', 2, 8),
-  createFormSchema('familyDefect', '家族缺陷', '60%', 2, 8),
-  createFormSchema('coolingSystemStatus', '冷却系统状态', '60%', 2, 8),
-  createFormSchema('tapSwitcherStatus', '分接开关状态', '60%', 2, 8),
-  createFormSchema('protectionDeviceStatus', '保护装置状态', '60%', 2, 8),
-  createFormSchema('testingDeviceStatus', '测试装置状态', '60%', 2, 8),
+  createOptionSchema('oilSituation', '油化试验异常情况', demoOption3, '60%', 8),
+  createOptionSchema(
+    'operatingOrLightningOvervoltage',
+    '有无操作/雷击过电压',
+    demoOption3,
+    '60%',
+    8,
+  ),
+  createOptionSchema('shortTermAidLoad', '有无短期急救负载', demoOption3, '60%', 8),
+  createOptionSchema('familyHealth', '家族运行状况数值', demoOption4, '60%', 8),
+  createOptionSchema('appearanceScore', '外观检查评分', demoOption5, '60%', 8, 'multiple'),
+  createOptionSchema('operatingEnvironment', '运行环境选择', demoOption6, '60%', 8),
 ];

@@ -12,10 +12,7 @@ enum Api {
 /**
  * @description: state evaluation
  */
-export function reliableEvaluation(
-  params: ReliabilityParam & { userId?: string; deviceId?: string },
-  mode: ErrorMessageMode = 'modal',
-) {
+export function reliableEvaluation(params: ReliabilityParam, mode: ErrorMessageMode = 'modal') {
   return defHttp.post<ReliabilityReponse>( // 指定返回的对象
     {
       url: Api.Evaluate,

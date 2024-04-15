@@ -12,10 +12,7 @@ enum Api {
 /**
  * @description: state evaluation
  */
-export function stateEvaluation(
-  params: StateParam & { userId?: string; deviceId?: string },
-  mode: ErrorMessageMode = 'modal',
-) {
+export function stateEvaluation(params: StateParam, mode: ErrorMessageMode = 'modal') {
   return defHttp.post<StateReponse>( // 指定返回的对象
     {
       url: Api.Evaluate,

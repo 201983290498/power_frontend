@@ -166,7 +166,7 @@
   async function evaluate() {
     if (childRef.value !== null) {
       const formData: Partial<StateInput> = childRef.value.submitData();
-      const evaluateResult: StateOutput = await stateEvaluation(formData);
+      const evaluateResult: StateOutput = await stateEvaluation({ items: formData });
       results.value = evaluateResult;
       hasAnalysis = true;
       current.value++;
