@@ -68,6 +68,12 @@
     const record1 = getFieldsValue1();
     const record2 = getFieldsValue2();
     const record3 = getFieldsValue3();
+    let tem = record3.appearanceScore;
+    record3.appearanceScore = ['0', '0', '0', '0', '0'];
+    for (let i = 0; i < tem.length; i++) {
+      record3.appearanceScore[tem[i] - 1] = '1';
+    }
+    record3.appearanceScore = record3.appearanceScore.join('');
     const record = {
       ...record1,
       ...record2,
@@ -77,7 +83,12 @@
   }
 
   function setFormFields(data: StateInput) {
-    data.appearanceScore = JSON.parse(data.appearanceScore);
+    let tem: string = data.appearanceScore;
+    let result: number[] = [];
+    for (let i = 0; i < tem.length; i++) {
+      tem[i] === '1' && result.push(i + 1);
+    }
+    data.appearanceScore = result;
     console.log(data);
     setFieldsValue1(data);
     setFieldsValue2(data);
