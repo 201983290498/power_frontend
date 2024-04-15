@@ -1,3 +1,4 @@
+import { ComponentType } from '../components/Form/src/types';
 import { FormSchema } from '../components/Form/src/types/form';
 import { DEFAULT_VALUE } from '../enums/defaultValueEnum';
 import { StateInput } from '/#/baseClass';
@@ -50,22 +51,26 @@ export function createDivider(name: string, restart = false): FormSchema {
   };
 }
 
+/**
+ * @description 常见Number字段
+ */
 export function createFormSchema(
   field: string,
   label: string,
   width = '60%',
   digital = 2,
   span = 4,
+  type: ComponentType = 'InputNumber',
 ): FormSchema {
   return {
     field: field,
     label: label,
-    component: 'InputNumber',
+    component: type,
     componentProps: {
       step: Math.pow(10, -digital),
       style: { width: width }, // 设置输入框宽度为100%，可根据需要调整
     },
-    defaultValue: DEFAULT_VALUE.INPUT_VALUE,
+    defaultValue: type === 'InputNumber' ? DEFAULT_VALUE.INPUT_VALUE : DEFAULT_VALUE.TEXT_VALUE,
     rules: [
       { required: true, message: '请输入数值', trigger: 'blur' },
       {
@@ -75,6 +80,50 @@ export function createFormSchema(
       },
       { type: 'number', message: '输入必须是一个数字', trigger: 'blur' },
     ],
+    colProps: {
+      span: span, // 根据需要调整每个字段占据的栅格数
+    },
+  };
+}
+
+/**
+ * @description 创建文本列
+ */
+export function createTextSchema(
+  field: string,
+  label: string,
+  width = '60%',
+  span = 4,
+): FormSchema {
+  return {
+    field: field,
+    label: label,
+    component: 'Input',
+    componentProps: {
+      style: { width: width }, // 设置输入框宽度为100%，可根据需要调整
+    },
+    defaultValue: DEFAULT_VALUE.TEXT_VALUE,
+    required: true,
+    colProps: {
+      span: span, // 根据需要调整每个字段占据的栅格数
+    },
+  };
+}
+
+export function createTimeSchema(
+  field: string,
+  label: string,
+  width = '60%',
+  span = 4,
+): FormSchema {
+  return {
+    field: field,
+    label: label,
+    component: 'DatePicker',
+    componentProps: {
+      style: { width: width }, // 设置输入框宽度为100%，可根据需要调整
+    },
+    required: true,
     colProps: {
       span: span, // 根据需要调整每个字段占据的栅格数
     },

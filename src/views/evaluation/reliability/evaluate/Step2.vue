@@ -1,19 +1,16 @@
 <template>
   <div>
-    <Card title="运行环境" :bordered="bordered">
+    <Card title="基本参数" :bordered="bordered">
       <BasicForm @register="register1" />
     </Card>
-    <Card title="油色谱分析" :bordered="bordered" class="!mt-2">
+    <Card title="关键参数" :bordered="bordered" class="!mt-2">
       <BasicForm @register="register2" />
     </Card>
     <Card title="电气试验" :bordered="bordered" class="!mt-2">
       <BasicForm @register="register3" />
     </Card>
-    <Card title="油化试验" :bordered="bordered" class="!mt-2">
+    <Card title="检修与运行状况" :bordered="bordered" class="!mt-2">
       <BasicForm @register="register4" />
-    </Card>
-    <Card title="其他项目" :bordered="bordered" class="!mt-2">
-      <BasicForm @register="register5" />
     </Card>
   </div>
 </template>
@@ -76,19 +73,6 @@
     },
   );
 
-  const [register5, { getFieldsValue: getFieldsValue5, setFieldsValue: setFieldsValue5 }] = useForm(
-    {
-      labelWidth: 200,
-      schemas: step5Schemas,
-      actionColOptions: {
-        span: 24,
-      },
-      showResetButton: false,
-      showAdvancedButton: false,
-      showSubmitButton: false,
-    },
-  );
-
   defineProps({
     bordered: {
       type: Boolean,
@@ -101,13 +85,11 @@
     const record2 = getFieldsValue2();
     const record3 = getFieldsValue3();
     const record4 = getFieldsValue4();
-    const record5 = getFieldsValue5();
     const record = {
       ...record1,
       ...record2,
       ...record3,
       ...record4,
-      ...record5,
     };
     return record;
   }
@@ -118,7 +100,6 @@
     setFieldsValue2(fileds);
     setFieldsValue3(fileds);
     setFieldsValue4(fileds);
-    setFieldsValue5(fileds);
   }
 
   defineExpose({

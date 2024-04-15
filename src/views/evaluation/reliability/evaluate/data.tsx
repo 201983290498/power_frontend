@@ -1,5 +1,10 @@
 import { FormSchema } from '/@/components/Form/src/types/form';
-import { createFormSchema, createList } from '/@/utils/listToFiled';
+import {
+  createFormSchema,
+  createTextSchema,
+  createList,
+  createTimeSchema,
+} from '/@/utils/listToFiled';
 
 const rankNames: string[] = [];
 for (let i = 1; i <= 17; i++) {
@@ -73,21 +78,27 @@ export const stepSchemas: FormSchema[] = [
 ];
 
 export const step1Schemas: FormSchema[] = [
-  createFormSchema('temperature', '运行环境年平均温度', '50%', 2, 12),
-  createFormSchema('humidity', '湿度', '50%', 2, 12),
+  createTextSchema('equipNo', '变压器编号', '60%', 6),
+  createTextSchema('organization', '单位名称', '60%', 6),
+  createTextSchema('substationName', '变电站名称', '60%', 6),
+  createTextSchema('runNo', '运行编号', '60%', 6),
+  createTimeSchema('operationTime', '投运时间', '60%', 6),
+  createFormSchema('systemNominalVoltage', '系统标称电压', '60%', 2, 6),
+  createTextSchema('model', '型号', '60%', 6),
+  createFormSchema('phase', '相数', '60%', 2, 6),
+  createTextSchema('location', '变压器安置地点（室内/室外）', '60%', 6),
+  createFormSchema('capacity', '容量', '60%', 2, 6),
+  createFormSchema('ratedVoltage', '额定电压', '60%', 2, 6),
+  createTextSchema('connectionSymbol', '联结组标号', '60%', 6),
+  createFormSchema('noLoadCurrent', '空载电流', '60%', 2, 6),
+  createFormSchema('noLoadLoss', '空载损耗', '60%', 2, 6),
+  createTextSchema('manufacturer', '制造厂家', '60%', 6),
+  createTimeSchema('manufactureDate', '制造日期', '60%', 6),
+  createTextSchema('factoryNo', '出厂序号', '60%', 6),
 ];
 
 export const step2Schemas: FormSchema[] = [
-  createFormSchema('hydrogen', '氢气含量(uL/L)', '60%', 2, 6),
-  createFormSchema('methane', '甲烷含量(uL/L)', '60%', 2, 6),
-  createFormSchema('ethane', '乙烷含量(uL/L)', '60%', 2, 6),
-  createFormSchema('acetylene', '乙炔含量(uL/L)', '60%', 2, 6),
-  createFormSchema('ethylene', '乙烯含量(uL/L)', '60%', 2, 6),
-  createFormSchema('co', 'CO含量(uL/L)', '60%', 2, 6),
-  createFormSchema('co2', 'CO2含量(uL/L)', '60%', 2, 6),
-  createFormSchema('totalHydrocarbon', '总烃含量(uL/L)', '60%', 2, 6),
-  createFormSchema('totalHyRelative', '总烃相对产气速率(%/月)', '60%', 2, 6),
-  createFormSchema('totalHyAbsolute', '总烃绝对产气速率(%/月)', '60%', 2, 6),
+  createFormSchema('avgmonthHotspotTemper', '每月平均热点温度', '60%', 2, 6),
 ];
 
 export const step3Schemas: FormSchema[] = [

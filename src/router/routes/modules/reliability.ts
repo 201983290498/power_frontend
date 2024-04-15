@@ -18,9 +18,19 @@ const reliability: AppRouteModule = {
     {
       path: 'index',
       name: 'ReliabilityPage',
-      component: () => import('/@/views/evaluation/reliability/index.vue'),
+      component: () => import('../../../views/evaluation/reliability/main/index.vue'),
       meta: {
         title: t('routes.dashboard.reliability'),
+        icon: 'ion:home',
+        hideMenu: true,
+      },
+    },
+    {
+      path: 'evaluate',
+      name: 'ReliabilityEvaluatePage',
+      component: () => import('../../../views/evaluation/reliability/evaluate/index.vue'),
+      meta: {
+        title: t('routes.dashboard.reliabilitySub'),
         icon: 'ion:home',
         hideMenu: true,
       },

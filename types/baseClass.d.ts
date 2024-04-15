@@ -241,3 +241,214 @@ export interface StateOutput {
   statusValue: string;
   [property: string]: any;
 }
+
+/**
+ * ReliabilityOutput
+ */
+export interface ReliabilityOutput {
+  /**
+   * 测试Id
+   */
+  evaluateId: string;
+  /**
+   * 健康指数
+   */
+  healthIndex: number;
+  /**
+   * 热点温度
+   */
+  hotSpotTemper: number;
+  /**
+   * 寿命进程（剩余寿命/设计寿命）数值0%~100%
+   */
+  lifespanProcess: number;
+  /**
+   * 剩余可靠性寿命
+   */
+  ResReliabilityLife: number;
+  /**
+   * 热寿命损失率
+   */
+  thermalLifeLossRate: number;
+  [property: string]: any;
+}
+
+/**
+ * ReliabilityInput
+ */
+export interface ReliabilityInput {
+  /**
+   * 外观检查评分"五项复选 输入参数为XXXXX五位二进制数0表示选中 最低位：变压器外观异常 第二位：变压器外壳接地不良 第三位：套管存在裂纹或放电痕迹 第四位：运行声响异常
+   * 第五位：变压器存在漏油情况 "
+   */
+  appearanceScore?: string;
+  /**
+   * 每月平均热点温度
+   */
+  avgmonthHotspotTemper?: number;
+  /**
+   * 容量
+   */
+  capacity?: number;
+  /**
+   * 联结组标号
+   */
+  connectionSymbol?: string;
+  /**
+   * 设计寿命
+   */
+  designLife?: number;
+  /**
+   * 电气试验记录试验异常情况"二选一 （0无异常/ 1有异常）"
+   */
+  electricalRecordSituation?: number;
+  /**
+   * 变压器编号
+   */
+  equipNo: number;
+  /**
+   * 测试Id
+   */
+  evaluateId: string;
+  /**
+   * 出厂序号
+   */
+  factoryNo?: string;
+  /**
+   * 家族运行状况数值（评分1~3） 1：同类变压器存在大量不良记录 2.同类变压器存在个别不良记录 3：同类变压器无不良记录
+   */
+  familyHealth?: number;
+  /**
+   * 负载电流
+   */
+  loadCurrent: number;
+  /**
+   * 负载损耗
+   */
+  loadLoss?: number;
+  /**
+   * 空载损耗变化量
+   */
+  loadLossChange?: number;
+  /**
+   * 变压器安置地点（室内/室外）
+   */
+  location?: string;
+  /**
+   * 检修情况"二选一 （0检修处理得当，无缺陷 /1检修后投运但有轻微缺陷）"
+   */
+  maintenanceCondition?: number;
+  /**
+   * 制造日期
+   */
+  manufactureDate?: string;
+  /**
+   * 制造厂家
+   */
+  manufacturer?: string;
+  /**
+   * 型号
+   */
+  model?: string;
+  /**
+   * 空载电流
+   */
+  noLoadCurrent?: number;
+  /**
+   * 空载电流
+   */
+  noloadCurrent: number;
+  /**
+   * 空载损耗
+   */
+  noLoadLoss?: number;
+  /**
+   * 负载损耗变化量
+   */
+  noLoadLossChange?: number;
+  /**
+   * 空载损耗
+   */
+  noLoadLossKey?: number;
+  /**
+   * 油色谱分析试验异常情况"二选一 （0无异常/ 1有异常）"
+   */
+  oilChromatographicSituation?: number;
+  /**
+   * 油中糠醛指数
+   */
+  oilFurfuralindex?: number;
+  /**
+   * 油化试验异常情况 "二选一 （0无异常/ 1有异常）"
+   */
+  oilSituation?: number;
+  /**
+   * 运行环境选择四项单选 00：无特殊环境 01：高海拔环境 10：高温环境 11：雨雪、低温环境
+   */
+  operatingEnvironment?: string;
+  /**
+   * 有无操作/雷击过电压 （0无/ 1有）
+   */
+  operatingOrLightningOvervoltage?: number;
+  /**
+   * 投运时间
+   */
+  operationTime?: string;
+  /**
+   * 单位名称
+   */
+  organization: string;
+  /**
+   * 相数
+   */
+  phase?: number;
+  /**
+   * A相短路阻抗变化量
+   */
+  phaseAChange?: number;
+  /**
+   * B相短路阻抗变化量
+   */
+  phaseBChange?: number;
+  /**
+   * C相短路阻抗变化量
+   */
+  phaseCChange?: number;
+  /**
+   * 额定电流
+   */
+  ratedCurrent?: number;
+  /**
+   * 额定电压
+   */
+  ratedVoltage?: number;
+  /**
+   * 运行编号
+   */
+  runNo?: number;
+  /**
+   * 有无短期急救负载（0无/ 1有）
+   */
+  shortTermAidLoad?: number;
+  /**
+   * 变电站名称
+   */
+  substationName?: string;
+  /**
+   * 系统标称电压
+   */
+  systemNominalVoltage?: number;
+  /**
+   * 环境温度
+   */
+  temperature?: number;
+  /**
+   * 0热改性/1非热改性
+   */
+  thermalModification?: number;
+  /**
+   * 三相电抗最大差值
+   */
+  threePhaseRactanceMaxDiff?: number;
+  [property: string]: any;
+}
