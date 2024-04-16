@@ -184,7 +184,7 @@
   }
 
   async function chooseSuccess(evaluateId: string) {
-    const formData: Partial<StateInput> = await getStateRecordInput({ evaluateId });
+    const formData = await getStateRecordInput({ evaluateId });
     childRef.value?.setFormFields(formData);
   }
 
@@ -199,7 +199,7 @@
     }
     const dataList = await readCsv(rawFile);
     if (typeof dataList[0] === 'object') {
-      const result: StateInput = mapObjectToInterface(
+      const result = mapObjectToInterface(
         dataList[0],
         JSON.parse(JSON.stringify(stateInputFields)),
       );

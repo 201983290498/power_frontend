@@ -1,16 +1,30 @@
 export type DetailType = undefined;
 // 编写数据库中的基础类
+/**
+ * Device
+ */
 export interface Device {
-  // 设备类
-  equipId: number | string;
-  equipNo: string | number;
-  location: string;
-  type: string;
-  personCharge: string;
-  score: number | string;
-  evaluateTime: string;
-  status: string;
+  capacity?: number;
+  connectionSymbol?: string;
+  equipId: string;
+  equipNo?: string;
+  factoryNo?: string;
+  location?: string;
+  manufactureDate?: string;
+  manufacturer?: string;
+  model?: string;
+  noLoadCurrent?: number;
+  noLoadLoss?: number;
+  operationTime?: string;
+  organization?: string;
+  phase?: number;
+  ratedVoltage?: number;
+  runNo?: string;
+  substationName?: string;
+  systemNominalVoltage?: number;
+  [property: string]: any;
 }
+
 export interface User {
   // 上次登录时间
   lastLogin: string;

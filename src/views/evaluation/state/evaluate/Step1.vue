@@ -29,7 +29,6 @@
 <script lang="ts" setup>
   import { BasicForm, useForm } from '/@/components/Form';
   import { stepSchemas } from './data';
-
   import { Select, Input, Divider, Card } from 'ant-design-vue';
 
   const emit = defineEmits(['next']);

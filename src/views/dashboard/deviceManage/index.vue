@@ -35,10 +35,9 @@
 
   import { columns, searchFormSchema } from './device.data';
   import { useModal } from '/@/components/Modal';
-
   import DeviceModal from './DeviceModal.vue'; // 不是问题
   import { watch } from 'vue';
-
+  import { Props } from '/@/components/Table/src/hooks/useTable';
   defineOptions({ name: 'DeviceManagement' }); // 定义组件的名称
 
   const props = defineProps({
@@ -83,8 +82,7 @@
     pageSizeOptions: ['5', '10', '20', '30', '40'],
     showTotal: (total) => `共 ${total} 条数据`,
   };
-
-  const [registerTable, { reload, setProps }] = useTable({
+  const tableConfig: Props = {
     title: '设备列表',
     api: getDeviceList,
     afterFetch: (data) => {
@@ -112,8 +110,9 @@
       slots: { customRender: 'action' },
       fixed: undefined,
     },
-  });
-  props.maxHeight == -1 || setProps({ maxHeight: props.maxHeight });
+  };
+  props.maxHeight == -1 || (tableConfig['maxHeight'] = props.maxHeight);
+  const [registerTable, { reload, setProps }] = useTable(tableConfig);
 
   function handleCreate() {
     openModal(true, {
@@ -137,4 +136,10 @@
     // 成功之后的处理
     reload();
   }
+</script>
+
+<script lang="ts">
+  export default {
+    name: 'DeviceManagement',
+  };
 </script>

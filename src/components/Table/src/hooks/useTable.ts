@@ -8,7 +8,7 @@ import { ref, onUnmounted, unref, watch, toRaw } from 'vue';
 import { isProdMode } from '/@/utils/env';
 import { error } from '/@/utils/log';
 
-type Props = Partial<DynamicProps<BasicTableProps>>;
+export type Props = Partial<DynamicProps<BasicTableProps>>;
 
 type UseTableMethod = TableActionType & {
   getForm: () => FormActionType;
