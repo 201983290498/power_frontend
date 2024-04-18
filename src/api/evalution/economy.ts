@@ -4,7 +4,7 @@ import { EconomyParam, EconomyReponse, SaveParam } from './model/economyModel';
 
 enum Api {
   Evaluate = '/powergrid/economy/evaluate',
-  RecordSave = '/powergrid/economy/save',
+  RecordSave = '/powergrid/evaluate/save',
   GetInputById = '/powergrid/economy/retrieve/input',
   GetOutputById = '/powergrid/economy/retrieve/output',
 }

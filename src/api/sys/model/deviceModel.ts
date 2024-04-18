@@ -15,5 +15,5 @@ export interface getDevicePageListParmas {
 export interface getDevicePageListData {
   pageCount: number; // 总页数
   rowCount: number; // 总的数据数量
-  devices: Device[]; // 设备总数
+  items: Device[]; // 设备总数
 }

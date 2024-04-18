@@ -8,15 +8,15 @@
         </span>
       </div>
     </template>
-    <DeviceManagement @chooseDevice="selectDevice" :re-size="true" :max-height="300" />
+    <DeviceManagement @chooseDevice="selectDevice" :re-size="true" :max-height="200" />
   </PageWrapper>
 </template>
 <script lang="ts" setup>
   import { PageWrapper } from '/@/components/Page';
   import DeviceManagement from '/@/views/dashboard/deviceManage/index.vue';
-  import { Device } from '/#/baseClass';
 
-  function selectDevice(device?: Device) {
+  function selectDevice(device) {
     console.log(device);
+    // 渲染详细信息
   }
 </script>

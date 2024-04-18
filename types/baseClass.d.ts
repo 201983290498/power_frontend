@@ -3,28 +3,141 @@ export type DetailType = undefined;
 /**
  * Device
  */
+/**
+ * Device
+ */
 export interface Device {
-  capacity?: number;
-  connectionSymbol?: string;
+  /**
+   * 容量
+   */
+  capacity: number;
+  /**
+   * 联结组标号
+   */
+  connectionSymbol: string;
+  /**
+   * 设备id
+   */
   equipId: string;
-  equipNo?: string;
-  factoryNo?: string;
-  location?: string;
-  manufactureDate?: string;
-  manufacturer?: string;
-  model?: string;
-  noLoadCurrent?: number;
-  noLoadLoss?: number;
-  operationTime?: string;
-  organization?: string;
-  phase?: number;
-  ratedVoltage?: number;
-  runNo?: string;
-  substationName?: string;
-  systemNominalVoltage?: number;
+  /**
+   * 编号
+   */
+  equipNo: string;
+  /**
+   * 评估日期，为打分日期
+   */
+  evaluateTime?: string;
+  /**
+   * 出厂序号
+   */
+  factoryNo: string;
+  /**
+   * 安置地点，（室内/室外
+   */
+  location: string;
+  /**
+   * 制造日期，同上
+   */
+  manufactureDate: string;
+  /**
+   * 制造厂家
+   */
+  manufacturer: string;
+  /**
+   * 型号
+   */
+  model: string;
+  /**
+   * 空载电流
+   */
+  noLoadCurrent: number;
+  /**
+   * 空载损耗
+   */
+  noLoadLoss: number;
+  /**
+   * 投运时间，时间（2024-04-24）
+   */
+  operationTime: string;
+  /**
+   * 单位
+   */
+  organization: string;
+  /**
+   * 评估人
+   */
+  personCharge?: string;
+  /**
+   * 相数
+   */
+  phase: number;
+  /**
+   * 额定电压
+   */
+  ratedVoltage: number;
+  /**
+   * 运行编号
+   */
+  runNo: string;
+  /**
+   * 综合得分
+   */
+  score: number;
+  /**
+   * 状态，1上线0未上线
+   */
+  status: number;
+  /**
+   * 变电站名称
+   */
+  substationName: string;
+  /**
+   * 系统标称电压
+   */
+  systemNominalVoltage: number;
   [property: string]: any;
 }
-
+/**
+ * DeviceIno
+ */
+/**
+ * Evaluate
+ */
+export interface Evaluate {
+  /**
+   * 设备id
+   */
+  equipId: number;
+  evaluateId: number;
+  /**
+   * 评估时间
+   */
+  evaluateTime: string;
+  /**
+   * 上次评估结果
+   */
+  lastResult: number;
+  /**
+   * 位置
+   */
+  location: string;
+  /**
+   * 责任人
+   */
+  personCharge: string;
+  /**
+   * 状态
+   */
+  status: string;
+  /**
+   * 类型
+   */
+  type: string;
+  [property: string]: any;
+}
+/**
+ * 用户信息
+ */
 export interface User {
   // 上次登录时间
   lastLogin: string;
@@ -121,6 +234,8 @@ export interface StateInput {
    * 乙烯含量(uL/L)
    */
   ethylene: number;
+
+  evaluateId?: string | number;
   /**
    * 家族缺陷
    */
@@ -186,6 +301,14 @@ export interface StateInput {
    */
   totalHydrocarbon: number;
   /**
+   * 总烃绝对产气速率(%/月)
+   */
+  totalHyAbsolute: number;
+  /**
+   * 总烃相对产气速率(%/月)
+   */
+  totalHyRelative: number;
+  /**
    * 绕组直流电阻(高压侧)AO17，1-17
    */
   windingDcResistanceHighAO?: number[];
@@ -205,18 +328,6 @@ export interface StateInput {
    * 绕组直流电阻(中压侧)，ABC
    */
   windingDcResistanceMid: number[];
-  /**
-   * 测试id
-   */
-  evaluateId?: string | number;
-  /**
-   * 总烃绝对产气速率(%/月)
-   */
-  totalHyAbsolute: number;
-  /**
-   * 总烃相对产气速率(%/月)
-   */
-  totalHyRelative: number;
   [property: string]: any;
 }
 
@@ -571,14 +682,6 @@ export interface EconomyOutput {
    * 寿命进程（经济性寿命/设计寿命）
    */
   lifespanProcess: number;
-  /**
-   * 检修周期
-   */
-  maintenanceCycle: number;
-  /**
-   * 检修程度
-   */
-  maintenanceLevel: number;
   /**
    * 运行年限
    */

@@ -4,7 +4,7 @@ import { ReliabilityParam, ReliabilityReponse, SaveParam } from './model/reliabi
 
 enum Api {
   Evaluate = '/powergrid/reliability/evaluate',
-  RecordSave = '/powergrid/reliability/save',
+  RecordSave = '/powergrid/evaluate/save',
   GetInputById = '/powergrid/reliability/retrieve/input',
   GetOutputById = '/powergrid/reliability/retrieve/output',
 }

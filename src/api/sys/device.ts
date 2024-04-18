@@ -6,6 +6,7 @@ enum Api {
   AddDevice = '/powergrid/sys/equipment/equipmentadd',
   DeleteDevice = '/powergrid/sys/equipment/delete',
   UpdateDevice = '/powergrid/sys/equipment/equipmentupdate',
+  getDeviceById = '/powergrid/sys/equipment/retrieve',
 }
 
 const demoParam: getDevicePageListParmas = {
