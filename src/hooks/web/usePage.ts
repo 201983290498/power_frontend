@@ -6,7 +6,7 @@ import { unref } from 'vue';
 
 import { useRouter } from 'vue-router';
 import { REDIRECT_NAME } from '/@/router/constant';
-
+import { useRouteParams } from '/@/store/modules/route';
 export type RouteLocationRawEx = Omit<RouteLocationRaw, 'path'> & { path: PageEnum };
 
 function handleError(e: Error) {

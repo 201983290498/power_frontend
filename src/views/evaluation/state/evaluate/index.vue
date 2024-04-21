@@ -12,7 +12,7 @@
         <Steps.Step title="评估结果" />
       </Steps>
     </Card>
-    <Step1 @next="handleStepNext" v-show="current === 0" />
+    <Step1 v-if="src !== undefined" v-show="current === 0" :device="devInfo" :src="src" />
     <Step2 ref="childRef" v-show="current === 1" v-if="state.initStep2" :bordered="boardered" />
     <Step3 v-show="current === 2" v-if="state.initStep3" :bordered="boardered" />
     <template #rightFooter>
@@ -82,8 +82,22 @@
   import { mapObjectToInterface, stateInputFields } from '/@/utils/listToFiled';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { getStateRecordInput, saveStateRcord, stateEvaluation } from '/@/api/evalution/state';
+  import { useRouteParams } from '/@/store/modules/route';
 
   const go = useGo();
+
+  const routeParams = useRouteParams();
+  const { createMessage, createConfirm } = useMessage();
+  const { warning } = createMessage;
+  const devInfo = routeParams.params.device;
+  const src = routeParams.params.src;
+
+  if (!routeParams.params.hasOwnProperty('device')) {
+    warning('为选择任何设备, 即将返回主页');
+    go(PageEnum.State_Main_Page);
+    closeTab();
+  }
+
   const route = useRoute();
   const router = useRouter();
   const tabStore = useMultipleTabStore();
@@ -91,11 +105,9 @@
   const inputRef = ref(null);
   const childRef = ref(null);
   let hasAnalysis = false; // 是否已经提交了
-  const { createMessage, createConfirm } = useMessage();
-  const { warning } = createMessage;
+
   const results = ref();
   defineOptions({ name: 'StateEvaluatePage' });
-
   const current = ref(0);
   const [registerModal, { openModal }] = useModal();
 
@@ -108,7 +120,6 @@
     const fullPath = route.fullPath;
     await tabStore.closeTabByKey(fullPath, router);
   }
-
   function handleStepPrev() {
     current.value--;
     if (current.value === -1) {

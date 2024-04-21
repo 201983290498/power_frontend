@@ -51,7 +51,7 @@
       default: true,
     },
     maxHeight: {
-      type: any,
+      type: Number,
       default: -1,
     },
   });
@@ -60,9 +60,11 @@
   watch(
     () => props.maxHeight,
     (newValue) => {
-      setProps({
-        maxHeight: newValue,
-      });
+      if (newValue !== -1) {
+        setProps({
+          maxHeight: newValue,
+        });
+      }
     },
   );
   watch(
@@ -114,7 +116,7 @@
       fixed: undefined,
     },
   };
-  props.maxHeight == -1 || (tableConfig['maxHeight'] = props.maxHeight);
+  props.maxHeight === -1 || (tableConfig['maxHeight'] = props.maxHeight);
   const [registerTable, { reload, setProps }] = useTable(tableConfig);
 
   function handleCreate() {

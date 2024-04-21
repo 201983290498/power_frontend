@@ -1,60 +1,33 @@
 <template>
   <Card class="step1">
-    <div class="step1-form">
-      <BasicForm @register="register">
-        <template #fac="{ model, field }">
-          <Input.Group compact>
-            <Select v-model:value="model['pay']" class="pay-select">
-              <Select.Option value="zfb"> 支付宝 </Select.Option>
-              <Select.Option value="yl"> 银联 </Select.Option>
-            </Select>
-            <a-input class="pay-input" v-model:value="model[field]" />
-          </Input.Group>
-        </template>
-      </BasicForm>
-    </div>
-    <Divider />
-    <h3>说明</h3>
-    <h4>转账到支付宝账户</h4>
-    <p>
-      如果需要，这里可以放一些关于产品的常见问题说明。如果需要，这里可以放一些关于产品的常见问题说明。如果需要，这里可以放一些关于产品的常见问题说明。
-    </p>
-
-    <h4>转账到银行卡</h4>
-    <p>
-      如果需要，这里可以放一些关于产品的常见问题说明。如果需要，这里可以放一些关于产品的常见问题说明。如果需要，这里可以放一些关于产品的常见问题说明。
-    </p>
+    <DeviceDetail :src="src" :device="device" />
   </Card>
 </template>
 <script lang="ts" setup>
-  import { BasicForm, useForm } from '/@/components/Form';
-  import { stepSchemas } from './data';
-  import { Select, Input, Divider, Card } from 'ant-design-vue';
-
-  const emit = defineEmits(['next']);
-
-  const [register, { validate }] = useForm({
-    labelWidth: 100,
-    schemas: stepSchemas,
-    actionColOptions: {
-      span: 14,
+  import { ref, watch } from 'vue';
+  import DeviceDetail from '../../common/DeviceDetail.vue';
+  import { Card } from 'ant-design-vue';
+  const device = ref({});
+  const props = defineProps({
+    src: {
+      type: String,
+      default: '',
     },
-    showResetButton: false,
-    submitButtonOptions: {
-      text: '下一步',
+    device: {
+      type: Object,
+      default: () => {},
+      requried: true,
     },
-    submitFunc: customSubmitFunc,
   });
-
-  async function customSubmitFunc() {
-    try {
-      const values = await validate();
-      emit('next', values);
-    } catch (error) {
-      //
-    }
-  }
+  watch(
+    () => props.device,
+    (newValue) => {
+      device.value = newValue;
+    },
+  );
+  device.value = props.device;
 </script>
+
 <style lang="less" scoped>
   .step1 {
     &-form {
@@ -79,13 +52,5 @@
     p {
       color: @text-color-base;
     }
-  }
-
-  .pay-select {
-    width: 20%;
-  }
-
-  .pay-input {
-    width: 70%;
   }
 </style>
