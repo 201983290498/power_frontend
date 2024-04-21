@@ -1,98 +1,53 @@
 <template>
-  <PageWrapper title="关于">
+  <PageWrapper title="变压器经济性寿命预测主页">
     <template #headerContent>
       <div class="flex justify-between items-center">
         <span class="flex-1">
-          <a :href="GITHUB_URL" target="_blank">{{ name }}</a>
-          是一个基于Vue3.0、Vite、 Ant-Design-Vue 、TypeScript
-          的后台解决方案，目标是为中大型项目开发,提供现成的开箱解决方案及丰富的示例,原则上不会限制任何代码用于商用。
+          对设备进行经济性寿命评估。<br />
+          为了得到最终的测试结果，用户需要依次对设备进行状态评估，可靠性寿命评估，<strong
+            style="color: dodgerblue"
+            >可靠性经济评估</strong
+          >，最终获取运维决策的信息。
         </span>
       </div>
     </template>
-    <Description @register="infoRegister" class="enter-y" />
-    <Description @register="register" class="my-4 enter-y" />
-    <Description @register="registerDev" class="enter-y" />
+    <DeviceManagement @chooseDevice="selectDevice" :re-size="true" :max-height="maxHeight" />
+    <DeviceInfo
+      :src="logo"
+      :buttonTexts="btnTexts"
+      @next="goEvaluation"
+      @history="goHistory"
+      :device="deviceInfo"
+      v-if="showDetail"
+    />
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-  import { h } from 'vue';
-  import { Tag } from 'ant-design-vue';
   import { PageWrapper } from '/@/components/Page';
-  import { Description, DescItem, useDescription } from '/@/components/Description/index';
-  import { GITHUB_URL, SITE_URL, DOC_URL } from '/@/settings/siteSetting';
+  import DeviceManagement from '/@/views/dashboard/deviceManage/index.vue';
+  import DeviceInfo from '../../common/DeviceInfo.vue';
+  import { deviceDemo } from '../../common/data';
+  import logo from '/@/assets/images/1.jpg';
+  import { ref, Ref } from 'vue';
+  import { useGo } from '/@/hooks/web/usePage';
+  import { PageEnum } from '/@/enums/pageEnum';
 
-  const { pkg, lastBuildTime } = __APP_INFO__;
+  const go = useGo();
+  const btnTexts = ref<Array<string>>(['经济性寿命预测', '历史评估结果']);
+  const deviceInfo = ref(deviceDemo);
+  const maxHeight: Ref<number | string> = ref('auto');
+  const showDetail = ref(false);
 
-  const { dependencies, devDependencies, name, version } = pkg;
-
-  const schema: DescItem[] = [];
-  const devSchema: DescItem[] = [];
-
-  const commonTagRender = (color: string) => (curVal) => h(Tag, { color }, () => curVal);
-  const commonLinkRender = (text: string) => (href) => h('a', { href, target: '_blank' }, text);
-
-  const infoSchema: DescItem[] = [
-    {
-      label: '版本',
-      field: 'version',
-      render: commonTagRender('blue'),
-    },
-    {
-      label: '最后编译时间',
-      field: 'lastBuildTime',
-      render: commonTagRender('blue'),
-    },
-    {
-      label: '文档地址',
-      field: 'doc',
-      render: commonLinkRender('文档地址'),
-    },
-    {
-      label: '预览地址',
-      field: 'preview',
-      render: commonLinkRender('预览地址'),
-    },
-    {
-      label: 'Github',
-      field: 'github',
-      render: commonLinkRender('Github'),
-    },
-  ];
-
-  const infoData = {
-    version,
-    lastBuildTime,
-    doc: DOC_URL,
-    preview: SITE_URL,
-    github: GITHUB_URL,
-  };
-
-  Object.keys(dependencies).forEach((key) => {
-    schema.push({ field: key, label: key });
-  });
-
-  Object.keys(devDependencies).forEach((key) => {
-    devSchema.push({ field: key, label: key });
-  });
-
-  const [register] = useDescription({
-    title: '生产环境依赖',
-    data: dependencies,
-    schema: schema,
-    column: 3,
-  });
-
-  const [registerDev] = useDescription({
-    title: '开发环境依赖',
-    data: devDependencies,
-    schema: devSchema,
-    column: 3,
-  });
-
-  const [infoRegister] = useDescription({
-    title: '项目信息',
-    data: infoData,
-    schema: infoSchema,
-    column: 2,
-  });
+  function selectDevice(device) {
+    deviceInfo.value = device;
+    showDetail.value = true;
+    maxHeight.value = 200;
+    // 渲染详细信息
+  }
+  function goEvaluation() {
+    go(PageEnum.Economy_Evaluate_Page);
+  }
+  function goHistory() {
+    go(PageEnum.HistoryManage_Page);
+  }
 </script>

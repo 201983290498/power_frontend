@@ -3,6 +3,7 @@
     title="设备状态评估详情页"
     content="请按照步骤完成下列表单的填写，最终会得到相关的状态测评结果。"
     contentClass="p-4"
+    @back="handleStepPrev"
   >
     <Card :bordered="boardered" class="!mb-4">
       <Steps :current="current" class="step-form-form">

@@ -46,7 +46,7 @@ export interface Device {
   /**
    * 型号
    */
-  model: string;
+  type: string;
   /**
    * 空载电流
    */
@@ -130,9 +130,13 @@ export interface Evaluate {
    */
   status: string;
   /**
-   * 类型
+   * 设备类型
    */
   type: string;
+  /**
+   * 评估类型, 0状态，1可靠性，2经济性，3运维决策
+   */
+  class: number;
   [property: string]: any;
 }
 /**

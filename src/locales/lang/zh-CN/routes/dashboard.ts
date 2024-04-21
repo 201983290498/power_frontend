@@ -12,7 +12,7 @@ export default {
   reliabilitySub: '可靠性预测页面',
   stateEvaluation: '变压器状态评估',
   stateEvaluationSub: '状态评估页面',
-  economyPrediction: '变压器经济寿命预测',
+  economyPrediction: '变压器经济性寿命预测',
   economyPredictionSub: '经济寿命预测评估页面',
   devops: '运维决策',
   devopsSub: '运维决策页面',

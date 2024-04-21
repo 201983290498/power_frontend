@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <Card>
     <BasicTable @register="registerTable">
       <template #toolbar>
         <!-- 右上角的按钮 -->
@@ -26,7 +26,7 @@
       </template>
     </BasicTable>
     <DeviceModal @register="registerModal" @success="handleSuccess" />
-  </div>
+  </Card>
 </template>
 <script lang="ts" setup>
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
@@ -38,6 +38,9 @@
   import DeviceModal from './DeviceModal.vue'; // 不是问题
   import { watch } from 'vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
+  import { Card } from 'ant-design-vue';
+  import { any } from 'vue-types';
+
   defineOptions({ name: 'DeviceManagement' }); // 定义组件的名称
 
   const props = defineProps({
@@ -48,7 +51,7 @@
       default: true,
     },
     maxHeight: {
-      type: Number,
+      type: any,
       default: -1,
     },
   });

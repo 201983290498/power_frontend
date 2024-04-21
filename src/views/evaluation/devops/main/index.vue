@@ -1,12 +1,11 @@
 <template>
-  <PageWrapper title="变压器可靠性寿命预测主页">
+  <PageWrapper title="运维决策主页">
     <template #headerContent>
       <div class="flex justify-between items-center">
         <span class="flex-1">
-          对设备进行可靠性寿命评估。<br />
-          为了得到最终的测试结果，用户需要依次对设备进行状态评估，<strong style="color: dodgerblue"
-            >可靠性寿命评估</strong
-          >，可靠性经济评估，最终获取运维决策的信息。
+          对设备进行运维决策。<br />
+          为了得到最终的测试结果，用户需要依次对设备进行状态评估，可靠性寿命评估，可靠性经济评估,
+          最终获取<strong style="color: dodgerblue">运维决策</strong>的信息。
         </span>
       </div>
     </template>
@@ -32,7 +31,7 @@
   import { PageEnum } from '/@/enums/pageEnum';
 
   const go = useGo();
-  const btnTexts = ref<Array<string>>(['可靠性寿命预测', '历史评估结果']);
+  const btnTexts = ref<Array<string>>(['进入运维决策', '历史评估结果']);
   const deviceInfo = ref(deviceDemo);
   const maxHeight: Ref<number | string> = ref('auto');
   const showDetail = ref(false);
@@ -44,7 +43,7 @@
     // 渲染详细信息
   }
   function goEvaluation() {
-    go(PageEnum.Reliability_Evaluate_Page);
+    go(PageEnum.Devops_Evaluate_Page);
   }
   function goHistory() {
     go(PageEnum.HistoryManage_Page);

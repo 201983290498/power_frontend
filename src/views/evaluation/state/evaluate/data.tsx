@@ -107,7 +107,7 @@ export const step3Schemas: FormSchema[] = [
   ...createList(
     '直流电阻不平衡系数中压侧',
     'dcResistanceUnbalanceMid',
-    rankNames.slice(0, 3),
+    rankNames.slice(0, 1),
     '60%',
     6,
     3,
