@@ -5,11 +5,14 @@ import { Device } from '/#/baseClass';
 export interface getDevicePageListParmas {
   page: string | number;
   pageSize: string | number;
-  sortBy?: string;
-  sortOrder?: string;
-  id?: string | number;
-  type?: string;
+  equipId?: number | string;
+  equipNo?: string | number;
   location?: string;
+  type: string;
+  personCharge?: string;
+  score?: number | string;
+  evaluateTime?: string;
+  status?: string;
 }
 
 export interface getDevicePageListData {

@@ -57,6 +57,8 @@ export interface PowGetUserInfoModel {
 export interface getUserPageListParmas {
   page: string | number;
   pageSize: string | number;
+  sortBy?: string;
+  sortOrder?: string;
   // 上次登录时间
   lastLogin?: string;
   // 权限等级
@@ -71,6 +73,7 @@ export interface getUserPageListParmas {
   role?: string;
   //用户名
   userName?: string;
+  userId?: number;
 }
 
 export interface getUserPageListData {

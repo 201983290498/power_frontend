@@ -96,6 +96,13 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
   },
   {
+    field: 'roleValue',
+    label: '角色值',
+    required: true,
+    component: 'Input',
+  },
+
+  {
     field: 'status',
     label: '状态',
     component: 'RadioButtonGroup',

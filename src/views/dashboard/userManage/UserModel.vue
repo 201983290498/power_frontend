@@ -8,6 +8,7 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form';
   import { formSchema } from './user.data';
+  //import { addUser } from '/@/api/sys/Euser';
 
   const emit = defineEmits(['success', 'register']);
 
@@ -31,7 +32,6 @@
       });
     }
   });
-
   const getTitle = computed(() => (!unref(isUpdate) ? '新增用户' : '编辑用户'));
 
   async function handleSubmit() {
@@ -46,4 +46,18 @@
       setModalProps({ confirmLoading: false });
     }
   }
+  /*async function handleSubmit() {
+    try {
+      const values = await validate();
+      setModalProps({ confirmLoading: true });
+      await addUser(values); // Assuming addUser is an async function
+      console.log('New user added:', values);
+      closeModal();
+      emit('success');
+    } catch (error) {
+      console.error('Failed to add user:', error);
+    } finally {
+      setModalProps({ confirmLoading: false });
+    }
+  }*/
 </script>

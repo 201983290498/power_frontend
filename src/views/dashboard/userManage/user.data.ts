@@ -73,6 +73,18 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
   },
   {
+    field: 'userId',
+    label: '用户ID',
+    required: true,
+    component: 'Input',
+  },
+  {
+    field: 'password',
+    label: '密码',
+    required: true,
+    component: 'Input',
+  },
+  {
     field: 'role',
     label: '用户类型',
     required: true,
@@ -84,10 +96,16 @@ export const formSchema: FormSchema[] = [
     required: true,
     component: 'Input',
   },
-
   {
-    label: '备注',
-    field: 'remark',
-    component: 'InputTextArea',
+    field: 'personCharge',
+    label: '责任人',
+    required: true,
+    component: 'Input',
+  },
+  {
+    field: 'level',
+    label: '权限等级',
+    required: true,
+    component: 'Input',
   },
 ];
