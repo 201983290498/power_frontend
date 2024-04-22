@@ -8,7 +8,7 @@ export enum PageEnum {
   // error log page path
   ERROR_LOG_PAGE = '/error-log/list',
   // state evaluation main
-  State_Main_Page = '/state',
+  State_Main_Page = '/state/index',
   // state evaluation detail
   State_Evaluate_Page = '/state/evaluate',
   Economy_Main_Page = '/economy',

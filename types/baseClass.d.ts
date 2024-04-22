@@ -2,17 +2,148 @@ import { StateEnum } from '/@/enums/stateEnum';
 
 export type DetailType = undefined;
 // 编写数据库中的基础类
+/**
+ * Device
+ */
+/**
+ * Device
+ */
 export interface Device {
-  // 设备类
-  equipId: number | string;
-  equipNo: string | number;
+  /**
+   * 容量
+   */
+  capacity: number;
+  /**
+   * 联结组标号
+   */
+  connectionSymbol: string;
+  /**
+   * 设备id
+   */
+  equipId: string;
+  /**
+   * 编号
+   */
+  equipNo: string;
+  /**
+   * 评估日期，为打分日期
+   */
+  evaluateTime?: string;
+  /**
+   * 出厂序号
+   */
+  factoryNo: string;
+  /**
+   * 安置地点，（室内/室外
+   */
   location: string;
+  /**
+   * 制造日期，同上
+   */
+  manufactureDate: string;
+  /**
+   * 制造厂家
+   */
+  manufacturer: string;
+  /**
+   * 型号
+   */
   type: string;
-  personCharge: string;
-  score: number | string;
-  evaluateTime: string;
-  status: string;
+  /**
+   * 空载电流
+   */
+  noLoadCurrent: number;
+  /**
+   * 空载损耗
+   */
+  noLoadLoss: number;
+  /**
+   * 投运时间，时间（2024-04-24）
+   */
+  operationTime: string;
+  /**
+   * 单位
+   */
+  organization: string;
+  /**
+   * 评估人
+   */
+  personCharge?: string;
+  /**
+   * 相数
+   */
+  phase: number;
+  /**
+   * 额定电压
+   */
+  ratedVoltage: number;
+  /**
+   * 运行编号
+   */
+  runNo: string;
+  /**
+   * 综合得分
+   */
+  score: number;
+  /**
+   * 状态，1上线0未上线
+   */
+  status: number;
+  /**
+   * 变电站名称
+   */
+  substationName: string;
+  /**
+   * 系统标称电压
+   */
+  systemNominalVoltage: number;
+  [property: string]: any;
 }
+/**
+ * DeviceIno
+ */
+/**
+ * Evaluate
+ */
+export interface Evaluate {
+  /**
+   * 设备id
+   */
+  equipId: number;
+  evaluateId: number;
+  /**
+   * 评估时间
+   */
+  evaluateTime: string;
+  /**
+   * 上次评估结果
+   */
+  lastResult: number;
+  /**
+   * 位置
+   */
+  location: string;
+  /**
+   * 责任人
+   */
+  personCharge: string;
+  /**
+   * 状态
+   */
+  status: string;
+  /**
+   * 设备类型
+   */
+  type: string;
+  /**
+   * 评估类型, 0状态，1可靠性，2经济性，3运维决策
+   */
+  class: number;
+  [property: string]: any;
+}
+/**
+ * 用户信息
+ */
 export interface User {
   // 上次登录时间
   lastLogin: string;
@@ -110,6 +241,8 @@ export interface StateInput {
    * 乙烯含量(uL/L)
    */
   ethylene: number;
+
+  evaluateId?: string | number;
   /**
    * 家族缺陷
    */
@@ -183,6 +316,14 @@ export interface StateInput {
    */
   totalHydrocarbon: number;
   /**
+   * 总烃绝对产气速率(%/月)
+   */
+  totalHyAbsolute: number;
+  /**
+   * 总烃相对产气速率(%/月)
+   */
+  totalHyRelative: number;
+  /**
    * 绕组直流电阻(高压侧)AO17，1-17
    */
   windingDcResistanceHighAO?: number[];
@@ -229,6 +370,330 @@ export interface StateOutput {
   /**
    * 状态值（变压器健康指数或者劣化度等用来衡量变压器状态的一个数值）
    */
-  statusValue: number;
+  statusValue: string;
+  [property: string]: any;
+}
+
+/**
+ * ReliabilityOutput
+ */
+export interface ReliabilityOutput {
+  /**
+   * 测试Id
+   */
+  evaluateId: string;
+  /**
+   * 健康指数
+   */
+  healthIndex: number;
+  /**
+   * 热点温度
+   */
+  hotSpotTemper: number;
+  /**
+   * 寿命进程（剩余寿命/设计寿命）数值0%~100%
+   */
+  lifespanProcess: number;
+  /**
+   * 剩余可靠性寿命
+   */
+  ResReliabilityLife: number;
+  /**
+   * 热寿命损失率
+   */
+  thermalLifeLossRate: number;
+  [property: string]: any;
+}
+
+/**
+ * ReliabilityInput
+ */
+/**
+ * ReliabilityInput
+ */
+export interface ReliabilityInput {
+  /**
+   * 外观检查评分"五项复选 输入参数为XXXXX五位二进制数0表示选中 最低位：变压器外观异常 第二位：变压器外壳接地不良 第三位：套管存在裂纹或放电痕迹 第四位：运行声响异常
+   * 第五位：变压器存在漏油情况 "
+   */
+  appearanceScore?: number[] | string;
+  /**
+   * 每月平均热点温度
+   */
+  avgmonthHotspotTemper?: number;
+  /**
+   * 容量
+   */
+  capacity?: number;
+  /**
+   * 联结组标号
+   */
+  connectionSymbol?: string;
+  /**
+   * 设计寿命
+   */
+  designLife?: number;
+  /**
+   * 电气试验记录试验异常情况"二选一 （0无异常/ 1有异常）"
+   */
+  electricalRecordSituation?: number;
+  /**
+   * 变压器编号
+   */
+  equipNo: string;
+  /**
+   * 测试Id
+   */
+  evaluateId?: string | number;
+  /**
+   * 出厂序号
+   */
+  factoryNo?: string;
+  /**
+   * 家族运行状况数值（评分1~3） 1：同类变压器存在大量不良记录 2.同类变压器存在个别不良记录 3：同类变压器无不良记录
+   */
+  familyHealth?: number;
+  /**
+   * 负载电流
+   */
+  loadCurrent: number;
+  /**
+   * 负载损耗
+   */
+  loadLoss?: number;
+  /**
+   * 空载损耗变化量
+   */
+  loadLossChange?: number;
+  /**
+   * 变压器安置地点（室内/室外）
+   */
+  location?: string;
+  /**
+   * 检修情况"二选一 （0检修处理得当，无缺陷 /1检修后投运但有轻微缺陷）"
+   */
+  maintenanceCondition?: number;
+  /**
+   * 制造日期
+   */
+  manufactureDate?: string;
+  /**
+   * 制造厂家
+   */
+  manufacturer?: string;
+  /**
+   * 型号
+   */
+  model?: string;
+  /**
+   * 空载电流
+   */
+  noLoadCurrent?: number;
+  /**
+   * 空载电流
+   */
+  noloadCurrent: number;
+  /**
+   * 空载损耗
+   */
+  noLoadLoss?: number;
+  /**
+   * 负载损耗变化量
+   */
+  noLoadLossChange?: number;
+  /**
+   * 空载损耗
+   */
+  noLoadLossKey?: number;
+  /**
+   * 油色谱分析试验异常情况"二选一 （0无异常/ 1有异常）"
+   */
+  oilChromatographicSituation?: number;
+  /**
+   * 油中糠醛指数
+   */
+  oilFurfuralindex?: number;
+  /**
+   * 油化试验异常情况 "二选一 （0无异常/ 1有异常）"
+   */
+  oilSituation?: number;
+  /**
+   * 运行环境选择四项单选 00：无特殊环境 01：高海拔环境 10：高温环境 11：雨雪、低温环境
+   */
+  operatingEnvironment?: string;
+  /**
+   * 有无操作/雷击过电压 （0无/ 1有）
+   */
+  operatingOrLightningOvervoltage?: number;
+  /**
+   * 投运时间
+   */
+  operationTime?: string;
+  /**
+   * 单位名称
+   */
+  organization: string;
+  /**
+   * 相数
+   */
+  phase?: number;
+  /**
+   * A相短路阻抗变化量
+   */
+  phaseAChange?: number;
+  /**
+   * B相短路阻抗变化量
+   */
+  phaseBChange?: number;
+  /**
+   * C相短路阻抗变化量
+   */
+  phaseCChange?: number;
+  /**
+   * 额定电流
+   */
+  ratedCurrent?: number;
+  /**
+   * 额定电压
+   */
+  ratedVoltage?: number;
+  /**
+   * 运行编号
+   */
+  runNo?: string;
+  /**
+   * 有无短期急救负载（0无/ 1有）
+   */
+  shortTermAidLoad?: number;
+  /**
+   * 变电站名称
+   */
+  substationName?: string;
+  /**
+   * 系统标称电压
+   */
+  systemNominalVoltage?: number;
+  /**
+   * 环境温度
+   */
+  temperature?: number;
+  /**
+   * 0热改性/1非热改性
+   */
+  thermalModification?: number;
+  /**
+   * 三相电抗最大差值
+   */
+  threePhaseRactanceMaxDiff?: number;
+  [property: string]: any;
+}
+
+/**
+ * EconomyInput
+ */
+export interface EconomyInput {
+  /**
+   * 年平均故障次数
+   */
+  annualAvgFailure?: number;
+  /**
+   * 年故障中断供电时间
+   */
+  annualPowerOutageTime?: number;
+  /**
+   * 年小修总费用
+   */
+  annualRepairCost?: number;
+  /**
+   * 平均负载率
+   */
+  avgLoadRate?: number;
+  /**
+   * 平均功率因数
+   */
+  avgPowerFactor?: number;
+  /**
+   * 平均修复时间MTTR
+   */
+  avgRepairTime?: number;
+  /**
+   * 清理费费率
+   */
+  cleaningFeeRate?: number;
+  /**
+   * 电价
+   */
+  electricityPrice?: number;
+  /**
+   * 测试Id
+   */
+  evaluateId: string | number;
+  /**
+   * 初始其他成本
+   */
+  initialOtherCosts: number;
+  /**
+   * 安装调试成本
+   */
+  installationAndDebuggingCost: number;
+  /**
+   * 设备安装费
+   */
+  installFee?: number;
+  /**
+   * 负载损耗
+   */
+  loadLoss?: number;
+  /**
+   * 空载损耗（KW）
+   */
+  noneLoadLoss?: number;
+  /**
+   * 单次大修总费用
+   */
+  overhaulCost?: number;
+  /**
+   * 单位时间平均修复成本
+   */
+  pertimeAvgRepairCost?: number;
+  /**
+   * 供电利润 （元/kwh）
+   */
+  powerProfit?: number;
+  /**
+   * 购置成本（万元）
+   */
+  purchaseCost: number;
+  /**
+   * 额定容量
+   */
+  ratedCapacity: number;
+  /**
+   * 设备残值率
+   */
+  residualValueRate?: number;
+  [property: string]: any;
+}
+
+/**
+ * EconomyOutput
+ */
+export interface EconomyOutput {
+  /**
+   * 年均成本
+   */
+  avgAnnualCost: number;
+  /**
+   * 测试Id
+   */
+  evaluateId: string;
+  /**
+   * 寿命进程（经济性寿命/设计寿命）
+   */
+  lifespanProcess: number;
+  /**
+   * 运行年限
+   */
+  operatingYears: number;
   [property: string]: any;
 }

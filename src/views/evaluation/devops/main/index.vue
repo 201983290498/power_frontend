@@ -1,13 +1,11 @@
 <template>
-  <PageWrapper title="变压器经济性寿命预测主页">
+  <PageWrapper title="运维决策主页">
     <template #headerContent>
       <div class="flex justify-between items-center">
         <span class="flex-1">
-          对设备进行经济性寿命评估。<strong style="color: dodgerblue">请选选择设备。</strong><br />
-          为了得到最终的测试结果，用户需要依次对设备进行状态评估，可靠性寿命评估，<strong
-            style="color: dodgerblue"
-            >可靠性经济评估</strong
-          >，最终获取运维决策的信息。
+          对设备进行运维决策。<strong style="color: dodgerblue">请选选择设备。</strong> <br />
+          为了得到最终的测试结果，用户需要依次对设备进行状态评估，可靠性寿命评估，可靠性经济评估,
+          最终获取<strong style="color: dodgerblue">运维决策</strong>的信息。
         </span>
       </div>
     </template>
@@ -35,7 +33,7 @@
   const routeParam = useRouteParams();
 
   const go = useGo();
-  const btnTexts = ref<Array<string>>(['经济性寿命预测', '历史评估结果']);
+  const btnTexts = ref<Array<string>>(['进入运维决策', '历史评估结果']);
   const deviceInfo = ref(deviceDemo);
   const maxHeight: Ref<number | string> = ref(-1);
   const showDetail = ref(false);
@@ -48,7 +46,7 @@
   }
   function goEvaluation() {
     routeParam.setParams({ src: logo, device: deviceInfo.value });
-    go(PageEnum.Economy_Evaluate_Page);
+    go(PageEnum.Devops_Evaluate_Page);
   }
   function goHistory() {
     go(PageEnum.HistoryManage_Page);

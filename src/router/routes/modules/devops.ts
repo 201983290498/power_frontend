@@ -18,10 +18,20 @@ const Devops: AppRouteModule = {
     {
       path: 'index',
       name: 'DevopsPage',
-      component: () => import('/@/views/evaluation/devops/index.vue'),
+      component: () => import('../../../views/evaluation/devops/main/index.vue'),
       meta: {
         title: t('routes.dashboard.devops'),
         icon: 'ion:heart',
+        hideMenu: true,
+      },
+    },
+    {
+      path: 'evaluate',
+      name: 'DevopsEvaluatePage',
+      component: () => import('../../../views/evaluation/devops/evaluate/index.vue'),
+      meta: {
+        title: t('routes.dashboard.devopsSub'),
+        icon: 'ion:airplane',
         hideMenu: true,
       },
     },

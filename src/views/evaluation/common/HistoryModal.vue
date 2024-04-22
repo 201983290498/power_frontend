@@ -10,7 +10,7 @@
 <script lang="ts" setup>
   import { ref, nextTick } from 'vue';
   import { BasicModal } from '/@/components/Modal';
-  import { BasicTable, ColumnChangeParam, useTable } from '/@/components/Table';
+  import { BasicTable } from '/@/components/Table';
 
   const selectTable = ref<InstanceType<typeof BasicTable> | undefined>();
 

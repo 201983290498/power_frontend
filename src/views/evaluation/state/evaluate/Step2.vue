@@ -88,13 +88,13 @@
     },
   );
 
-  defineProps({
+  const props = defineProps({
     bordered: {
       type: Boolean,
       default: true,
     },
   });
-
+  console.log(props.bordered);
   function submitData() {
     const record1 = getFieldsValue1();
     const record2 = getFieldsValue2();

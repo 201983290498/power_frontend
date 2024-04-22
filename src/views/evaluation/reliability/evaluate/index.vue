@@ -11,7 +11,7 @@
         <Steps.Step title="评估结果" />
       </Steps>
     </Card>
-    <Step1 @next="handleStepNext" v-show="current === 0" />
+    <Step1 v-if="src !== undefined" v-show="current === 0" :device="devInfo" :src="src" />
     <Step2 ref="childRef" v-show="current === 1" v-if="state.initStep2" :bordered="boardered" />
     <Step3 v-show="current === 2" v-if="state.initStep3" :bordered="boardered" />
     <template #rightFooter>
@@ -85,8 +85,10 @@
     reliableEvaluation,
     getReliableRecordInput,
   } from '/@/api/evalution/reliability';
+  import { useRouteParams } from '/@/store/modules/route';
 
   const go = useGo();
+  const routeParams = useRouteParams();
   const route = useRoute();
   const router = useRouter();
   const tabStore = useMultipleTabStore();
@@ -97,6 +99,15 @@
   const { createMessage, createConfirm } = useMessage();
   const { warning } = createMessage;
   const results = ref();
+  const devInfo = routeParams.params.device;
+  const src = routeParams.params.src;
+
+  if (!routeParams.params.hasOwnProperty('device')) {
+    warning('为选择任何设备, 即将返回主页');
+    go(PageEnum.Reliability_Main_Page);
+    closeTab();
+  }
+
   defineOptions({ name: 'ReliabilityEvaluatePage' });
 
   const current = ref(0);

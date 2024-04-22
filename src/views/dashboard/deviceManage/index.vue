@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <Card>
     <BasicTable @register="registerTable">
       <template #toolbar>
         <!-- 右上角的按钮 -->
@@ -26,7 +26,7 @@
       </template>
     </BasicTable>
     <DeviceModal @register="registerModal" @success="handleSuccess" />
-  </div>
+  </Card>
 </template>
 <script lang="ts" setup>
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
@@ -38,6 +38,8 @@
   import DeviceModal from './DeviceModal.vue'; // 不是问题
   import { watch } from 'vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
+  import { Card } from 'ant-design-vue';
+  import { any } from 'vue-types';
 
   defineOptions({ name: 'DeviceManagement' }); // 定义组件的名称
 
@@ -58,9 +60,11 @@
   watch(
     () => props.maxHeight,
     (newValue) => {
-      setProps({
-        maxHeight: newValue,
-      });
+      if (newValue !== -1) {
+        setProps({
+          maxHeight: newValue,
+        });
+      }
     },
   );
   watch(
@@ -112,7 +116,7 @@
       fixed: undefined,
     },
   };
-  props.maxHeight == -1 || (tableConfig['maxHeight'] = props.maxHeight);
+  props.maxHeight === -1 || (tableConfig['maxHeight'] = props.maxHeight);
   const [registerTable, { reload, setProps }] = useTable(tableConfig);
 
   function handleCreate() {
