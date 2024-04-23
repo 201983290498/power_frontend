@@ -8,7 +8,7 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form';
   import { formSchema } from './user.data';
-  //import { addUser } from '/@/api/sys/Euser';
+  import { addUser } from '/@/api/sys/Euser';
 
   const emit = defineEmits(['success', 'register']);
 
@@ -34,7 +34,7 @@
   });
   const getTitle = computed(() => (!unref(isUpdate) ? '新增用户' : '编辑用户'));
 
-  async function handleSubmit() {
+  /*async function handleSubmit() {
     try {
       const values = await validate();
       setModalProps({ confirmLoading: true });
@@ -45,13 +45,13 @@
     } finally {
       setModalProps({ confirmLoading: false });
     }
-  }
-  /*async function handleSubmit() {
+  }*/
+  async function handleSubmit() {
     try {
       const values = await validate();
       setModalProps({ confirmLoading: true });
-      await addUser(values); // Assuming addUser is an async function
-      console.log('New user added:', values);
+      const result = await addUser(values); // Assuming addUser is an async function
+      console.log('New user added:', result);
       closeModal();
       emit('success');
     } catch (error) {
@@ -59,5 +59,5 @@
     } finally {
       setModalProps({ confirmLoading: false });
     }
-  }*/
+  }
 </script>

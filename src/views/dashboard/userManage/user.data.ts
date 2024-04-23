@@ -4,12 +4,12 @@ export const columns: BasicColumn[] = [
   {
     title: '用户名',
     dataIndex: 'userName',
-    width: 50,
+    width: 100,
   },
   {
     title: '用户id',
     dataIndex: 'userId',
-    width: 50,
+    width: 100,
   },
   {
     title: '所属单位',
@@ -24,7 +24,7 @@ export const columns: BasicColumn[] = [
   {
     title: '用户类型',
     dataIndex: 'role',
-    width: 100,
+    width: 50,
   },
   {
     title: '上次登录时间',
@@ -34,7 +34,7 @@ export const columns: BasicColumn[] = [
   {
     title: '权限等级',
     dataIndex: 'level',
-    width: 100,
+    width: 50,
   },
 ];
 // 顶部搜索框

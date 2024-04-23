@@ -5,9 +5,9 @@ import { AxiosRequestHeaders } from 'axios';
 import { getToken } from '/@/utils/auth';
 
 enum Api {
-  Login = '/powergrid/user/account/token/',
+  Login = '/powergrid/user/account/token',
   Logout = '/logout',
-  GetUserInfo = '/powergrid/user/account/info/',
+  GetUserInfo = '/powergrid/user/account/info',
   GetPermCode = '/getPermCode',
 }
 

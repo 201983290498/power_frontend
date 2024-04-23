@@ -1,5 +1,6 @@
 import { defHttp } from '/@/utils/http/axios';
-import { getUserPageListData, getUserPageListParmas } from './model/userModel';
+import { ErrorMessageMode } from '/#/axios';
+import { getUserPageListData, getUserPageListParmas, UseraddParams } from './model/userModel';
 enum Api {
   GetUserPageList = '/powergrid/sys/user',
   AddUser = '/powergrid/sys/user/useradd',
@@ -26,10 +27,20 @@ interface SearchUserParams {
 // 获取用户列表
 export const getUserList = (params: getUserPageListParmas = demoParam) =>
   defHttp.get<getUserPageListData>({ url: Api.GetUserPageList, params });
-
 // 添加用户
-export const addUser = (userData: getUserPageListParmas = demoParam) =>
-  defHttp.post<{ message: string }>({ url: Api.AddUser, data: userData });
+/*export const addUser = (userData: UseraddParams = demoParam) =>
+  defHttp.post<{ message: string }>({ url: Api.AddUser, data: userData });*/
+export function addUser(params: UseraddParams, mode: ErrorMessageMode = 'modal') {
+  return defHttp.post(
+    {
+      url: Api.AddUser,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+}
 
 // 删除用户
 export const deleteUser = (userName: string) =>

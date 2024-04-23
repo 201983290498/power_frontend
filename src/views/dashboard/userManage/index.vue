@@ -1,64 +1,83 @@
 <template>
-  <div>
+  <Card>
     <BasicTable @register="registerTable">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增用户</a-button>
+        <!-- 右上角的按钮 -->
+        <a-button type="primary" @click="handleCreate"> 新增用户 </a-button>
       </template>
       <template #action="{ record }">
         <TableAction
           :actions="[
-            { icon: 'clarity:note-edit-line', onClick: () => handleEdit(record) },
+            {
+              icon: 'clarity:note-edit-line',
+              onClick: handleEdit.bind(null, record),
+            },
             {
               icon: 'ant-design:delete-outlined',
               color: 'error',
               popConfirm: {
-                title: '是否确认删除?',
+                title: '是否确认删除',
                 placement: 'left',
-                confirm: () => handleDelete(record),
+                confirm: handleDelete.bind(null, record),
               },
             },
           ]"
         />
       </template>
     </BasicTable>
-    <UserModel @register="registerModal" @success="handleSuccess" />
-  </div>
+    <UserModal @register="registerModal" @success="handleSuccess" />
+  </Card>
 </template>
-
 <script lang="ts" setup>
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getUserList, addUser, updateUser, deleteUser } from '/@/api/sys/Euser';
+  import { getUserList } from '/@/api/sys/Euser';
   import { PaginationProps } from '/@/components/Table/src/types/pagination';
+
   import { columns, searchFormSchema } from './user.data';
   import { useModal } from '/@/components/Modal';
-  import UserModel from './UserModel.vue';
+  import UserModal from './UserModel.vue'; // 不是问题
+  import { watch } from 'vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
-  import { watch, ref, Ref } from 'vue';
+  import { Card } from 'ant-design-vue';
 
-  defineOptions({ name: 'userManagement' });
-  const currentRecord: Ref<data.total | null> = ref(null);
+  defineOptions({ name: 'UserManagement' }); // 定义组件的名称
+
   const props = defineProps({
-    reSize: { type: Boolean, default: true },
-    maxHeight: { type: Number, default: -1 },
+    // 这里定义的props，在父组件中使用时, 父亲组件向子组件传递值，需要加上v-model
+    // 例如：<UserManagement v-model:visible="visible" />
+    reSize: {
+      type: Boolean,
+      default: true,
+    },
+    maxHeight: {
+      type: Number,
+      default: -1,
+    },
   });
 
+  // 监控父组件值的变化
   watch(
     () => props.maxHeight,
     (newValue) => {
-      setProps({ maxHeight: newValue });
+      if (newValue !== -1) {
+        setProps({
+          maxHeight: newValue,
+        });
+      }
     },
   );
   watch(
     () => props.reSize,
     (newValue) => {
-      setProps({ canResize: newValue });
+      setProps({
+        canResize: newValue,
+      });
     },
   );
 
   const [registerModal, { openModal }] = useModal();
-
   let pagination: PaginationProps = {
-    total: 0,
+    total: 10,
     defaultCurrent: 1,
     defaultPageSize: 10,
     showSizeChanger: true,
@@ -66,7 +85,6 @@
     pageSizeOptions: ['5', '10', '20', '30', '40'],
     showTotal: (total) => `共 ${total} 条数据`,
   };
-
   const tableConfig: Props = {
     title: '用户列表',
     api: getUserList,
@@ -96,46 +114,35 @@
       fixed: undefined,
     },
   };
-  props.maxHeight == -1 || setProps({ maxHeight: props.maxHeight });
+  props.maxHeight == -1 || (tableConfig['maxHeight'] = props.maxHeight);
   const [registerTable, { reload, setProps }] = useTable(tableConfig);
 
-  function handleCreate(record) {
-    currentRecord.value = record;
-    openModal(true, { isUpdate: false });
+  function handleCreate() {
+    openModal(true, {
+      isUpdate: false,
+    });
   }
 
-  function handleEdit(record) {
-    currentRecord.value = record;
-    openModal(true, { record, isUpdate: true });
+  function handleEdit(record: Recordable) {
+    // 打开modal框
+    openModal(true, {
+      record,
+      isUpdate: true,
+    });
   }
 
-  async function handleDelete(record) {
-    try {
-      await deleteUser(record.id);
-      reload();
-    } catch (error) {
-      console.error('Failed to delete user:', error);
-      // Optionally, inform the user of the failure via a UI notification
-    }
+  function handleDelete(record: Recordable) {
+    console.log(record);
   }
-  function handleSuccess(action: string) {
-    if (action === 'create' && currentRecord.value) {
-      // Assuming createUser is an async function that requires a User object
-      addUser(currentRecord.value);
-    } else if (action === 'update' && currentRecord.value) {
-      // Ensure that updateUser is called only when currentRecord.value is not null
-      updateUser(currentRecord.value.userID, currentRecord.value);
-    }
+
+  function handleSuccess() {
+    // 成功之后的处理
     reload();
-    getUserList();
   }
-  /*async function handleSuccess(action) {
-    if (action === 'create') {
-      await addUser(currentRecord.value);
-    } else if (action === 'update') {
-      // Ensure currentRecord.value has the user ID and other necessary fields
-      await updateUser(currentRecord.value.id, currentRecord.value);
-    }
-    reload(); // Reload table data on successful operation
-  }*/
+</script>
+
+<script lang="ts">
+  export default {
+    name: 'UserManagement',
+  };
 </script>

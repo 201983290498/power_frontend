@@ -57,27 +57,38 @@ export interface PowGetUserInfoModel {
 export interface getUserPageListParmas {
   page: string | number;
   pageSize: string | number;
-  sortBy?: string;
-  sortOrder?: string;
   // 上次登录时间
   lastLogin?: string;
   // 权限等级
-  level?: number;
+  level?: number | string;
   // 所属单位
-  organization?: string;
-  // 密码
   password?: string;
   //责任人
   personCharge?: string;
-  //用户了
+  organization?: string;
   role?: string;
   //用户名
-  userName?: string;
-  userId?: number;
+  userName?: string | number;
+  userId?: string | number;
+}
+export interface UseraddParams {
+  // 权限等级
+  level: number;
+  // 所属单位
+  organization: string;
+  // 密码
+  password: string;
+  //责任人
+  personCharge: string;
+  //用户了
+  role: string;
+  //用户名
+  userName: string;
+  userId: number;
 }
 
 export interface getUserPageListData {
   pageCount: number; // 总页数
   rowCount: number; // 总的数据数量
-  users: User[]; // 用户总数
+  item: User[]; // 用户总数; // 用户总数
 }
