@@ -1,0 +1,117 @@
+import { FormSchema } from '/@/components/Form/src/types/form';
+import { createOptionSchema, createFormSchema } from '/@/utils/listToFiled';
+import { OptionPair } from '../../common/data';
+const valueOptions = [
+  new OptionPair('10万以下', 1).getConstantValue(),
+  new OptionPair('10万元以上20万元以下', 2).getConstantValue(),
+  new OptionPair('20万元以上30万元以下', 3).getConstantValue(),
+  new OptionPair('30万元以上50万元以下', 4).getConstantValue(),
+  new OptionPair('50万元以上80万元以下', 5).getConstantValue(),
+  new OptionPair('80万元以上100万元以下', 6).getConstantValue(),
+  new OptionPair('100万元以上1000万元以下', 7).getConstantValue(),
+  new OptionPair('1000万元以上5000万元以下', 8).getConstantValue(),
+  new OptionPair('5000万元以上1亿元以下', 9).getConstantValue(),
+  new OptionPair('1亿元以上', 10).getConstantValue(),
+];
+
+const statusOptions = [
+  new OptionPair('一般变电站', 1).getConstantValue(),
+  new OptionPair('重要变电站', 4).getConstantValue(),
+  new OptionPair('枢纽变电站', 8).getConstantValue(),
+];
+
+const loadOptions = [
+  new OptionPair('三级负荷', 3).getConstantValue(),
+  new OptionPair('二级负荷', 5).getConstantValue(),
+  new OptionPair('一级负荷', 7).getConstantValue(),
+  new OptionPair('特级负荷', 10).getConstantValue(),
+];
+
+const impOptions = [
+  new OptionPair('枢纽变电站', 1.16).getConstantValue(),
+  new OptionPair('联络变电站', 1).getConstantValue(),
+  new OptionPair('终端变电站', 0.8).getConstantValue(),
+];
+
+const loadImpOptions1 = [
+  new OptionPair('重要负荷', 1.16).getConstantValue(),
+  new OptionPair('一般负荷', 1).getConstantValue(),
+];
+
+const factorOptions = [
+  new OptionPair('室外变电站', -1).getConstantValue(),
+  new OptionPair('室内变电站', -1.16).getConstantValue(),
+];
+
+const repairOptions = [
+  new OptionPair('一般性故障110Kv', 10000).getConstantValue(),
+  new OptionPair('一般性故障220Kv', 20000).getConstantValue(),
+  new OptionPair('一般性故障500Kv', 30000).getConstantValue(),
+  new OptionPair('严重性故障110Kv', 100000).getConstantValue(),
+  new OptionPair('严重性故障220Kv', 200000).getConstantValue(),
+  new OptionPair('严重性故障500Kv', 280000).getConstantValue(),
+  new OptionPair('灾难性故障110Kv', 1800000).getConstantValue(),
+  new OptionPair('灾难性故障220Kv', 5000000).getConstantValue(),
+  new OptionPair('灾难性故障500Kv', 8000000).getConstantValue(),
+];
+
+const manufacturerOptions = [
+  new OptionPair('本地生产', 0.9).getConstantValue(),
+  new OptionPair('国内生产', 1).getConstantValue(),
+  new OptionPair('国外生产', 1.3).getConstantValue(),
+];
+
+const faultOptions = [
+  new OptionPair('室外变电站', 1).getConstantValue(),
+  new OptionPair('室内变电站', 1.16).getConstantValue(),
+];
+
+const accidentOptions = [
+  new OptionPair('轻伤', 20000).getConstantValue(),
+  new OptionPair('重伤', 5000000).getConstantValue(),
+  new OptionPair('人员伤亡', 50000000).getConstantValue(),
+];
+
+const personOptions = [
+  new OptionPair('轻伤', 0.01).getConstantValue(),
+  new OptionPair('重伤', 0.005).getConstantValue(),
+  new OptionPair('人员伤亡', 0.001).getConstantValue(),
+];
+
+const valueOptions1 = [
+  new OptionPair('0.01', 0.01).getConstantValue(),
+  new OptionPair('0.05', 0.05).getConstantValue(),
+  new OptionPair('0.005', 0.005).getConstantValue(),
+];
+
+const faultOptions2 = [
+  new OptionPair('一般性故障', 0.642).getConstantValue(),
+  new OptionPair('严重性故障', 0.321).getConstantValue(),
+  new OptionPair('灾难性故障', 0.037).getConstantValue(),
+];
+
+export const step1Schemas: FormSchema[] = [
+  createOptionSchema('equipmentValue', '设备价值', valueOptions, '60%', 6),
+  createOptionSchema('substationStatus', '变电站地位', statusOptions, '60%', 6),
+  createOptionSchema('loadLevel', '负荷等级', loadOptions, '60%', 6),
+  createFormSchema('transformerLoadRate', '变压器负载率', '60%', 2, 6),
+  createFormSchema('transformerCapacity', '变压器容量', '60%', 2, 6),
+  createFormSchema('averagePowerFactor', '平均功率因素', '60%', 2, 6),
+  createOptionSchema('substationImportance', '变电站重要性', impOptions, '60%', 6),
+  createOptionSchema('loadImportance', '负荷重要性', loadImpOptions1, '60%', 6),
+  createOptionSchema('systemRiskCorrectionFactor', '变电站检修环境', factorOptions, '60%', 6),
+  createFormSchema('unitRiskValue', '单位风险值', '60%', 2, 6),
+  createOptionSchema('repairCost', '不同故障下的修复成本', repairOptions, '60%', 6),
+  createOptionSchema('manufacturer', '生产厂家', manufacturerOptions, '60%', 6),
+  createOptionSchema('faultRepairCostFactor', '变电站检修环境', faultOptions, '60%', 6),
+  createOptionSchema('accidentCost', '不同故障下事故成本', accidentOptions, '60%', 6),
+  createOptionSchema('personnelInjuryProbability', '人员事故伤亡概率', personOptions, '60%', 6),
+  createOptionSchema(
+    'loadSheddingProbability',
+    '不同故障下切除负荷的几率',
+    valueOptions1,
+    '60%',
+    6,
+  ),
+  createOptionSchema('faultProbability', '故障概率', faultOptions2, '60%', 6),
+];

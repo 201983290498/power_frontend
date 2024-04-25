@@ -408,9 +408,6 @@ export interface ReliabilityOutput {
 /**
  * ReliabilityInput
  */
-/**
- * ReliabilityInput
- */
 export interface ReliabilityInput {
   /**
    * 外观检查评分"五项复选 输入参数为XXXXX五位二进制数0表示选中 最低位：变压器外观异常 第二位：变压器外壳接地不良 第三位：套管存在裂纹或放电痕迹 第四位：运行声响异常
@@ -695,5 +692,101 @@ export interface EconomyOutput {
    * 运行年限
    */
   operatingYears: number;
+  [property: string]: any;
+}
+
+/**
+ * DecisionInput
+ */
+export interface DecisionInput {
+  /**
+   * 不同故障下事故成本
+   */
+  accidentCost: number;
+  /**
+   * 平均功率因素
+   */
+  averagePowerFactor: number;
+  /**
+   * 设备价值
+   */
+  equipmentValue: number;
+  evaluateId?: number | string;
+  /**
+   * 故障概率
+   */
+  faultProbability: number;
+  /**
+   * 变电站检修环境-故障修复成本修正系数
+   */
+  faultRepairCostFactor: number;
+  /**
+   * 负荷重要性
+   */
+  loadImportance: number;
+  /**
+   * 负荷等级
+   */
+  loadLevel: number;
+  /**
+   * 不同故障下切除负荷的几率
+   */
+  loadSheddingProbability: number;
+  /**
+   * 生产厂家
+   */
+  manufacturer: number;
+  /**
+   * 人员伤亡概率
+   */
+  personnelInjuryProbability: number;
+  /**
+   * 不同故障下的修复成本
+   */
+  repairCost: number;
+  /**
+   * 变电站重要性
+   */
+  substationImportance: number;
+  /**
+   * 变电站地位
+   */
+  substationStatus: number;
+  /**
+   * 变电站检修环境-系统风险修正系数
+   */
+  systemRiskCorrectionFactor: number;
+  /**
+   * 变压器容量
+   */
+  transformerCapacity: number;
+  /**
+   * 变压器负载率
+   */
+  transformerLoadRate: number;
+  /**
+   * 单位风险值
+   */
+  unitRiskValue: number;
+  [property: string]: any;
+}
+
+/**
+ * DecisionOutput
+ */
+export interface DecisionOutput {
+  evaluateId: number;
+  /**
+   * 检修内容
+   */
+  maintenanceContent: string;
+  /**
+   * 建议检修方式的风险收益成本比
+   */
+  riskRewardCostRatio: number;
+  /**
+   * 建议检修方式
+   */
+  suggestedMaintenanceMethod: string;
   [property: string]: any;
 }

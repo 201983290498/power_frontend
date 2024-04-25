@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Card title="经济性寿命" :bordered="bordered">
+    <Card title="运维决策" :bordered="bordered">
       <BasicForm @register="register1" />
     </Card>
   </div>
