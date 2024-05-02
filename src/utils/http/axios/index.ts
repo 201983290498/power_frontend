@@ -51,9 +51,14 @@ const transform: AxiosTransform = {
     const { code, message } = data;
     let result = data.result;
     result === undefined && (result = data.data);
+    console.log(result);
+    console.log(data);
 
     // 这里逻辑可以根据项目进行修改
+
+    //const hasSuccess = data && Reflect.has(data, 'code') && Number(code) === ResultEnum.SUCCESS;
     const hasSuccess = data && Reflect.has(data, 'code') && Number(code) === ResultEnum.SUCCESS;
+    console.log(hasSuccess);
     if (hasSuccess) {
       return result;
     }

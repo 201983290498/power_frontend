@@ -8,7 +8,7 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form';
   import { formSchema } from './user.data';
-  import { addUser } from '/@/api/sys/Euser';
+  import { addUser, updateUser } from '/@/api/sys/Euser';
 
   const emit = defineEmits(['success', 'register']);
 
@@ -45,17 +45,26 @@
     } finally {
       setModalProps({ confirmLoading: false });
     }
-  }*/
+  }*/ 
   async function handleSubmit() {
     try {
       const values = await validate();
       setModalProps({ confirmLoading: true });
-      const result = await addUser(values); // Assuming addUser is an async function
-      console.log('New user added:', result);
+
+      if (isUpdate.value) {
+        // 如果 isUpdate 为 true，更新用户信息
+        const result = await updateUser(values.id, values); // 确保 values 包含 id 和其他必要信息
+        console.log('User updated:', result);
+      } else {
+        // 否则，添加新用户
+        const result = await addUser(values);
+        console.log('New user added:', result);
+      }
+
       closeModal();
       emit('success');
     } catch (error) {
-      console.error('Failed to add user:', error);
+      console.error('Failed to submit user data:', error);
     } finally {
       setModalProps({ confirmLoading: false });
     }
