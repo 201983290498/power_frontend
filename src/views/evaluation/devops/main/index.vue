@@ -36,7 +36,7 @@
   const btnTexts = ref<Array<string>>(['进入运维决策', '历史评估结果']);
   const deviceInfo = ref(deviceDemo);
   const maxHeight: Ref<number | string> = ref(-1);
-  const showDetail = ref(false);
+  const showDetail = ref(true);
 
   function selectDevice(device) {
     deviceInfo.value = device;

@@ -1,6 +1,6 @@
 import { FormSchema } from '../components/Form/src/types/form';
 import { DEFAULT_VALUE } from '../enums/defaultValueEnum';
-import { EconomyInput, ReliabilityInput, StateInput } from '/#/baseClass';
+import { EconomyInput, ReliabilityInput, StateInput, DecisionInput } from '/#/baseClass';
 export function transformListToField(demoList: any[], name: string): Record<string, any> {
   let jsonStr = '{ ';
   demoList.forEach((item, index) => {
@@ -68,7 +68,6 @@ export function createFormSchema(
       step: Math.pow(10, -digital),
       style: { width: width }, // 设置输入框宽度为100%，可根据需要调整
     },
-    defaultValue: DEFAULT_VALUE.INPUT_VALUE,
     rules: [
       { required: true, message: '请输入数值', trigger: 'blur' },
       { type: 'number', message: '输入必须是一个数字', trigger: 'blur' },
@@ -95,7 +94,6 @@ export function createTextSchema(
     componentProps: {
       style: { width: width }, // 设置输入框宽度为100%，可根据需要调整
     },
-    defaultValue: DEFAULT_VALUE.TEXT_VALUE,
     required: true,
     colProps: {
       span: span, // 根据需要调整每个字段占据的栅格数
@@ -129,6 +127,7 @@ export function createOptionSchema(
   options,
   width = '60%',
   span = 4,
+  defaultValue = 0,
   mode = undefined,
 ): FormSchema {
   return {
@@ -222,7 +221,10 @@ export const reliabilityInputFields: ReliabilityInput = {
   organization: DEFAULT_VALUE.TEXT_VALUE,
   substationName: DEFAULT_VALUE.TEXT_VALUE,
   runNo: DEFAULT_VALUE.TEXT_VALUE,
-  operationTime: '2012-05-14 04:46:57',
+  operationTime: new Date()
+    .toISOString()
+    .replace('T', ' ')
+    .replace(/\.\d{3}Z/, ''),
   systemNominalVoltage: DEFAULT_VALUE.INPUT_VALUE,
   model: DEFAULT_VALUE.TEXT_VALUE,
   phase: DEFAULT_VALUE.INPUT_VALUE,
@@ -233,7 +235,10 @@ export const reliabilityInputFields: ReliabilityInput = {
   noLoadCurrent: DEFAULT_VALUE.INPUT_VALUE,
   noLoadLoss: DEFAULT_VALUE.INPUT_VALUE,
   manufacturer: DEFAULT_VALUE.TEXT_VALUE,
-  manufactureDate: '1976-03-26 04:46:57',
+  manufactureDate: new Date()
+    .toISOString()
+    .replace('T', ' ')
+    .replace(/\.\d{3}Z/, ''),
   factoryNo: DEFAULT_VALUE.TEXT_VALUE,
   avgmonthHotspotTemper: DEFAULT_VALUE.INPUT_VALUE,
   thermalModification: 0,
@@ -258,7 +263,7 @@ export const reliabilityInputFields: ReliabilityInput = {
   operatingOrLightningOvervoltage: 0,
   shortTermAidLoad: 0,
   familyHealth: 3,
-  appearanceScore: [],
+  appearanceScore: [1],
   operatingEnvironment: '00',
 };
 
@@ -280,7 +285,28 @@ export const economyInputFields: EconomyInput = {
   annualAvgFailure: DEFAULT_VALUE.INPUT_VALUE,
   pertimeAvgRepairCost: DEFAULT_VALUE.INPUT_VALUE,
   avgRepairTime: DEFAULT_VALUE.INPUT_VALUE,
-  InstallFee: DEFAULT_VALUE.INPUT_VALUE,
+  installFee: DEFAULT_VALUE.INPUT_VALUE,
   residualValueRate: DEFAULT_VALUE.INPUT_VALUE,
   cleaningFeeRate: DEFAULT_VALUE.INPUT_VALUE,
+};
+
+export const devopsInputFields: DecisionInput = {
+  evaluateId: DEFAULT_VALUE.INPUT_VALUE,
+  equipmentValue: 1,
+  substationStatus: 1,
+  loadLevel: 3,
+  transformerLoadRate: DEFAULT_VALUE.INPUT_VALUE,
+  transformerCapacity: DEFAULT_VALUE.INPUT_VALUE,
+  averagePowerFactor: DEFAULT_VALUE.INPUT_VALUE,
+  substationImportance: 1.16,
+  loadImportance: 1,
+  systemRiskCorrectionFactor: -1,
+  unitRiskValue: DEFAULT_VALUE.INPUT_VALUE,
+  repairCost: 10000,
+  manufacturer: 1,
+  faultRepairCostFactor: 1,
+  accidentCost: 20000,
+  personnelInjuryProbability: 0.01,
+  loadSheddingProbability: 0.01,
+  faultProbability: 0.642,
 };

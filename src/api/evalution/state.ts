@@ -3,7 +3,7 @@ import { defHttp } from '/@/utils/http/axios';
 import { StateParam, StateReponse, SaveParam } from './model/stateModel';
 
 enum Api {
-  Evaluate = '/powergrid/status/evaluate',
+  Evaluate = '/powergrid/state/evaluate',
   RecordSave = '/powergrid/evaluate/save',
   GetInputById = '/powergrid/status/retrieve/input',
   GetOutputById = '/powergrid/status/retrieve/output',

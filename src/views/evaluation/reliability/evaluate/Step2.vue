@@ -16,44 +16,47 @@
   import { step1Schemas, step2Schemas, step3Schemas } from './data';
   import { Card } from 'ant-design-vue';
 
-  const [register1, { getFieldsValue: getFieldsValue1, setFieldsValue: setFieldsValue1 }] = useForm(
-    {
-      labelWidth: 200,
-      schemas: step1Schemas,
-      actionColOptions: {
-        span: 24,
-      },
-      showResetButton: false,
-      showAdvancedButton: false,
-      showSubmitButton: false,
+  const [
+    register1,
+    { getFieldsValue: getFieldsValue1, setFieldsValue: setFieldsValue1, validate: validate1 },
+  ] = useForm({
+    labelWidth: 200,
+    schemas: step1Schemas,
+    actionColOptions: {
+      span: 24,
     },
-  );
+    showResetButton: false,
+    showAdvancedButton: false,
+    showSubmitButton: false,
+  });
 
-  const [register2, { getFieldsValue: getFieldsValue2, setFieldsValue: setFieldsValue2 }] = useForm(
-    {
-      labelWidth: 200,
-      schemas: step2Schemas,
-      actionColOptions: {
-        span: 24,
-      },
-      showResetButton: false,
-      showAdvancedButton: false,
-      showSubmitButton: false,
+  const [
+    register2,
+    { getFieldsValue: getFieldsValue2, setFieldsValue: setFieldsValue2, validate: validate2 },
+  ] = useForm({
+    labelWidth: 200,
+    schemas: step2Schemas,
+    actionColOptions: {
+      span: 24,
     },
-  );
+    showResetButton: false,
+    showAdvancedButton: false,
+    showSubmitButton: false,
+  });
 
-  const [register3, { getFieldsValue: getFieldsValue3, setFieldsValue: setFieldsValue3 }] = useForm(
-    {
-      labelWidth: 200,
-      schemas: step3Schemas,
-      actionColOptions: {
-        span: 24,
-      },
-      showResetButton: false,
-      showAdvancedButton: false,
-      showSubmitButton: false,
+  const [
+    register3,
+    { getFieldsValue: getFieldsValue3, setFieldsValue: setFieldsValue3, validate: validate3 },
+  ] = useForm({
+    labelWidth: 200,
+    schemas: step3Schemas,
+    actionColOptions: {
+      span: 24,
     },
-  );
+    showResetButton: false,
+    showAdvancedButton: false,
+    showSubmitButton: false,
+  });
 
   defineProps({
     bordered: {
@@ -62,22 +65,29 @@
     },
   });
 
-  function submitData() {
-    const record1 = getFieldsValue1();
-    const record2 = getFieldsValue2();
-    const record3 = getFieldsValue3();
-    let tem = record3.appearanceScore;
-    record3.appearanceScore = ['0', '0', '0', '0', '0'];
-    for (let i = 0; i < tem.length; i++) {
-      record3.appearanceScore[tem[i] - 1] = '1';
+  async function submitData() {
+    try {
+      await validate1();
+      await validate2();
+      await validate3();
+      const record1 = getFieldsValue1();
+      const record2 = getFieldsValue2();
+      const record3 = getFieldsValue3();
+      let tem = record3.appearanceScore;
+      record3.appearanceScore = ['0', '0', '0', '0', '0'];
+      for (let i = 0; i < tem.length; i++) {
+        record3.appearanceScore[tem[i] - 1] = '1';
+      }
+      record3.appearanceScore = record3.appearanceScore.join('');
+      const record = {
+        ...record1,
+        ...record2,
+        ...record3,
+      };
+      return record;
+    } catch (error) {
+      return null;
     }
-    record3.appearanceScore = record3.appearanceScore.join('');
-    const record = {
-      ...record1,
-      ...record2,
-      ...record3,
-    };
-    return record;
   }
 
   function setFormFields(data) {

@@ -25,7 +25,7 @@
         历史评估结果
       </a-button>
       <a-button ghost type="primary" class="mr-4" @click="goReliability" v-if="current === 2">
-        可靠性寿命预测
+        运维决策
       </a-button>
       <a-button ghost type="primary" class="mr-4" @click="downloadRecord" v-if="current === 2">
         导出
@@ -73,8 +73,7 @@
   import { Steps } from 'ant-design-vue';
   import { useGo } from '/@/hooks/web/usePage';
   import { PageEnum } from '/@/enums/pageEnum';
-  import { useRoute, useRouter } from 'vue-router';
-  import { useMultipleTabStore } from '/@/store/modules/multipleTab';
+  import { useRouter } from 'vue-router';
   import HistoryModal from '../../common/HistoryModal.vue';
   import { useModal } from '/@/components/Modal';
   import { readCsv } from '../../common/xlsx';
@@ -86,26 +85,30 @@
     economyEvaluation,
   } from '/@/api/evalution/economy';
   import { useRouteParams } from '/@/store/modules/route';
+  import { closeTab } from '../../common/common';
+
+  const userId = '-1';
+  const deviceId = '-1';
+
+  const currentPage = PageEnum.Economy_Evaluate_Page;
   const routeParams = useRouteParams();
 
   const go = useGo();
-  const route = useRoute();
   const router = useRouter();
-  const tabStore = useMultipleTabStore();
   const boardered = ref(false);
   const inputRef = ref(null);
   const childRef = ref(null);
   let hasAnalysis = false; // 是否已经提交了
   const { createMessage, createConfirm } = useMessage();
-  const { warning } = createMessage;
+  const { warning, error } = createMessage;
   const results = ref();
 
   const devInfo = routeParams.params.device;
   const src = routeParams.params.src;
   if (!routeParams.params.hasOwnProperty('device')) {
     warning('为选择任何设备, 即将返回主页');
-    go(PageEnum.State_Main_Page);
-    closeTab();
+    closeTab(currentPage, router);
+    go(PageEnum.Economy_Main_Page);
   }
   defineOptions({ name: 'EconomyEvaluatePage' });
 
@@ -117,16 +120,11 @@
     initStep3: false,
   });
 
-  async function closeTab() {
-    const fullPath = route.fullPath;
-    await tabStore.closeTabByKey(fullPath, router);
-  }
-
-  function handleStepPrev() {
+  async function handleStepPrev() {
     current.value--;
     if (current.value === -1) {
+      await closeTab(currentPage, router);
       go(PageEnum.State_Main_Page);
-      closeTab();
     }
   }
 
@@ -145,11 +143,11 @@
     current.value === 2 && hasAnalysis && warning('显示上次的测评结果！');
   }
 
-  function handleGiveup() {
+  async function handleGiveup() {
     current.value = 0;
     hasAnalysis = false;
+    await closeTab(currentPage, router);
     go(PageEnum.Economy_Main_Page);
-    closeTab();
   }
 
   function analysisFile() {
@@ -178,8 +176,12 @@
 
   async function evaluate() {
     if (childRef.value !== null) {
-      const formData = childRef.value.submitData();
-      const evaluateResult = await economyEvaluation({ items: formData });
+      const formData = await childRef.value.submitData();
+      if (formData === null) {
+        error('存在部分字段未填写, 请先填写完整');
+        return;
+      }
+      const evaluateResult = await economyEvaluation({ items: formData, userId, deviceId });
       results.value = evaluateResult;
       hasAnalysis = true;
       current.value++;
@@ -187,14 +189,14 @@
     }
   }
 
-  function goHistory(): void {
+  async function goHistory() {
     go(PageEnum.HistoryManage_Page);
-    closeTab();
   }
 
-  function goReliability() {
-    go(PageEnum.Economy_Main_Page);
-    closeTab();
+  async function goReliability() {
+    await closeTab(currentPage, router);
+    await closeTab(PageEnum.Economy_Main_Page, router);
+    go(PageEnum.Devops_Main_Page);
   }
 
   async function chooseSuccess(evaluateId: string) {

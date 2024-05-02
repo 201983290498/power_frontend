@@ -44,5 +44,5 @@ export function getEconomyRecordInput(params: SaveParam) {
  * @description 查看某测测评的输出
  */
 export function getEconomyRecordOutput(params: SaveParam) {
-  return defHttp.get<EconomyParam>({ url: Api.GetOutputById, params });
+  return defHttp.get<EconomyReponse>({ url: Api.GetOutputById, params });
 }

@@ -38,7 +38,7 @@
   const btnTexts = ref<Array<string>>(['经济性寿命预测', '历史评估结果']);
   const deviceInfo = ref(deviceDemo);
   const maxHeight: Ref<number | string> = ref(-1);
-  const showDetail = ref(false);
+  const showDetail = ref(true);
 
   function selectDevice(device) {
     deviceInfo.value = device;

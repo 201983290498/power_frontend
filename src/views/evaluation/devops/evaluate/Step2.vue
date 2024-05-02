@@ -10,18 +10,19 @@
   import { step1Schemas } from './data';
   import { Card } from 'ant-design-vue';
 
-  const [register1, { getFieldsValue: getFieldsValue1, setFieldsValue: setFieldsValue1 }] = useForm(
-    {
-      labelWidth: 200,
-      schemas: step1Schemas,
-      actionColOptions: {
-        span: 24,
-      },
-      showResetButton: false,
-      showAdvancedButton: false,
-      showSubmitButton: false,
+  const [
+    register1,
+    { getFieldsValue: getFieldsValue1, setFieldsValue: setFieldsValue1, validate },
+  ] = useForm({
+    labelWidth: 200,
+    schemas: step1Schemas,
+    actionColOptions: {
+      span: 24,
     },
-  );
+    showResetButton: false,
+    showAdvancedButton: false,
+    showSubmitButton: false,
+  });
 
   defineProps({
     bordered: {
@@ -30,8 +31,13 @@
     },
   });
 
-  function submitData() {
-    return getFieldsValue1();
+  async function submitData() {
+    try {
+      await validate();
+      return getFieldsValue1();
+    } catch (error) {
+      return null;
+    }
   }
 
   function setFormFields(data) {
