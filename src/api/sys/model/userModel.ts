@@ -58,6 +58,8 @@ export interface getUserPageListParmas {
   page: string | number;
   pageSize: string | number;
   // 上次登录时间
+  sortBy?: string;
+  sortOrder?: string;
   lastLogin?: string;
   // 权限等级
   level?: number | string;
@@ -90,5 +92,17 @@ export interface UseraddParams {
 export interface getUserPageListData {
   pageCount: number; // 总页数
   rowCount: number; // 总的数据数量
-  item: User[]; // 用户总数; // 用户总数
+  items: User[]; // 用户总数; // 用户总数
+}
+export interface SearchUserParams {
+  sortBy?: string;
+  sortOrder?: string;
+  // 所属单位
+  organization?: string;
+  //责任人
+  personCharge?: string;
+  //用户类型
+  role?: string;
+  //用户名
+  userName?: string;
 }

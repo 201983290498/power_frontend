@@ -17,6 +17,12 @@ export const columns: BasicColumn[] = [
     width: 100,
   },
   {
+    title: '设备型号',
+    dataIndex: 'type',
+    width: 100,
+  },
+
+  {
     title: '综合得分',
     dataIndex: 'score',
     width: 100,
@@ -35,30 +41,24 @@ export const columns: BasicColumn[] = [
 // 顶部搜索框
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'equipNo',
-    label: '设备编号',
-    component: 'Input',
-    colProps: { span: 4 },
-  },
-  {
     field: 'equipId',
     label: '设备Id',
     component: 'Input',
     colProps: { span: 4 },
   },
   {
-    field: 'personCharge',
-    label: '评估人',
+    field: 'type',
+    label: '设备型号',
     component: 'Input',
     colProps: { span: 4 },
   },
   {
-    field: 'score',
-    label: '得分(≥)',
+    field: 'location',
+    label: '安装位置',
     component: 'Input',
-    colProps: { span: 3 },
+    colProps: { span: 4 },
   },
-  {
+  /*{
     field: 'status',
     label: '设备状态',
     component: 'Select',
@@ -69,10 +69,16 @@ export const searchFormSchema: FormSchema[] = [
       ],
     },
     colProps: { span: 3 },
-  },
+  },*/
 ];
 // 新增页面的效果
 export const formSchema: FormSchema[] = [
+  {
+    field: 'equipId',
+    required: true,
+    label: '设备Id',
+    component: 'Input',
+  },
   {
     field: 'equipNo',
     required: true,
@@ -80,19 +86,31 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
   },
   {
-    field: 'roleValue',
-    label: '角色值',
+    field: 'personCharge',
+    label: '评估人',
     required: true,
     component: 'Input',
   },
   {
-    field: 'roleValue',
-    label: '角色值',
+    field: 'score',
+    label: '综合得分',
+    required: true,
+    component: 'Input',
+  },
+  {
+    field: 'evaluateTime',
+    label: '评估日期',
+    required: true,
+    component: 'Input',
+  },
+  {
+    field: 'status',
+    label: '状态',
     required: true,
     component: 'Input',
   },
 
-  {
+  /*{
     field: 'status',
     label: '状态',
     component: 'RadioButtonGroup',
@@ -108,5 +126,5 @@ export const formSchema: FormSchema[] = [
     label: '备注',
     field: 'remark',
     component: 'InputTextArea',
-  },
+  },*/
 ];

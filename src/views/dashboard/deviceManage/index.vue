@@ -3,7 +3,10 @@
     <BasicTable @register="registerTable">
       <template #toolbar>
         <!-- 右上角的按钮 -->
+        <!-- 搜索表单 -->
+        <BasicForm :schemas="searchFormSchema" :model="searchModel" @submit="handleSearch" />
         <a-button type="primary" @click="handleCreate"> 新增设备 </a-button>
+        <a-button @click="toggleSortOrder">切换排序</a-button>
       </template>
       <template #action="{ record }">
         <TableAction
@@ -29,22 +32,20 @@
   </Card>
 </template>
 <script lang="ts" setup>
+  defineOptions({ name: 'UserManagement' }); // 定义组件的名称
+  import { defineProps, reactive, ref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getDeviceList } from '/@/api/sys/device';
-  import { PaginationProps } from '/@/components/Table/src/types/pagination';
-
+  import { getDeviceList, searchDevice } from '/@/api/sys/device';
   import { columns, searchFormSchema } from './device.data';
   import { useModal } from '/@/components/Modal';
-  import DeviceModal from './DeviceModal.vue'; // 不是问题
-  import { watch } from 'vue';
+  import DeviceModal from './DeviceModal.vue';
+  import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
   import { Card } from 'ant-design-vue';
 
   defineOptions({ name: 'DeviceManagement' }); // 定义组件的名称
 
   const props = defineProps({
-    // 这里定义的props，在父组件中使用时, 父亲组件向子组件传递值，需要加上v-model
-    // 例如：<DeviceManagement v-model:visible="visible" />
     reSize: {
       type: Boolean,
       default: true,
@@ -55,40 +56,51 @@
     },
   });
 
-  // 监控父组件值的变化
   watch(
     () => props.maxHeight,
     (newValue) => {
       if (newValue !== -1) {
-        setProps({
-          maxHeight: newValue,
-        });
+        setProps({ maxHeight: newValue });
       }
     },
   );
+
   watch(
     () => props.reSize,
     (newValue) => {
-      setProps({
-        canResize: newValue,
-      });
+      if (newValue) {
+        setProps({ canResize: newValue });
+      }
     },
   );
 
-  const [registerModal, { openModal }] = useModal();
+  const searchModel = reactive({
+    equipId: '',
+    type: '',
+    location: '',
+    page: 1,
+    pageSize: 10,
+  });
+  const sortBy = ref('defaultField'); // 默认排序字段
+  const sortOrder = ref('asc'); // 排序方向
 
-  let pagination: PaginationProps = {
-    total: 10,
-    defaultCurrent: 1,
-    defaultPageSize: 10,
+  const [registerModal, { openModal }] = useModal();
+  const pagination = reactive({
+    total: 0,
+    current: 1,
+    pageSize: 10,
     showSizeChanger: true,
     showQuickJumper: true,
     pageSizeOptions: ['5', '10', '20', '30', '40'],
-    showTotal: (total) => `共 ${total} 条数据`,
-  };
+    showTotal: (total, range) => `显示 ${range[0]}-${range[1]} 共 ${total} 条`,
+  });
+
   const tableConfig: Props = {
     title: '设备列表',
-    api: getDeviceList,
+    beforeFetch: (data) => {
+      return data.data;
+    },
+    api: (query) => getDeviceList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }), // 使用箭头函数包装原 API 调用
     afterFetch: (data) => {
       return data.data;
     },
@@ -115,35 +127,39 @@
       fixed: undefined,
     },
   };
-  props.maxHeight === -1 || (tableConfig['maxHeight'] = props.maxHeight);
+  props.maxHeight == -1 || (tableConfig['maxHeight'] = props.maxHeight);
   const [registerTable, { reload, setProps }] = useTable(tableConfig);
+  function toggleSortOrder() {
+    sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
+    reload(); // 重新加载数据，应用新的排序
+  }
 
   function handleCreate() {
-    openModal(true, {
-      isUpdate: false,
-    });
+    openModal(true, { isUpdate: false });
   }
 
-  function handleEdit(record: Recordable) {
-    // 打开modal框
-    openModal(true, {
-      record,
-      isUpdate: true,
-    });
+  function handleEdit(record) {
+    openModal(true, { record, isUpdate: true });
   }
 
-  function handleDelete(record: Recordable) {
-    console.log(record);
+  function handleDelete(record) {
+    console.log('Delete', record);
+  }
+
+  function handleSearch() {
+    searchDevice(searchModel)
+      .then((result) => {
+        // 更新表格数据逻辑，需要根据您的组件具体实现来定
+        pagination.total = result.rowCount; // 使用返回的总数据数量更新分页的总数
+        setTableData(result.items); // 使用 setData 来更新表格数据
+        reload();
+      })
+      .catch((error) => {
+        console.error('Error searching users:', error);
+      });
   }
 
   function handleSuccess() {
-    // 成功之后的处理
-    reload();
+    reload(); // 成功后重新加载数据
   }
-</script>
-
-<script lang="ts">
-  export default {
-    name: 'DeviceManagement',
-  };
 </script>

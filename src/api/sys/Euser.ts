@@ -6,7 +6,7 @@ enum Api {
   AddUser = '/powergrid/sys/user/useradd',
   DeleteUser = '/powergrid/sys/user/delete',
   UpdateUser = '/powergrid/sys/user/update',
-  SearchUser = '/powergrid/sys/user/retrieve',
+  SearchUser = '/powergrid/sys/user',
 }
 const demoParam: getUserPageListParmas = {
   page: 1,
@@ -49,8 +49,19 @@ export const deleteUser = (userName: string) =>
 // 更新用户
 export const updateUser = (userName: number, userData: getUserPageListParmas = demoParam) =>
   defHttp.put<{ message: string }>({ url: `${Api.UpdateUser}/${userName}`, data: userData });
-
-export const SearchUser = (params: SearchUserParams) =>
+// 新增搜索用户的函数
+export const searchUsers = async (params: SearchUserParams, mode: ErrorMessageMode = 'modal') => {
+  return await defHttp.get<getUserPageListData>(
+    {
+      url: Api.SearchUser,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+};
+/*export const SearchUserList = (params: SearchUserParams) =>
   defHttp.get<getUserPageListData>({
     url: Api.SearchUser,
     params,
