@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row w-full h-60 !mt-4" style="background-color: #fff">
+  <div class="flex flex-row w-full h-60 !mt-2" style="background-color: #fff">
     <DeviceDetail class="h-full w-3/4 p-4 pl-10" :device="device" :src="src" />
     <div class="h-full w-1/4 flex p-4">
       <div class="flex flex-col justify-center h-full w-1/2">

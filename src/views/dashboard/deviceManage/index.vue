@@ -39,7 +39,6 @@
   import { watch } from 'vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
   import { Card } from 'ant-design-vue';
-  import { any } from 'vue-types';
 
   defineOptions({ name: 'DeviceManagement' }); // 定义组件的名称
 
