@@ -31,24 +31,30 @@
   import { useGo } from '/@/hooks/web/usePage';
   import { PageEnum } from '/@/enums/pageEnum';
   import { useRouteParams } from '/@/store/modules/route';
+  import { closeTab } from '../../common/common';
+  import { useRouter } from 'vue-router';
   const routeParam = useRouteParams();
 
+  const currentPage = PageEnum.State_Main_Page;
+  const router = useRouter();
   const go = useGo();
   const btnTexts = ref<Array<string>>(['进入状态评估', '历史评估结果']);
   const deviceInfo = ref(deviceDemo);
   const maxHeight: Ref<number | string> = ref(-1);
-  const showDetail = ref(false);
+  const showDetail = ref(true);
 
   function selectDevice(device) {
     deviceInfo.value = device;
     showDetail.value = true;
     maxHeight.value = 200;
   }
-  function goEvaluation() {
+
+  async function goEvaluation() {
     routeParam.setParams({ src: logo, device: deviceInfo.value });
     go(PageEnum.State_Evaluate_Page);
   }
-  function goHistory() {
+  async function goHistory() {
+    await closeTab(currentPage, router);
     go(PageEnum.HistoryManage_Page);
   }
 </script>

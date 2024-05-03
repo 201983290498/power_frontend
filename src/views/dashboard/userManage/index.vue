@@ -67,7 +67,8 @@
       if (newValue) {
         setProps({ canResize: newValue });
       }
-    });
+    },
+  );
 
   const searchModel = reactive({
     userName: '',

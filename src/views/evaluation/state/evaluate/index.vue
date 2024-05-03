@@ -74,8 +74,7 @@
   import { Steps } from 'ant-design-vue';
   import { useGo } from '/@/hooks/web/usePage';
   import { PageEnum } from '/@/enums/pageEnum';
-  import { useRoute, useRouter } from 'vue-router';
-  import { useMultipleTabStore } from '/@/store/modules/multipleTab';
+  import { useRouter } from 'vue-router';
   import HistoryModal from '../../common/HistoryModal.vue';
   import { useModal } from '/@/components/Modal';
   import { readCsv } from '../../common/xlsx';
@@ -83,24 +82,26 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   import { getStateRecordInput, saveStateRcord, stateEvaluation } from '/@/api/evalution/state';
   import { useRouteParams } from '/@/store/modules/route';
+  import { closeTab } from '../../common/common';
+
+  const deviceId = '-1';
+  const userId = '-1';
 
   const go = useGo();
-
+  const router = useRouter();
   const routeParams = useRouteParams();
   const { createMessage, createConfirm } = useMessage();
-  const { warning } = createMessage;
+  const { warning, error } = createMessage;
   const devInfo = routeParams.params.device;
   const src = routeParams.params.src;
+  const currentPage = PageEnum.State_Evaluate_Page;
 
   if (!routeParams.params.hasOwnProperty('device')) {
     warning('为选择任何设备, 即将返回主页');
+    closeTab(PageEnum.State_Evaluate_Page, router);
     go(PageEnum.State_Main_Page);
-    closeTab();
   }
 
-  const route = useRoute();
-  const router = useRouter();
-  const tabStore = useMultipleTabStore();
   const boardered = ref(false);
   const inputRef = ref(null);
   const childRef = ref(null);
@@ -116,19 +117,16 @@
     initStep3: false,
   });
 
-  async function closeTab() {
-    const fullPath = route.fullPath;
-    await tabStore.closeTabByKey(fullPath, router);
-  }
-  function handleStepPrev() {
+  async function handleStepPrev() {
     current.value--;
     if (current.value === -1) {
+      await closeTab(currentPage, router);
       go(PageEnum.State_Main_Page);
-      closeTab();
     }
   }
 
   function handleStepNext() {
+    // 判断是否是否已经提交了
     if (current.value === 1 && !hasAnalysis) {
       createConfirm({
         iconType: 'error',
@@ -143,11 +141,12 @@
     current.value === 2 && hasAnalysis && warning('显示上次的测评结果！');
   }
 
-  function handleGiveup() {
+  async function handleGiveup() {
+    // 放弃按钮，返回测试主页
     current.value = 0;
     hasAnalysis = false;
+    await closeTab(currentPage, router);
     go(PageEnum.State_Main_Page);
-    closeTab();
   }
 
   function analysisFile() {
@@ -176,8 +175,12 @@
 
   async function evaluate() {
     if (childRef.value !== null) {
-      const formData = childRef.value.submitData();
-      const evaluateResult = await stateEvaluation({ items: formData });
+      const formData = await childRef.value.submitData();
+      if (formData === null) {
+        error('存在部分字段未填写, 请先填写完整');
+        return;
+      }
+      const evaluateResult = await stateEvaluation({ items: formData, userId, deviceId });
       results.value = evaluateResult;
       hasAnalysis = true;
       current.value++;
@@ -185,14 +188,14 @@
     }
   }
 
-  function goHistory(): void {
+  async function goHistory() {
     go(PageEnum.HistoryManage_Page);
-    closeTab();
   }
 
-  function goReliability() {
+  async function goReliability() {
+    await closeTab(currentPage, router);
+    await closeTab(PageEnum.State_Main_Page, router);
     go(PageEnum.Reliability_Main_Page);
-    closeTab();
   }
 
   async function chooseSuccess(evaluateId: string) {

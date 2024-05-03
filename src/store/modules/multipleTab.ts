@@ -173,6 +173,7 @@ export const useMultipleTabStore = defineStore({
 
     async closeTab(tab: RouteLocationNormalized, router: Router) {
       const close = (route: RouteLocationNormalized) => {
+        // 关闭页面函数
         const { fullPath, meta: { affix } = {} } = route;
         if (affix) {
           return;

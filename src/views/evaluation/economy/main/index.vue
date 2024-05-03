@@ -12,6 +12,13 @@
       </div>
     </template>
     <DeviceManagement @chooseDevice="selectDevice" :re-size="true" :max-height="maxHeight" />
+    <Card class="!mt-1">
+      <template #title> 依赖测评 </template>
+      <template #extra>
+        <a-button type="primary" @click="goEvaluation"> 选择记录 </a-button>
+      </template>
+      <div class="flex justify-between items-center"> demo </div>
+    </Card>
     <DeviceInfo
       :src="logo"
       :buttonTexts="btnTexts"
@@ -32,13 +39,15 @@
   import { useGo } from '/@/hooks/web/usePage';
   import { PageEnum } from '/@/enums/pageEnum';
   import { useRouteParams } from '/@/store/modules/route';
+  import { Card } from 'ant-design-vue';
+
   const routeParam = useRouteParams();
 
   const go = useGo();
   const btnTexts = ref<Array<string>>(['经济性寿命预测', '历史评估结果']);
   const deviceInfo = ref(deviceDemo);
   const maxHeight: Ref<number | string> = ref(-1);
-  const showDetail = ref(false);
+  const showDetail = ref(true);
 
   function selectDevice(device) {
     deviceInfo.value = device;

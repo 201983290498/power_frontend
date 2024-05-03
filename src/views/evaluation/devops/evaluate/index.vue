@@ -73,60 +73,58 @@
   import { Steps } from 'ant-design-vue';
   import { useGo } from '/@/hooks/web/usePage';
   import { PageEnum } from '/@/enums/pageEnum';
-  import { useRoute, useRouter } from 'vue-router';
-  import { useMultipleTabStore } from '/@/store/modules/multipleTab';
+  import { useRouter } from 'vue-router';
   import HistoryModal from '../../common/HistoryModal.vue';
   import { useModal } from '/@/components/Modal';
   import { readCsv } from '../../common/xlsx';
-  import { mapObjectToInterface, economyInputFields } from '/@/utils/listToFiled';
+  import { mapObjectToInterface, devopsInputFields } from '/@/utils/listToFiled';
   import { useMessage } from '/@/hooks/web/useMessage';
   import {
-    getEconomyRecordInput,
+    getDevopsRecordInput,
     saveEconomyRcord,
-    economyEvaluation,
-  } from '/@/api/evalution/economy';
+    devopsEvaluation,
+  } from '/@/api/evalution/devops';
   import { useRouteParams } from '/@/store/modules/route';
-  const routeParams = useRouteParams();
+  import { closeTab } from '../../common/common';
 
+  const userId = '-1';
+  const deviceId = '-1';
+
+  const routeParams = useRouteParams();
+  const currentPage = PageEnum.Devops_Evaluate_Page;
   const go = useGo();
-  const route = useRoute();
   const router = useRouter();
-  const tabStore = useMultipleTabStore();
   const boardered = ref(false);
   const inputRef = ref(null);
   const childRef = ref(null);
   let hasAnalysis = false; // 是否已经提交了
   const { createMessage, createConfirm } = useMessage();
-  const { warning } = createMessage;
+  const { warning, error } = createMessage;
   const results = ref();
 
-  const devInfo = routeParams.params.device;
-  const src = routeParams.params.src;
+  const devInfo = routeParams.params.device; // 获取设备信息
+  const src = routeParams.params.src; // 获取设备图片
+
   if (!routeParams.params.hasOwnProperty('device')) {
     warning('为选择任何设备, 即将返回主页');
-    go(PageEnum.State_Main_Page);
-    closeTab();
+    closeTab(currentPage, router);
+    go(PageEnum.Devops_Main_Page);
   }
   defineOptions({ name: 'EconomyEvaluatePage' });
 
   const current = ref(0);
-  const [registerModal, { openModal }] = useModal();
+  const [registerModal, { openModal }] = useModal(); // 打开modal框
 
   const state = reactive({
     initStep2: false,
     initStep3: false,
   });
 
-  async function closeTab() {
-    const fullPath = route.fullPath;
-    await tabStore.closeTabByKey(fullPath, router);
-  }
-
-  function handleStepPrev() {
+  async function handleStepPrev() {
     current.value--;
     if (current.value === -1) {
-      go(PageEnum.State_Main_Page);
-      closeTab();
+      await closeTab(currentPage, router);
+      go(PageEnum.Devops_Main_Page);
     }
   }
 
@@ -145,11 +143,11 @@
     current.value === 2 && hasAnalysis && warning('显示上次的测评结果！');
   }
 
-  function handleGiveup() {
+  async function handleGiveup() {
     current.value = 0;
     hasAnalysis = false;
-    go(PageEnum.Economy_Main_Page);
-    closeTab();
+    await closeTab(currentPage, router);
+    go(PageEnum.Devops_Main_Page);
   }
 
   function analysisFile() {
@@ -163,7 +161,7 @@
 
   function saveRecord() {
     hasAnalysis && saveEconomyRcord({ evaluateId: results.value?.evaluateId });
-    !hasAnalysis && warning('请先测评！');
+    !hasAnalysis && error('请先测评！没有任何测评记录前无法保存。');
   }
 
   function historyFilledIn() {
@@ -178,8 +176,12 @@
 
   async function evaluate() {
     if (childRef.value !== null) {
-      const formData = childRef.value.submitData();
-      const evaluateResult = await economyEvaluation({ items: formData });
+      const formData = await childRef.value.submitData();
+      if (formData === null) {
+        error('存在部分字段未填写, 请先填写完整');
+        return;
+      }
+      const evaluateResult = await devopsEvaluation({ items: formData, userId, deviceId });
       results.value = evaluateResult;
       hasAnalysis = true;
       current.value++;
@@ -187,18 +189,17 @@
     }
   }
 
-  function goHistory(): void {
+  async function goHistory() {
     go(PageEnum.HistoryManage_Page);
-    closeTab();
   }
 
-  function goReliability() {
-    go(PageEnum.Economy_Main_Page);
-    closeTab();
+  async function goReliability() {
+    await closeTab(currentPage, router);
+    // TODO 待定
   }
 
   async function chooseSuccess(evaluateId: string) {
-    const formData = await getEconomyRecordInput({ evaluateId });
+    const formData = await getDevopsRecordInput({ evaluateId });
     childRef.value?.setFormFields(formData);
   }
 
@@ -215,7 +216,7 @@
     if (typeof dataList[0] === 'object') {
       let result: any = mapObjectToInterface(
         dataList[0],
-        JSON.parse(JSON.stringify(economyInputFields)),
+        JSON.parse(JSON.stringify(devopsInputFields)),
       );
       childRef.value !== null && childRef.value.setFormFields(result);
     }
@@ -223,7 +224,7 @@
 </script>
 <script lang="ts">
   export default {
-    name: 'EconomyEvaluatePage',
+    name: 'DevopsEvaluatePage',
   };
 </script>
 <style lang="less" scoped>

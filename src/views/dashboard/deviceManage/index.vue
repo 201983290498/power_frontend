@@ -40,6 +40,9 @@
   import DeviceModal from './DeviceModal.vue';
   import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
+  import { Card } from 'ant-design-vue';
+
+  defineOptions({ name: 'DeviceManagement' }); // 定义组件的名称
 
   const props = defineProps({
     reSize: {

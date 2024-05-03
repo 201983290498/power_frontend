@@ -37,7 +37,7 @@
   const btnTexts = ref<Array<string>>(['可靠性寿命预测', '历史评估结果']);
   const deviceInfo = ref(deviceDemo);
   const maxHeight: Ref<number | string> = ref(-1);
-  const showDetail = ref(false);
+  const showDetail = ref(true);
 
   function selectDevice(device) {
     deviceInfo.value = device;
@@ -45,11 +45,11 @@
     maxHeight.value = 200;
     // 渲染详细信息
   }
-  function goEvaluation() {
+  async function goEvaluation() {
     routeParam.setParams({ src: logo, device: deviceInfo.value });
     go(PageEnum.Reliability_Evaluate_Page);
   }
-  function goHistory() {
+  async function goHistory() {
     go(PageEnum.HistoryManage_Page);
   }
 </script>
