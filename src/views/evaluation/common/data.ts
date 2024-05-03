@@ -22,3 +22,10 @@ export class OptionPair {
     return { label: this.label, value: this.value };
   }
 }
+
+export interface EvaluateId {
+  stateId?: string | number | undefined;
+  reliabilityId?: string | number | undefined;
+  economicId?: string | number | undefined;
+  devopsId?: string | number | undefined;
+}
