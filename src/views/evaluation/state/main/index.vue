@@ -33,18 +33,23 @@
   import { useRouteParams } from '/@/store/modules/route';
   import { closeTab } from '../../common/common';
   import { useRouter } from 'vue-router';
+  import { useEvaluateStore } from '/@/store/modules/evaluate';
   const routeParam = useRouteParams();
 
   const currentPage = PageEnum.State_Main_Page;
   const router = useRouter();
   const go = useGo();
   const btnTexts = ref<Array<string>>(['进入状态评估', '历史评估结果']);
-  const deviceInfo = ref(deviceDemo);
   const maxHeight: Ref<number | string> = ref(-1);
   const showDetail = ref(true);
+  const deviceInfo = ref<Partial<any> | null>(deviceDemo);
+  const evaluateState = useEvaluateStore();
+
+  evaluateState.getDeviceInfo !== null && devicePreProcess();
 
   function selectDevice(device) {
     deviceInfo.value = device;
+    evaluateState.setDeviceInfo(device);
     showDetail.value = true;
     maxHeight.value = 200;
   }
@@ -53,8 +58,13 @@
     routeParam.setParams({ src: logo, device: deviceInfo.value });
     go(PageEnum.State_Evaluate_Page);
   }
+
   async function goHistory() {
     await closeTab(currentPage, router);
     go(PageEnum.HistoryManage_Page);
+  }
+
+  function devicePreProcess() {
+    deviceInfo.value = evaluateState.getDeviceInfo;
   }
 </script>

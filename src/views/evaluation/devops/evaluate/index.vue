@@ -102,8 +102,8 @@
   const { warning, error } = createMessage;
   const results = ref();
 
-  const devInfo = routeParams.params.device; // 获取设备信息
-  const src = routeParams.params.src; // 获取设备图片
+  const devInfo = routeParams.getParams?.device; // 获取设备信息
+  const src = routeParams.getParams?.src; // 获取设备图片
 
   if (!routeParams.params.hasOwnProperty('device')) {
     warning('为选择任何设备, 即将返回主页');

@@ -61,12 +61,12 @@
   import { useRouteParams } from '/@/store/modules/route';
   import { Card, FormItem, Input, Form } from 'ant-design-vue';
   import { reactive } from 'vue';
-  import { EvaluateId } from '../../common/data';
+  import { EvaluatedIds } from '../../common/data';
   import HistoryModal from '../../common/HistoryModal.vue';
   import { useModal } from '/@/components/Modal';
 
   const routeParam = useRouteParams();
-  const formData = reactive<EvaluateId>({
+  const formData = reactive<EvaluatedIds>({
     stateId: '',
     reliabilityId: '',
   });
@@ -103,7 +103,7 @@
     });
   }
 
-  async function chooseSuccess(selectID: EvaluateId) {
+  async function chooseSuccess(selectID: EvaluatedIds) {
     formData.stateId = selectID.stateId;
     formData.reliabilityId = selectID.reliabilityId;
     console.log('选择成功', selectID);

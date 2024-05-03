@@ -12,7 +12,7 @@
 </template>
 <script lang="ts" setup>
   import { ref, nextTick } from 'vue';
-  import { EvaluateId } from './data';
+  import { EvaluatedIds } from './data';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicTable } from '/@/components/Table';
 
@@ -22,7 +22,7 @@
   });
 
   const selectTable = ref<InstanceType<typeof BasicTable> | undefined>();
-  const evaluateId: EvaluateId = {};
+  const evaluateId: EvaluatedIds = {};
 
   const onFullscreen = async () => {
     await nextTick();

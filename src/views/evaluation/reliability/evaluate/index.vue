@@ -100,8 +100,8 @@
   const { createMessage, createConfirm } = useMessage();
   const { warning, error } = createMessage;
   const results = ref();
-  const devInfo = routeParams.params.device;
-  const src = routeParams.params.src;
+  const devInfo = routeParams.getParams?.device;
+  const src = routeParams.getParams?.src;
   const currentPage = PageEnum.Reliability_Evaluate_Page;
 
   if (!routeParams.params.hasOwnProperty('device')) {

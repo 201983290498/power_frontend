@@ -92,8 +92,8 @@
   const routeParams = useRouteParams();
   const { createMessage, createConfirm } = useMessage();
   const { warning, error } = createMessage;
-  const devInfo = routeParams.params.device;
-  const src = routeParams.params.src;
+  const devInfo = routeParams.getParams?.device;
+  const src = routeParams.getParams?.src;
   const currentPage = PageEnum.State_Evaluate_Page;
 
   if (!routeParams.params.hasOwnProperty('device')) {

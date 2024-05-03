@@ -1,4 +1,4 @@
-import { Device } from '/#/baseClass';
+import { Device, EvaluateId } from '/#/baseClass';
 
 export const deviceDemo: Partial<Device> = {
   equipNo: 'ut commodo',
@@ -23,9 +23,9 @@ export class OptionPair {
   }
 }
 
-export interface EvaluateId {
-  stateId?: string | number | undefined;
-  reliabilityId?: string | number | undefined;
-  economicId?: string | number | undefined;
-  devopsId?: string | number | undefined;
+export interface EvaluatedIds {
+  stateId?: EvaluateId;
+  reliabilityId?: EvaluateId;
+  economicId?: EvaluateId;
+  devopsId?: EvaluateId;
 }
