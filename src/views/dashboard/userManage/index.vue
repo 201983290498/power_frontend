@@ -32,7 +32,6 @@
   </Card>
 </template>
 <script lang="ts" setup>
-  defineOptions({ name: 'UserManagement' }); // 定义组件的名称
   import { defineProps, reactive, ref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getUserList, searchUsers } from '/@/api/sys/Euser';
@@ -155,4 +154,9 @@
   function handleSuccess() {
     reload(); // 成功后重新加载数据
   }
+</script>
+<script lang="ts">
+  export default {
+    name: 'UserManagement',
+  };
 </script>
