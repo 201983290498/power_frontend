@@ -83,6 +83,7 @@
   import { getStateRecordInput, saveStateRcord, stateEvaluation } from '/@/api/evalution/state';
   import { useRouteParams } from '/@/store/modules/route';
   import { closeTab } from '../../common/common';
+  import { useEvaluateStore } from '/@/store/modules/evaluate';
 
   const deviceId = '-1';
   const userId = '-1';
@@ -159,7 +160,10 @@
   }
 
   function saveRecord() {
-    hasAnalysis && saveStateRcord({ evaluateId: results.value?.evaluateId });
+    hasAnalysis &&
+      saveStateRcord({ evaluateId: results.value?.evaluateId }).then(() => {
+        useEvaluateStore().clearRecord();
+      });
     !hasAnalysis && warning('请先测评！');
   }
 

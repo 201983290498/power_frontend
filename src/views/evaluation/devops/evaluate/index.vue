@@ -86,6 +86,7 @@
   } from '/@/api/evalution/devops';
   import { useRouteParams } from '/@/store/modules/route';
   import { closeTab } from '../../common/common';
+  import { useEvaluateStore } from '/@/store/modules/evaluate';
 
   const userId = '-1';
   const deviceId = '-1';
@@ -160,7 +161,10 @@
   }
 
   function saveRecord() {
-    hasAnalysis && saveEconomyRcord({ evaluateId: results.value?.evaluateId });
+    hasAnalysis &&
+      saveEconomyRcord({ evaluateId: results.value?.evaluateId }).then(() => {
+        useEvaluateStore().clearRecord();
+      });
     !hasAnalysis && error('请先测评！没有任何测评记录前无法保存。');
   }
 

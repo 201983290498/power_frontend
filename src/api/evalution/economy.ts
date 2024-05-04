@@ -27,7 +27,7 @@ export function economyEvaluation(params: EconomyParam, mode: ErrorMessageMode =
 /**
  * @description: 保存某测测评的输入
  */
-export function saveEconomyRcord(params: SaveParam) {
+export async function saveEconomyRcord(params: SaveParam) {
   return defHttp.get<any>({ url: Api.RecordSave, params });
 }
 

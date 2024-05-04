@@ -86,6 +86,7 @@
   } from '/@/api/evalution/reliability';
   import { useRouteParams } from '/@/store/modules/route';
   import { closeTab } from '../../common/common';
+  import { useEvaluateStore } from '/@/store/modules/evaluate';
 
   const userId = '-1';
   const deviceId = '-1';
@@ -160,7 +161,10 @@
   }
 
   function saveRecord() {
-    hasAnalysis && saveReliableRcord({ evaluateId: results.value?.evaluateId });
+    hasAnalysis &&
+      saveReliableRcord({ evaluateId: results.value?.evaluateId }).then(() => {
+        useEvaluateStore().clearRecord();
+      });
     !hasAnalysis && warning('请先测评！');
   }
 

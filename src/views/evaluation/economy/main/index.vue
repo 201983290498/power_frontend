@@ -11,33 +11,7 @@
         </span>
       </div>
     </template>
-    <DeviceManagement @chooseDevice="selectDevice" :re-size="false" :max-height="maxHeight" />
-    <Card class="!mt-1">
-      <template #title> 依赖测评 </template>
-      <template #extra>
-        <a-button type="primary" @click="chooseEvaluationRecord"> 选择测评记录 </a-button>
-      </template>
-      <Form :model="formData" :label-col="{ span: 4 }" :wrapper-col="{ span: 6 }">
-        <FormItem
-          label="状态评估结果数据选择"
-          :colon="false"
-          :rules="[{ required: true, message: '请点击右上角选择状态评估结果数据!' }]"
-        >
-          <Input :value="formData.stateId" :disabled="true" placeholder="请选择状态测评的ID" />
-        </FormItem>
-        <FormItem
-          label="可靠性寿命评估数据选择"
-          :colon="false"
-          :rules="[{ required: true, message: '请点击右上角选择可靠性寿命评估测试!' }]"
-        >
-          <Input
-            :value="formData.reliabilityId"
-            placeholder="请选择可靠性寿命评估测试的ID"
-            :disabled="true"
-          />
-        </FormItem>
-      </Form>
-    </Card>
+    <DeviceManagement @chooseDevice="selectDevice" :re-size="true" :max-height="maxHeight" />
     <DeviceInfo
       :src="logo"
       :buttonTexts="btnTexts"
@@ -46,7 +20,6 @@
       :device="deviceInfo"
       v-if="showDetail"
     />
-    <HistoryModal @register="registerModal" @success="chooseSuccess" />
   </PageWrapper>
 </template>
 <script lang="ts" setup>
@@ -59,23 +32,19 @@
   import { useGo } from '/@/hooks/web/usePage';
   import { PageEnum } from '/@/enums/pageEnum';
   import { useRouteParams } from '/@/store/modules/route';
-  import { Card, FormItem, Input, Form } from 'ant-design-vue';
-  import { reactive } from 'vue';
-  import { EvaluatedIds } from '../../common/data';
-  import HistoryModal from '../../common/HistoryModal.vue';
-  import { useModal } from '/@/components/Modal';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { useEvaluateStore } from '/@/store/modules/evaluate';
 
   const routeParam = useRouteParams();
-  const formData = reactive<EvaluatedIds>({
-    stateId: '',
-    reliabilityId: '',
-  });
-  const [registerModal, { openModal }] = useModal();
   const go = useGo();
   const btnTexts = ref<Array<string>>(['经济性寿命预测', '历史评估结果']);
-  const deviceInfo = ref(deviceDemo);
+  const deviceInfo = ref<Partial<any> | null>(deviceDemo);
   const maxHeight: Ref<number | string> = ref(-1);
   const showDetail = ref(true);
+  const { createMessage } = useMessage();
+  const evaluateState = useEvaluateStore();
+
+  evaluateState.getDeviceInfo !== null && devicePreProcess();
 
   function selectDevice(device) {
     deviceInfo.value = device;
@@ -93,19 +62,9 @@
     go(PageEnum.HistoryManage_Page);
   }
 
-  function chooseEvaluationRecord() {
-    // TODO
-    openModal(true, {
-      equipId: '1', // 设备Id
-      sortField: 'createTime', // 按照时间
-      decending: true, // 降序
-      searched: true, // 是否排序
-    });
-  }
-
-  async function chooseSuccess(selectID: EvaluatedIds) {
-    formData.stateId = selectID.stateId;
-    formData.reliabilityId = selectID.reliabilityId;
-    console.log('选择成功', selectID);
+  function devicePreProcess() {
+    createMessage.info('默认选择上次测评的设备');
+    deviceInfo.value = evaluateState.getDeviceInfo;
+    showDetail.value = true;
   }
 </script>

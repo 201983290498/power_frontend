@@ -27,7 +27,7 @@ export function reliableEvaluation(params: ReliabilityParam, mode: ErrorMessageM
 /**
  * @description: 保存某测测评的输入
  */
-export function saveReliableRcord(params: SaveParam) {
+export async function saveReliableRcord(params: SaveParam) {
   return defHttp.get<any>({ url: Api.RecordSave, params });
 }
 

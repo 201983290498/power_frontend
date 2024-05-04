@@ -32,6 +32,7 @@
   import { PageEnum } from '/@/enums/pageEnum';
   import { useRouteParams } from '/@/store/modules/route';
   import { useEvaluateStore } from '/@/store/modules/evaluate';
+  import { useMessage } from '/@/hooks/web/useMessage';
 
   const routeParam = useRouteParams();
   const go = useGo();
@@ -40,6 +41,7 @@
   const maxHeight: Ref<number | string> = ref(-1);
   const showDetail = ref(true);
   const evaluateState = useEvaluateStore();
+  const { createMessage } = useMessage();
 
   evaluateState.getDeviceInfo !== null && devicePreProcess();
 
@@ -61,6 +63,8 @@
   }
 
   function devicePreProcess() {
+    createMessage.info('默认选择上次测评的设备');
     deviceInfo.value = evaluateState.getDeviceInfo;
+    showDetail.value = true;
   }
 </script>

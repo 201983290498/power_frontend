@@ -34,8 +34,9 @@
   import { closeTab } from '../../common/common';
   import { useRouter } from 'vue-router';
   import { useEvaluateStore } from '/@/store/modules/evaluate';
-  const routeParam = useRouteParams();
+  import { useMessage } from '/@/hooks/web/useMessage';
 
+  const routeParam = useRouteParams();
   const currentPage = PageEnum.State_Main_Page;
   const router = useRouter();
   const go = useGo();
@@ -44,6 +45,7 @@
   const showDetail = ref(true);
   const deviceInfo = ref<Partial<any> | null>(deviceDemo);
   const evaluateState = useEvaluateStore();
+  const { createMessage } = useMessage();
 
   evaluateState.getDeviceInfo !== null && devicePreProcess();
 
@@ -65,6 +67,8 @@
   }
 
   function devicePreProcess() {
+    createMessage.info('默认选择上次测评的设备');
     deviceInfo.value = evaluateState.getDeviceInfo;
+    showDetail.value = true;
   }
 </script>

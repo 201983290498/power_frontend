@@ -1,6 +1,10 @@
 import { defineStore } from 'pinia';
 import { Device, EvaluateId, User } from '/#/baseClass';
 import { EvaluatedIds } from '/@/views/evaluation/common/data';
+import { useMessage } from '/@/hooks/web/useMessage';
+import { EvaluateStatusEnum } from '/@/enums/evaluateEnum';
+
+const { createConfirm } = useMessage();
 
 interface EvaluateStore {
   ids: EvaluatedIds;
@@ -65,6 +69,52 @@ export const useEvaluateStore = defineStore({
     },
     setDeviceInfo(deviceId: Partial<Device>) {
       this.deviceInfo = deviceId;
+    },
+    checkContinue(status: EvaluateStatusEnum) {
+      const ids = this.getEvaluateIds;
+      switch (status) {
+        case EvaluateStatusEnum.State:
+          break;
+        case EvaluateStatusEnum.Reliability:
+          if (ids[1] === -1) {
+            createConfirm({
+              iconType: 'warning',
+              title: '提示',
+              content: '您已经跳过状态评估测试。',
+            });
+          }
+          break;
+        case EvaluateStatusEnum.Economy:
+          if (ids[0] === -1 || ids[1] === -1) {
+            createConfirm({
+              iconType: 'warning',
+              title: '提示',
+              content: '请选择本次测评依赖的状态评估测试和可靠性评估测试。',
+            });
+          }
+          break;
+        case EvaluateStatusEnum.Devops:
+          if (ids[2] === -1 || ids[3] === -1 || ids[0] === -1) {
+            createConfirm({
+              iconType: 'warning',
+              title: '提示',
+              content: '请选择本次测评依赖的状态评估测试、可靠性评估测评和经济型测评。',
+            });
+            return false;
+          }
+          break;
+        case EvaluateStatusEnum.Others:
+          break;
+      }
+      return true;
+    },
+    clearRecord() {
+      this.ids = {
+        stateId: null,
+        economicId: null,
+        reliabilityId: null,
+        devopsId: null,
+      };
     },
   },
 });

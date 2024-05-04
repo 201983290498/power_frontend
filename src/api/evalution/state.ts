@@ -27,7 +27,7 @@ export function stateEvaluation(params: StateParam, mode: ErrorMessageMode = 'mo
 /**
  * @description: 保存某测测评的输入
  */
-export function saveStateRcord(params: SaveParam) {
+export async function saveStateRcord(params: SaveParam) {
   return defHttp.get<any>({ url: Api.RecordSave, params });
 }
 
@@ -36,13 +36,13 @@ export function saveStateRcord(params: SaveParam) {
  * @param params 测评id
  * @returns 每次测评的输入
  */
-export function getStateRecordInput(params: SaveParam) {
+export async function getStateRecordInput(params: SaveParam) {
   return defHttp.get<StateParam>({ url: Api.GetInputById, params });
 }
 
 /**
  * @description 查看某测测评的输出
  */
-export function getStateRecordOutput(params: SaveParam) {
+export async function getStateRecordOutput(params: SaveParam) {
   return defHttp.get<StateReponse>({ url: Api.GetOutputById, params });
 }
