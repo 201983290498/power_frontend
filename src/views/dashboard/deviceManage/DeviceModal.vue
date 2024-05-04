@@ -1,70 +1,73 @@
 <template>
   <BasicModal v-bind="$attrs" @register="registerModal" :title="getTitle" @ok="handleSubmit">
-    <BasicForm @register="registerForm" />
+    <template v-if="!isView">
+      <BasicForm @register="registerForm" />
+    </template>
+    <template v-else>
+      <BasicForm :schemas="Viewform" :model="formData" />
+    </template>
   </BasicModal>
 </template>
 <script lang="ts" setup>
   import { ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form';
-  import { formSchema } from './device.data';
+  import { formSchema, Viewform } from './device.data';
   import { addDevice, updateDevice } from '/@/api/sys/device';
 
   const emit = defineEmits(['success', 'register']);
 
   const isUpdate = ref(true);
-
+  const isView = ref(false);
   const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
     labelWidth: 100,
     baseColProps: { span: 24 },
     schemas: formSchema,
     showActionButtonGroup: false,
   });
-
+  const formData = ref({}); // Shared data object
   const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
     resetFields();
     setModalProps({ confirmLoading: false });
     isUpdate.value = !!data?.isUpdate;
-
-    if (unref(isUpdate)) {
-      setFieldsValue({
-        ...data.record,
-      });
+    if (data) {
+      formData.value = { ...data.record };
+      isView.value = !!data.isView;
+      if (data.isUpdate) {
+        setFieldsValue({
+          ...data.record,
+        });
+      }
     }
+    isView.value = !!data?.isView;
   });
-  const getTitle = computed(() => (!unref(isUpdate) ? '新增设备' : '编辑设备'));
 
-  /*async function handleSubmit() {
-    try {
-      const values = await validate();
-      setModalProps({ confirmLoading: true });
-      // TODO custom api
-      console.log(values);
-      closeModal();
-      emit('success');
-    } finally {
-      setModalProps({ confirmLoading: false });
-    }
-  }*/
+  const getTitle = computed(() => {
+    return unref(isView) ? '查看设备' : isUpdate.value ? '编辑设备' : '新增设备';
+  });
   async function handleSubmit() {
+    if (unref(isView)) {
+      closeModal();
+      return;
+    }
     try {
       const values = await validate();
       setModalProps({ confirmLoading: true });
 
       if (isUpdate.value) {
-        // 如果 isUpdate 为 true，更新用户信息
+        // 如果 isUpdate 为 true，更新设备信息
         const result = await updateDevice(values.id, values); // 确保 values 包含 id 和其他必要信息
-        console.log('User updated:', result);
+        console.log('Device updated:', result);
       } else {
-        // 否则，添加新用户
+        // 否则，添加新设备
         const result = await addDevice(values);
-        console.log('New user added:', result);
+        console.log('New device added:', result);
       }
 
       closeModal();
       emit('success');
     } catch (error) {
-      console.error('Failed to submit user data:', error);
+      console.error('Failed to submit device data:', error);
     } finally {
       setModalProps({ confirmLoading: false });
     }

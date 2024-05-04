@@ -24,6 +24,11 @@
                 confirm: handleDelete.bind(null, record),
               },
             },
+            {
+              icon: 'ant-design:search-outlined',
+              color: 'black',
+              onClick: handleView.bind(null, record),
+            },
           ]"
         />
       </template>
@@ -35,17 +40,11 @@
   import { defineProps, reactive, ref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getDeviceList, searchDevice, viewDevice } from '/@/api/sys/device';
-  import { columns, searchFormSchema,viewFormSchema } from './device.data';
+  import { columns, searchFormSchema } from './device.data';
   import { useModal } from '/@/components/Modal';
   import DeviceModal from './DeviceModal.vue';
   import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
-<<<<<<< HEAD
-=======
-  import { BasicForm } from '/@/components/Form';
-
-  defineOptions({ name: 'DeviceManagement' }); // 定义组件的名称
->>>>>>> 325c4f2fccd92c6a0f7ff3b3c2c73ee5c955dc99
 
   const props = defineProps({
     reSize: {
@@ -83,6 +82,7 @@
     page: 1,
     pageSize: 10,
   });
+
   const sortBy = ref('defaultField'); // 默认排序字段
   const sortOrder = ref('asc'); // 排序方向
 
@@ -99,9 +99,6 @@
 
   const tableConfig: Props = {
     title: '设备列表',
-    beforeFetch: (data) => {
-      return data.data;
-    },
     api: (query) => getDeviceList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }), // 使用箭头函数包装原 API 调用
     afterFetch: (data) => {
       return data.data;
@@ -143,6 +140,10 @@
   function handleEdit(record) {
     openModal(true, { record, isUpdate: true });
   }
+  function handleView(record) {
+    // Assuming `viewDevice` is a function that fetches device details from the API
+    openModal(true, { record, isView: true }); // Ensure the modal knows it's in view mode
+  }
 
   function handleDelete(record) {
     console.log('Delete', record);
@@ -153,16 +154,12 @@
       .then((result) => {
         // 更新表格数据逻辑，需要根据您的组件具体实现来定
         pagination.total = result.rowCount; // 使用返回的总数据数量更新分页的总数
-        setTableData(result.items); // 使用 setData 来更新表格数据
+        setTableData(result.items); // // 更新表格数据
         reload();
       })
       .catch((error) => {
         console.error('Error searching users:', error);
       });
-  }
-
-  function handleSuccess() {
-    reload(); // 成功后重新加载数据
   }
 </script>
 <script lang="ts">
