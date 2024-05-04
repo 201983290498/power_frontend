@@ -36,7 +36,7 @@
         },
         tooltip: {},
         radar: {
-          radius: '60%',
+          radius: '80%',
           splitNumber: 8,
           indicator: [
             {

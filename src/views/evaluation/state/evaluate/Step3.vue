@@ -11,24 +11,24 @@
     </Card>
     <Card
       style="width: 100%"
-      :body-style="{ padding: '0px', background: bkcolor }"
+      :body-style="{ padding: '15px' }"
       class="!mt-4 !mb-15"
       title="详细信息"
     >
-      <CardGrid class="grid">
-        <span class="text-xl">{{ props.result.personCharge }}</span> <br />
+      <CardGrid class="grid" :style="{ backgroundColor: bkcolor }">
+        <span class="text-3xl">{{ props.result.personCharge }}</span> <br />
         <span class="text-sm">测试负责人</span>
       </CardGrid>
-      <CardGrid class="grid">
-        <span class="text-xl">{{ props.result.evaluateTime }}</span> <br />
+      <CardGrid class="grid" :style="{ backgroundColor: bkcolor }">
+        <span class="text-3xl">{{ props.result.evaluateTime }}</span> <br />
         <span>测试时间</span>
       </CardGrid>
-      <CardGrid class="grid">
-        <span class="text-xl">{{ props.result.statusValue }}</span> <br />
+      <CardGrid class="grid" :style="{ backgroundColor: bkcolor }">
+        <span class="text-3xl">{{ props.result.statusValue }}</span> <br />
         <span>设备状态值</span>
       </CardGrid>
-      <CardGrid class="grid">
-        <span class="text-xl">{{ props.result.status }}</span> <br />
+      <CardGrid class="grid" :style="{ backgroundColor: bkcolor }">
+        <span class="text-3xl">{{ props.result.status }}</span> <br />
         <span>设备状态</span>
       </CardGrid>
     </Card>
