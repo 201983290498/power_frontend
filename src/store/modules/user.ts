@@ -15,6 +15,8 @@ import { usePermissionStore } from '/@/store/modules/permission';
 import { RouteRecordRaw } from 'vue-router';
 import { PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic';
 import { h } from 'vue';
+import { User } from '/#/baseClass';
+import { useEvaluateStore } from './evaluate';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -125,7 +127,11 @@ export const useUserStore = defineStore({
     async getUserInfoAction(): Promise<UserInfo | null> {
       if (!this.getToken) return null;
       const userInfo = await getUserInfo(); // 获取用户信息
-      console.log('userInfo', userInfo);
+      const userData: Partial<User> = {};
+      Object.keys(userInfo).forEach((key) => {
+        userData[key] = userInfo[key];
+      });
+      useEvaluateStore().setUserInfo(userData);
       const { role = RoleEnum.NORMAL } = userInfo;
       const roles = [role];
       const roleList = roles as RoleEnum[];

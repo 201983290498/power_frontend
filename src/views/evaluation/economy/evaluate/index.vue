@@ -103,8 +103,8 @@
   const { warning, error } = createMessage;
   const results = ref();
 
-  const devInfo = routeParams.params.device;
-  const src = routeParams.params.src;
+  const devInfo = routeParams.getParams?.device;
+  const src = routeParams.getParams?.src;
   if (!routeParams.params.hasOwnProperty('device')) {
     warning('为选择任何设备, 即将返回主页');
     closeTab(currentPage, router);

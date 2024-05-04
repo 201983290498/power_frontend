@@ -31,25 +31,36 @@
   import { useGo } from '/@/hooks/web/usePage';
   import { PageEnum } from '/@/enums/pageEnum';
   import { useRouteParams } from '/@/store/modules/route';
-  const routeParam = useRouteParams();
+  import { useEvaluateStore } from '/@/store/modules/evaluate';
 
+  const routeParam = useRouteParams();
   const go = useGo();
   const btnTexts = ref<Array<string>>(['可靠性寿命预测', '历史评估结果']);
-  const deviceInfo = ref(deviceDemo);
+  const deviceInfo = ref<Partial<any> | null>(deviceDemo);
   const maxHeight: Ref<number | string> = ref(-1);
   const showDetail = ref(true);
+  const evaluateState = useEvaluateStore();
+
+  evaluateState.getDeviceInfo !== null && devicePreProcess();
 
   function selectDevice(device) {
     deviceInfo.value = device;
+    evaluateState.setDeviceInfo(device);
     showDetail.value = true;
     maxHeight.value = 200;
     // 渲染详细信息
   }
+
   async function goEvaluation() {
     routeParam.setParams({ src: logo, device: deviceInfo.value });
     go(PageEnum.Reliability_Evaluate_Page);
   }
+
   async function goHistory() {
     go(PageEnum.HistoryManage_Page);
+  }
+
+  function devicePreProcess() {
+    deviceInfo.value = evaluateState.getDeviceInfo;
   }
 </script>

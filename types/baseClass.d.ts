@@ -1,6 +1,7 @@
 import { StateEnum } from '/@/enums/stateEnum';
 
 export type DetailType = undefined;
+export type EvaluateId = string | number | undefined | null;
 // 编写数据库中的基础类
 /**
  * Device
@@ -135,7 +136,7 @@ export interface Evaluate {
    * 设备id
    */
   equipId: number;
-  evaluateId: number;
+  evaluateId: EvaluateId;
   /**
    * 评估时间
    */
@@ -197,7 +198,7 @@ export interface StateInput {
   /**
    * 测试id
    */
-  evaluateId?: string;
+  evaluateId?: EvaluateId;
   /**
    * 吸收比，高中低依次存储
    */
@@ -267,7 +268,7 @@ export interface StateInput {
    */
   ethylene: number;
 
-  evaluateId?: string | number;
+  evaluateId?: EvaluateId;
   /**
    * 家族缺陷
    */
@@ -375,7 +376,7 @@ export interface StateInput {
  * StateEvaluation Output
  */
 export interface StateOutput {
-  evaluateId: string;
+  evaluateId: EvaluateId;
   /**
    * 变压器（本次评价的变压器的编号等简要变压器信息）
    */
@@ -406,7 +407,7 @@ export interface ReliabilityOutput {
   /**
    * 测试Id
    */
-  evaluateId: string;
+  evaluateId: EvaluateId;
   /**
    * 健康指数
    */
@@ -466,7 +467,7 @@ export interface ReliabilityInput {
   /**
    * 测试Id
    */
-  evaluateId?: string | number;
+  evaluateId?: EvaluateId;
   /**
    * 出厂序号
    */
@@ -649,7 +650,7 @@ export interface EconomyInput {
   /**
    * 测试Id
    */
-  evaluateId: string | number;
+  evaluateId: EvaluateId;
   /**
    * 初始其他成本
    */
@@ -708,7 +709,7 @@ export interface EconomyOutput {
   /**
    * 测试Id
    */
-  evaluateId: string;
+  evaluateId: EvaluateId;
   /**
    * 寿命进程（经济性寿命/设计寿命）
    */
@@ -736,7 +737,7 @@ export interface DecisionInput {
    * 设备价值
    */
   equipmentValue: number;
-  evaluateId?: number | string;
+  evaluateId?: EvaluateId;
   /**
    * 故障概率
    */
@@ -800,7 +801,7 @@ export interface DecisionInput {
  * DecisionOutput
  */
 export interface DecisionOutput {
-  evaluateId: number;
+  evaluateId: EvaluateId;
   /**
    * 检修内容
    */
