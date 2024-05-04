@@ -50,7 +50,8 @@
     deviceInfo.value = device;
     showDetail.value = true;
     maxHeight.value = 200;
-    // 渲染详细信息
+    evaluateState.setDeviceImage(logo);
+    evaluateState.setDeviceInfo(device);
   }
 
   function goEvaluation() {

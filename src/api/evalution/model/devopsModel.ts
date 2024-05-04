@@ -1,7 +1,7 @@
-import { DecisionInput, DecisionOutput } from '/#/baseClass';
+import { DecisionInput, DecisionOutput, EvaluateId } from '/#/baseClass';
 
 export type DevopsParam = {
-  userId?: string;
+  userId?: string | null | number;
   deviceId?: string;
   items: Partial<DecisionInput>;
 };
@@ -9,5 +9,5 @@ export type DevopsParam = {
 export type DevopsResponse = DecisionOutput;
 
 export interface SaveParam {
-  evaluateId: string | undefined;
+  evaluateId: EvaluateId;
 }

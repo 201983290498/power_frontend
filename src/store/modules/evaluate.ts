@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia';
 import { Device, EvaluateId, User } from '/#/baseClass';
-import { EvaluatedIds } from '/@/views/evaluation/common/data';
+import { deviceDemo, EvaluatedIds } from '/@/views/evaluation/common/data';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { EvaluateStatusEnum } from '/@/enums/evaluateEnum';
+import logo from '/@/assets/images/1.jpg';
 
 const { createConfirm } = useMessage();
 
@@ -10,6 +11,7 @@ interface EvaluateStore {
   ids: EvaluatedIds;
   userInfo: Partial<User> | null;
   deviceInfo: Partial<Device> | null;
+  deviceImage: any;
 }
 export const useEvaluateStore = defineStore({
   id: 'evaluateStore',
@@ -22,25 +24,26 @@ export const useEvaluateStore = defineStore({
     },
     userInfo: null,
     deviceInfo: null,
+    deviceImage: null,
   }),
   getters: {
     getStateId(): EvaluateId {
-      return this.ids?.stateId;
+      return this.ids?.stateId ?? -1;
     },
     getEconomicId(): EvaluateId {
-      return this.ids?.economicId;
+      return this.ids?.economicId ?? -1;
     },
     getReliabilityId(): EvaluateId {
-      return this.ids?.reliabilityId;
+      return this.ids?.reliabilityId ?? -1;
     },
     getDevopsId(): EvaluateId {
-      return this.ids?.devopsId;
+      return this.ids?.devopsId ?? -1;
     },
     getUserInfo(): Partial<User> | null {
       return this.userInfo;
     },
     getDeviceInfo(): Partial<Device> | null {
-      return this.deviceInfo;
+      return this.deviceInfo ?? deviceDemo;
     },
     getEvaluateIds(): EvaluateId[] {
       const ids: EvaluateId[] = [-1, -1, -1, -1];
@@ -49,6 +52,9 @@ export const useEvaluateStore = defineStore({
       this.ids.reliabilityId && (ids[2] = this.ids.reliabilityId);
       this.ids.devopsId && (ids[3] = this.ids.devopsId);
       return ids;
+    },
+    getDeviceImage(): any {
+      return this.deviceImage ?? logo;
     },
   },
   actions: {
@@ -69,6 +75,9 @@ export const useEvaluateStore = defineStore({
     },
     setDeviceInfo(deviceId: Partial<Device>) {
       this.deviceInfo = deviceId;
+    },
+    setDeviceImage(image: any) {
+      this.deviceImage = image;
     },
     checkContinue(status: EvaluateStatusEnum) {
       const ids = this.getEvaluateIds;

@@ -5,7 +5,7 @@
     contentClass="p-4"
     @back="handleStepPrev"
   >
-    <Card :bordered="boardered" class="!mb-4">
+    <Card :bordered="boardered" class="!mb-2">
       <Steps :current="current" class="step-form-form">
         <Steps.Step title="基本信息" />
         <Steps.Step title="状态评估" />
@@ -14,7 +14,7 @@
     </Card>
     <Step1 v-if="src !== undefined" v-show="current === 0" :device="devInfo" :src="src" />
     <Step2 ref="childRef" v-show="current === 1" v-if="state.initStep2" :bordered="boardered" />
-    <Step3 v-show="current === 2" v-if="state.initStep3" :bordered="boardered" />
+    <Step3 v-show="current === 2" v-if="state.initStep3" :bordered="boardered" :result="results" />
     <template #rightFooter>
       <a-button ghost type="primary" class="mr-4" @click="analysisFile" v-if="current === 1">
         数据导入
@@ -84,15 +84,15 @@
   import { useRouteParams } from '/@/store/modules/route';
   import { closeTab } from '../../common/common';
   import { useEvaluateStore } from '/@/store/modules/evaluate';
-
-  const deviceId = '-1';
-  const userId = '-1';
+  const evaluateState = useEvaluateStore();
+  const deviceId = evaluateState.getDeviceInfo?.deviceId ?? '-1';
+  const userId = evaluateState.getUserInfo?.userId ?? '-1';
 
   const go = useGo();
   const router = useRouter();
   const routeParams = useRouteParams();
   const { createMessage, createConfirm } = useMessage();
-  const { warning, error } = createMessage;
+  const { warning, error, success } = createMessage;
   const devInfo = routeParams.getParams?.device;
   const src = routeParams.getParams?.src;
   const currentPage = PageEnum.State_Evaluate_Page;
@@ -162,7 +162,8 @@
   function saveRecord() {
     hasAnalysis &&
       saveStateRcord({ evaluateId: results.value?.evaluateId }).then(() => {
-        useEvaluateStore().clearRecord();
+        evaluateState.clearRecord();
+        success('测评记录保存成功。');
       });
     !hasAnalysis && warning('请先测评！');
   }

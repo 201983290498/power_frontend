@@ -28,7 +28,7 @@ export const getHistoryList = (params: getHistoryPageListParmas = demoParam) =>
 // 添加设备
 /*/export const addDevice = (deviceData: getDevicePageListParmas = demoParam) =>
   defHttp.post<{ message: string }>({ url: Api.AddDevice, data: deviceData });*/
-export function addHistory(params: HistoryaddParams, mode: ErrorMessageMode = 'modal') {
+export async function addHistory(params: HistoryaddParams, mode: ErrorMessageMode = 'modal') {
   return defHttp.post(
     {
       url: Api.AddHistory,

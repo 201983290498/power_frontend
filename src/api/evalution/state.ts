@@ -1,6 +1,9 @@
 import { ErrorMessageMode } from '/#/axios';
 import { defHttp } from '/@/utils/http/axios';
 import { StateParam, StateReponse, SaveParam } from './model/stateModel';
+import { HistoryaddParams } from '../sys/model/historyModal';
+import { useEvaluateStore } from '/@/store/modules/evaluate';
+import { addHistory } from '../sys/history';
 
 enum Api {
   Evaluate = '/powergrid/state/evaluate',
@@ -28,7 +31,15 @@ export function stateEvaluation(params: StateParam, mode: ErrorMessageMode = 'mo
  * @description: 保存某测测评的输入
  */
 export async function saveStateRcord(params: SaveParam) {
-  return defHttp.get<any>({ url: Api.RecordSave, params });
+  const evaluate = useEvaluateStore();
+  const historyPararm: HistoryaddParams = {
+    stateId: params.evaluateId,
+    reliabilityId: evaluate.getReliabilityId,
+    decisionId: evaluate.getDevopsId,
+    economyId: evaluate.getEconomicId,
+    equipId: evaluate.getDeviceInfo?.equipId ?? '-1',
+  };
+  return addHistory(historyPararm);
 }
 
 /**

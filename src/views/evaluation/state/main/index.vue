@@ -52,6 +52,7 @@
   function selectDevice(device) {
     deviceInfo.value = device;
     evaluateState.setDeviceInfo(device);
+    evaluateState.setDeviceImage(logo);
     showDetail.value = true;
     maxHeight.value = 200;
   }

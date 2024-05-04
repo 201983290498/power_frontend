@@ -1,6 +1,9 @@
 import { ErrorMessageMode } from '/#/axios';
 import { defHttp } from '/@/utils/http/axios';
 import { DevopsParam, DevopsResponse, SaveParam } from './model/devopsModel';
+import { HistoryaddParams } from '../sys/model/historyModal';
+import { useEvaluateStore } from '/@/store/modules/evaluate';
+import { addHistory } from '../sys/history';
 
 enum Api {
   Evaluate = '/powergrid/decision/evaluate',
@@ -8,7 +11,6 @@ enum Api {
   GetInputById = '/powergrid/decision/retrieve/input',
   GetOutputById = '/powergrid/decision/retrieve/output',
 }
-
 /**
  * @description: state evaluation
  */
@@ -27,8 +29,17 @@ export function devopsEvaluation(params: DevopsParam, mode: ErrorMessageMode = '
 /**
  * @description: 保存某测测评的输入
  */
-export async function saveEconomyRcord(params: SaveParam) {
-  return defHttp.get<any>({ url: Api.RecordSave, params });
+export async function saveDevopsRcord(params: SaveParam) {
+  await defHttp.get<any>({ url: Api.RecordSave, params });
+  const evaluate = useEvaluateStore();
+  const historyPararm: HistoryaddParams = {
+    stateId: evaluate.getStateId,
+    reliabilityId: evaluate.getReliabilityId,
+    decisionId: params.evaluateId,
+    economyId: evaluate.getEconomicId,
+    equipId: evaluate.getDeviceInfo?.equipId ?? '-1',
+  };
+  return addHistory(historyPararm);
 }
 
 /**
