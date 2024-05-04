@@ -6,6 +6,9 @@
     :headStyle="headStyle"
     :body-style="{ padding: '5px' }"
   >
+    <Card class="w-88/100 !m-auto" title="变压器信息">
+      <DeviceDetail :src="src" :device="device" />
+    </Card>
     <Card :body-style="{ padding: '15px' }" class="!mt-4 !mb-4 w-9/10 !m-auto" :bordered="false">
       <CardGrid class="grid mr-4" :style="{ backgroundColor: textColor.success }">
         <span class="text-3xl">{{ props.result.healthIndex }}</span> <br />
@@ -44,6 +47,8 @@
   import { Card, CardGrid } from 'ant-design-vue';
   import { ref, Ref, watch, reactive } from 'vue';
   import { useECharts } from '/@/hooks/web/useECharts';
+  import { useEvaluateStore } from '/@/store/modules/evaluate';
+  import DeviceDetail from '../../common/DeviceDetail.vue';
 
   const props = defineProps({
     result: {
@@ -72,6 +77,9 @@
   const chartRef2 = ref<HTMLDivElement | null>(null);
   const { setOptions: setOptions1 } = useECharts(chartRef1 as Ref<HTMLDivElement>);
   const { setOptions: setOptions2 } = useECharts(chartRef2 as Ref<HTMLDivElement>);
+  const evaluateStore = useEvaluateStore();
+  const device = ref(evaluateStore.getDeviceInfo);
+  const src = ref(evaluateStore.getDeviceImage);
   watch(
     () => props.loading,
     () => {

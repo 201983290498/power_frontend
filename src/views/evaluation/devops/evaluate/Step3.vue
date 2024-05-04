@@ -1,23 +1,68 @@
 <template>
-  <div class="w-150 m-auto">
-    <Result status="success" title="操作成功" sub-title="预计两小时内到账">
-      <template #extra>
-        <a-button type="primary" @click="emit('redo')"> 再转一笔 </a-button>
-        <a-button> 查看账单 </a-button>
-      </template>
-    </Result>
-    <div class="mt-6 px-6 py-8 bg-white">
-      <Descriptions :column="1" class="mt-5">
-        <Descriptions.Item label="付款账户"> ant-design@alipay.com </Descriptions.Item>
-        <Descriptions.Item label="收款账户"> test@example.com </Descriptions.Item>
-        <Descriptions.Item label="收款人姓名"> Vben </Descriptions.Item>
-        <Descriptions.Item label="转账金额"> 500元 </Descriptions.Item>
-      </Descriptions>
+  <Card
+    class="step3 !pb-15"
+    title="评估结果"
+    :bordered="true"
+    :headStyle="headStyle"
+    :body-style="{ padding: '5px' }"
+  >
+    <Card class="w-88/100 !m-auto" title="变压器信息">
+      <DeviceDetail :src="src" :device="device" />
+    </Card>
+    <div class="flex enter-y w-9/10 !m-auto !mt-4" :style="{ padding: '0px 15px' }">
+      <Card class="w-48/100" title="建议检修方式" :headStyle="{ fontWeight: '700' }">
+        <div class="text-center" style="height: 200px; overflow-y: auto">
+          {{ props.result.suggestedMaintenanceMethod }}
+        </div>
+      </Card>
+      <Card class="w-48/100 !ml-4/100" title="检修内容" :headStyle="{ fontWeight: '700' }">
+        <div class="text-center" style="height: 200px; overflow-y: auto">
+          {{ props.result.maintenanceContent }}
+        </div>
+      </Card>
     </div>
-  </div>
+    <Card
+      :body-style="{ padding: '15px' }"
+      class="flex flex-col !mt-2 w-9/10 !m-auto"
+      :bordered="false"
+    >
+      <CardGrid class="grid mr-4" :style="{ backgroundColor: textColor.success }">
+        <span class="text-3xl">{{ props.result.riskRewardCostRatio }}</span> <br />
+        <span>建议检修方式的风险收益成本比</span>
+      </CardGrid>
+    </Card>
+  </Card>
 </template>
 <script lang="ts" setup>
-  import { Result, Descriptions } from 'ant-design-vue';
+  import { Card } from 'ant-design-vue';
+  import { reactive, ref } from 'vue';
+  import { useEvaluateStore } from '/@/store/modules/evaluate';
+  import DeviceDetail from '../../common/DeviceDetail.vue';
 
-  const emit = defineEmits(['redo']);
+  const textColor = reactive({
+    success: '#55d187',
+    primary: '#0960bd',
+    warning: '#efbd47',
+    danger: '#ed6f6f',
+  });
+  const headStyle = { fontWeight: '700', fontSize: '20px' };
+  const evaluateStore = useEvaluateStore();
+  const device = ref(evaluateStore.getDeviceInfo);
+  const src = ref(evaluateStore.getDeviceImage);
+  const props = defineProps({
+    result: {
+      type: Object,
+      // eslint-disable-next-line vue/require-valid-default-prop
+      default: {},
+    },
+  });
 </script>
+<style scoped>
+  .grid {
+    text-align: center;
+    width: 98%;
+    padding: 1.5rem;
+    color: #fff;
+    margin: 0 auto;
+  }
+</style>

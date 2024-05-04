@@ -6,6 +6,9 @@
     :headStyle="headStyle"
     :body-style="{ padding: '5px' }"
   >
+    <Card class="w-88/100 !m-auto" title="变压器信息">
+      <DeviceDetail :src="src" :device="device" />
+    </Card>
     <Card
       :body-style="{ padding: '15px' }"
       class="flex flex-col !mt-4 !mb-4 w-9/10 !m-auto"
@@ -27,7 +30,7 @@
         :loading="loading"
         :headStyle="{ fontWeight: '700' }"
       >
-        <div ref="chartRef2" :style="{ width, height }"></div>
+        <div ref="chartRef" :style="{ width, height }"></div>
       </Card>
     </div>
   </Card>
@@ -36,7 +39,9 @@
   import { Card, CardGrid } from 'ant-design-vue';
   import { reactive, ref, Ref, watch } from 'vue';
   import { useECharts } from '/@/hooks/web/useECharts';
-
+  import { useEvaluateStore } from '/@/store/modules/evaluate';
+  import DeviceDetail from '../../common/DeviceDetail.vue';
+  import type { EChartsOption } from 'echarts';
   const textColor = reactive({
     success: '#55d187',
     primary: '#0960bd',
@@ -60,49 +65,51 @@
     },
   });
   const headStyle = { fontWeight: '700', fontSize: '20px' };
-  const chartRef1 = ref<HTMLDivElement | null>(null);
-  const chartRef2 = ref<HTMLDivElement | null>(null);
-  const { setOptions } = useECharts(chartRef1 as Ref<HTMLDivElement>);
+  const chartRef = ref<HTMLDivElement | null>(null);
+  const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
+  const evaluateStore = useEvaluateStore();
+  const device = ref(evaluateStore.getDeviceInfo);
+  const src = ref(evaluateStore.getDeviceImage);
+  const option: EChartsOption = {
+    title: {
+      text: '寿命进程', //标题文本内容
+    },
+    toolbox: {
+      //可视化的工具箱
+      show: true,
+      feature: {
+        restore: {
+          //重置
+          show: true,
+        },
+        saveAsImage: {
+          //保存图片
+          show: true,
+        },
+      },
+    },
+    tooltip: {
+      //弹窗组件
+      formatter: '{a} <br/>{b} : {c}%',
+    },
+    series: [
+      {
+        name: '寿命进程',
+        type: 'gauge',
+        detail: { formatter: '{value}%' },
+        data: [
+          { value: Math.round(props.result.lifespanProcess * 100), name: '剩余寿命/设计寿命' },
+        ],
+      },
+    ],
+  };
   watch(
     () => props.loading,
     () => {
       if (props.loading) {
         return;
       }
-      console.log(props.loading);
-      setOptions({
-        title: {
-          text: '寿命进程', //标题文本内容
-        },
-        toolbox: {
-          //可视化的工具箱
-          show: true,
-          feature: {
-            restore: {
-              //重置
-              show: true,
-            },
-            saveAsImage: {
-              //保存图片
-              show: true,
-            },
-          },
-        },
-        tooltip: {
-          //弹窗组件
-          formatter: '{a} <br/>{b} : {c}%',
-        },
-        series: [
-          {
-            name: '寿命进程',
-            type: 'gauge',
-            detail: { formatter: '{value}%' },
-            data: [
-              { value: Math.round(props.result.lifespanProcess * 100), name: '剩余寿命/设计寿命' },
-            ],
-          },
-        ],
-      });
+      setOptions(option);
     },
     { immediate: true },
   );
