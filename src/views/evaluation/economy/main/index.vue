@@ -43,7 +43,6 @@
   const showDetail = ref(true);
   const { createMessage } = useMessage();
   const evaluateState = useEvaluateStore();
-
   evaluateState.getDeviceInfo !== null && devicePreProcess();
 
   function selectDevice(device) {
@@ -67,5 +66,6 @@
     createMessage.info('默认选择上次测评的设备');
     deviceInfo.value = evaluateState.getDeviceInfo;
     showDetail.value = true;
+    console.log(evaluateState.getDeviceInfo);
   }
 </script>

@@ -80,7 +80,7 @@
   const routeParam = useRouteParams();
   const evaluateState = useEvaluateStore();
   const { createMessage } = useMessage();
-  evaluateState.getDeviceInfo !== null && devicePreProcess();
+  evaluateState.getDeviceInfo !== null && setTimeout(() => devicePreProcess(), 500);
 
   const formData = reactive<EvaluatedIds>({
     stateId: '',
@@ -139,5 +139,6 @@
     createMessage.info('默认选择上次测评的设备');
     deviceInfo.value = evaluateState.getDeviceInfo;
     showDetail.value = true;
+    console.log(evaluateState.getDeviceInfo);
   }
 </script>
