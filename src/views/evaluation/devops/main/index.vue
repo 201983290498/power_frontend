@@ -73,8 +73,14 @@
   import { EvaluatedIds } from '../../common/data';
   import HistoryModal from '../../common/HistoryModal.vue';
   import { useModal } from '/@/components/Modal';
+  import { useEvaluateStore } from '/@/store/modules/evaluate';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { EvaluateStatusEnum } from '/@/enums/evaluateEnum';
 
   const routeParam = useRouteParams();
+  const evaluateState = useEvaluateStore();
+  const { createMessage } = useMessage();
+  evaluateState.getDeviceInfo !== null && devicePreProcess();
 
   const formData = reactive<EvaluatedIds>({
     stateId: '',
@@ -85,7 +91,7 @@
 
   const go = useGo();
   const btnTexts = ref<Array<string>>(['进入运维决策', '历史评估结果']);
-  const deviceInfo = ref(deviceDemo);
+  const deviceInfo = ref<Partial<any> | null>(deviceDemo);
   const maxHeight: Ref<number | string> = ref(-1);
   const showDetail = ref(true);
 
@@ -93,12 +99,15 @@
     deviceInfo.value = device;
     showDetail.value = true;
     maxHeight.value = 200;
-    // 渲染详细信息
+    evaluateState.setDeviceImage(logo);
+    evaluateState.setDeviceInfo(device);
   }
 
   function goEvaluation() {
-    routeParam.setParams({ src: logo, device: deviceInfo.value });
-    go(PageEnum.Devops_Evaluate_Page);
+    if (evaluateState.checkContinue(EvaluateStatusEnum.Devops)) {
+      routeParam.setParams({ src: logo, device: deviceInfo.value });
+      go(PageEnum.Devops_Evaluate_Page);
+    }
   }
 
   function goHistory() {
@@ -119,6 +128,16 @@
     formData.stateId = selectID.stateId;
     formData.reliabilityId = selectID.reliabilityId;
     formData.economicId = selectID.economicId;
+    evaluateState.setEconomicId(selectID.economicId);
+    evaluateState.setReliabilityId(selectID.reliabilityId);
+    evaluateState.setStateId(selectID.stateId);
+    // 渲染详细信息
     console.log('选择成功', selectID);
+  }
+
+  function devicePreProcess() {
+    createMessage.info('默认选择上次测评的设备');
+    deviceInfo.value = evaluateState.getDeviceInfo;
+    showDetail.value = true;
   }
 </script>

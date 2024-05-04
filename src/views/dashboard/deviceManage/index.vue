@@ -45,7 +45,7 @@
   import DeviceModal from './DeviceModal.vue';
   import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
-
+  
   const props = defineProps({
     reSize: {
       type: Boolean,

@@ -13,7 +13,7 @@
     </Card>
     <Step1 v-if="src !== undefined" v-show="current === 0" :device="devInfo" :src="src" />
     <Step2 ref="childRef" v-show="current === 1" v-if="state.initStep2" :bordered="boardered" />
-    <Step3 v-show="current === 2" v-if="state.initStep3" :bordered="boardered" />
+    <Step3 v-show="current === 2" v-if="state.initStep3" :bordered="boardered" :result="results" />
     <template #rightFooter>
       <a-button ghost type="primary" class="mr-4" @click="analysisFile" v-if="current === 1">
         数据导入
@@ -79,16 +79,13 @@
   import { readCsv } from '../../common/xlsx';
   import { mapObjectToInterface, devopsInputFields } from '/@/utils/listToFiled';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import {
-    getDevopsRecordInput,
-    saveEconomyRcord,
-    devopsEvaluation,
-  } from '/@/api/evalution/devops';
+  import { getDevopsRecordInput, saveDevopsRcord, devopsEvaluation } from '/@/api/evalution/devops';
   import { useRouteParams } from '/@/store/modules/route';
   import { closeTab } from '../../common/common';
-
-  const userId = '-1';
-  const deviceId = '-1';
+  import { useEvaluateStore } from '/@/store/modules/evaluate';
+  const evaluateState = useEvaluateStore();
+  const userId = evaluateState.getUserInfo?.userId ?? '-1';
+  const deviceId = evaluateState.getDeviceInfo?.deviceId ?? '-1';
 
   const routeParams = useRouteParams();
   const currentPage = PageEnum.Devops_Evaluate_Page;
@@ -99,7 +96,7 @@
   const childRef = ref(null);
   let hasAnalysis = false; // 是否已经提交了
   const { createMessage, createConfirm } = useMessage();
-  const { warning, error } = createMessage;
+  const { warning, error, success } = createMessage;
   const results = ref();
 
   const devInfo = routeParams.getParams?.device; // 获取设备信息
@@ -160,7 +157,11 @@
   }
 
   function saveRecord() {
-    hasAnalysis && saveEconomyRcord({ evaluateId: results.value?.evaluateId });
+    hasAnalysis &&
+      saveDevopsRcord({ evaluateId: results.value?.evaluateId }).then(() => {
+        evaluateState.clearRecord();
+        success('测评记录保存成功。');
+      });
     !hasAnalysis && error('请先测评！没有任何测评记录前无法保存。');
   }
 
