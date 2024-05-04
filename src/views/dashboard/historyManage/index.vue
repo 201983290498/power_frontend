@@ -1,36 +1,164 @@
 <template>
-  <PageWrapper>
-    <template #headerContent> <WorkbenchHeader /> </template>
-    <div class="lg:flex">
-      <div class="lg:w-7/10 w-full !mr-4 enter-y">
-        <ProjectCard :loading="loading" class="enter-y" />
-        <DynamicInfo :loading="loading" class="!my-4 enter-y" />
-      </div>
-      <div class="lg:w-3/10 w-full enter-y">
-        <QuickNav :loading="loading" class="enter-y" />
-
-        <Card class="!my-4 enter-y" :loading="loading">
-          <img class="xl:h-50 h-30 mx-auto" src="../../../assets/svg/illustration.svg" />
-        </Card>
-
-        <SaleRadar :loading="loading" class="enter-y" />
-      </div>
-    </div>
-  </PageWrapper>
+  <Card>
+    <BasicTable @register="registerTable">
+      <template #toolbar>
+        <!-- 右上角的按钮 -->
+        <!-- 搜索表单 -->
+        <BasicForm :schemas="searchFormSchema" :model="searchModel" @submit="handleSearch" />
+        <a-button type="primary" @click="handleCreate"> 新增历史数据 </a-button>
+        <a-button @click="toggleSortOrder">切换排序</a-button>
+      </template>
+      <template #action="{ record }">
+        <TableAction
+          :actions="[
+            {
+              icon: 'clarity:note-edit-line',
+              onClick: handleEdit.bind(null, record),
+            },
+            {
+              icon: 'ant-design:delete-outlined',
+              color: 'error',
+              popConfirm: {
+                title: '是否确认删除',
+                placement: 'left',
+                confirm: handleDelete.bind(null, record),
+              },
+            },
+          ]"
+        />
+      </template>
+    </BasicTable>
+    <HistoryModal @register="registerModal" @success="handleSuccess" />
+  </Card>
 </template>
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { defineProps, reactive, ref, watch } from 'vue';
+  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { getHistoryList, searchHistory } from '/@/api/sys/history';
+  import { columns, searchFormSchema } from './history.data';
+  import { useModal } from '/@/components/Modal';
+  import HistoryModal from './HistoryModal.vue';
   import { Card } from 'ant-design-vue';
-  import { PageWrapper } from '/@/components/Page';
-  import WorkbenchHeader from './components/WorkbenchHeader.vue';
-  import ProjectCard from './components/ProjectCard.vue';
-  import QuickNav from './components/QuickNav.vue';
-  import DynamicInfo from './components/DynamicInfo.vue';
-  import SaleRadar from './components/SaleRadar.vue';
+  import { Props } from '/@/components/Table/src/hooks/useTable';
 
-  const loading = ref(true);
+  const props = defineProps({
+    reSize: {
+      type: Boolean,
+      default: true,
+    },
+    maxHeight: {
+      type: Number,
+      default: -1,
+    },
+  });
 
-  setTimeout(() => {
-    loading.value = false;
-  }, 1500);
+  watch(
+    () => props.maxHeight,
+    (newValue) => {
+      if (newValue !== -1) {
+        setProps({ maxHeight: newValue });
+      }
+    },
+  );
+
+  watch(
+    () => props.reSize,
+    (newValue) => {
+      if (newValue) {
+        setProps({ canResize: newValue });
+      }
+    },
+  );
+
+  const searchModel = reactive({
+    equipId: '',
+    testId: '',
+    sortBy: '',
+    sortOrder: '',
+    page: 1,
+    pageSize: 10,
+  });
+  const sortBy = ref('defaultField'); // 默认排序字段
+  const sortOrder = ref('asc'); // 排序方向
+
+  const [registerModal, { openModal }] = useModal();
+  const pagination = reactive({
+    total: 0,
+    current: 1,
+    pageSize: 10,
+    showSizeChanger: true,
+    showQuickJumper: true,
+    pageSizeOptions: ['5', '10', '20', '30', '40'],
+    showTotal: (total, range) => `显示 ${range[0]}-${range[1]} 共 ${total} 条`,
+  });
+
+  const tableConfig: Props = {
+    title: '历史数据列表',
+    api:getHistoryList(), // 使用箭头函数s包装原 API 调用 (query) => getHistoryList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value })
+    afterFetch: (data) => {
+      return data.data;
+    },
+    columns,
+    formConfig: {
+      labelWidth: 120,
+      schemas: searchFormSchema,
+    },
+    fetchSetting: {
+      pageField: 'page',
+      sizeField: 'pageSize',
+    },
+    useSearchForm: true,
+    showTableSetting: true,
+    bordered: true,
+    showIndexColumn: false,
+    pagination,
+    canResize: props.reSize,
+    actionColumn: {
+      width: 80,
+      title: '操作',
+      dataIndex: 'action',
+      slots: { customRender: 'action' },
+      fixed: undefined,
+    },
+  };
+  props.maxHeight == -1 || (tableConfig['maxHeight'] = props.maxHeight);
+  const [registerTable, { reload, setProps }] = useTable(tableConfig);
+  function toggleSortOrder() {
+    sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
+    handleSearch(); // 更新数据而不是调用 reload
+  }
+
+  function handleCreate() {
+    openModal(true, { isUpdate: false });
+  }
+
+  function handleEdit(record) {
+    openModal(true, { record, isUpdate: true });
+  }
+
+  function handleDelete(record) {
+    console.log('Delete', record);
+  }
+
+  function handleSearch() {
+    searchHistory(searchModel)
+      .then((result) => {
+        // 更新表格数据逻辑，需要根据您的组件具体实现来定
+        pagination.total = result.rowCount; // 使用返回的总数据数量更新分页的总数
+        setTableData(result.items); // 使用 setData 来更新表格数据
+        reload();
+      })
+      .catch((error) => {
+        console.error('Error searching historydata:', error);
+      });
+  }
+
+  function handleSuccess() {
+    reload(); // 成功后重新加载数据
+  }
+</script>
+<script lang="ts">
+  export default {
+    name: 'HistoryManagement',
+  };
 </script>

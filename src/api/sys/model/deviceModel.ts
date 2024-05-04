@@ -36,3 +36,6 @@ export interface getDevicePageListData {
   rowCount: number; // 总的数据数量
   items: Device[]; // 设备总数
 }
+export interface DeviceViewParams {
+  id: number | string;
+}

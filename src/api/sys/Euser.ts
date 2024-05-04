@@ -1,6 +1,11 @@
 import { defHttp } from '/@/utils/http/axios';
 import { ErrorMessageMode } from '/#/axios';
-import { getUserPageListData, getUserPageListParmas, UseraddParams } from './model/userModel';
+import {
+  getUserPageListData,
+  getUserPageListParmas,
+  UseraddParams,
+  SearchUserParams,
+} from './model/userModel';
 enum Api {
   GetUserPageList = '/powergrid/sys/user',
   AddUser = '/powergrid/sys/user/useradd',
@@ -12,18 +17,7 @@ const demoParam: getUserPageListParmas = {
   page: 1,
   pageSize: 10,
 };
-interface SearchUserParams {
-  sortBy?: string;
-  sortOrder?: string;
-  // 所属单位
-  organization?: string;
-  //责任人
-  personCharge?: string;
-  //用户类型
-  role?: string;
-  //用户名
-  userName?: string;
-}
+
 // 获取用户列表
 export const getUserList = (params: getUserPageListParmas = demoParam) =>
   defHttp.get<getUserPageListData>({ url: Api.GetUserPageList, params });
