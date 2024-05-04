@@ -4,6 +4,7 @@ import {
   getDevicePageListData,
   DeviceaddParams,
   SearchDeviceParmas,
+  DeviceViewParams,
 } from './model/deviceModel';
 import { ErrorMessageMode } from '/#/axios';
 
@@ -13,12 +14,12 @@ enum Api {
   DeleteDevice = '/powergrid/sys/equipment/delete',
   UpdateDevice = '/powergrid/sys/equipment/equipmentupdate',
   SearchDevice = '/powergrid/sys/equipment',
+  ViewDevice = '/powergrid/sys/equipment/retrieve',
 }
 
 const demoParam: getDevicePageListParmas = {
   page: 1,
   pageSize: 10,
-  type: '',
 };
 
 export const getDeviceList = (params: getDevicePageListParmas = demoParam) =>
@@ -63,6 +64,19 @@ export const searchDevice = async (
     },
   );
 };
+//查看单个设备信息
+export const viewDevice = async (params: DeviceViewParams, mode: ErrorMessageMode = 'modal') => {
+  return await defHttp.get<getDevicePageListData>(
+    {
+      url: Api.ViewDevice,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+};
+
 /*export const searchDevice = (params: SearchDeviceParmas) =>
   defHttp.get<getDevicePageListData>({
     url: Api.SearchDevice,

@@ -34,15 +34,18 @@
 <script lang="ts" setup>
   import { defineProps, reactive, ref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getDeviceList, searchDevice } from '/@/api/sys/device';
-  import { columns, searchFormSchema } from './device.data';
+  import { getDeviceList, searchDevice, viewDevice } from '/@/api/sys/device';
+  import { columns, searchFormSchema,viewFormSchema } from './device.data';
   import { useModal } from '/@/components/Modal';
   import DeviceModal from './DeviceModal.vue';
   import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
+<<<<<<< HEAD
+=======
   import { BasicForm } from '/@/components/Form';
 
   defineOptions({ name: 'DeviceManagement' }); // 定义组件的名称
+>>>>>>> 325c4f2fccd92c6a0f7ff3b3c2c73ee5c955dc99
 
   const props = defineProps({
     reSize: {

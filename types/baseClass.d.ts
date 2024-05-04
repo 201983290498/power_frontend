@@ -106,6 +106,31 @@ export interface Device {
 /**
  * Evaluate
  */
+export interface Historydata {
+  /*** 运维决策时间*/
+  decTime: string;
+  /**
+   * 经济型寿命预测时间
+   */
+  ecoTime: string;
+  /**
+   * 设备编号
+   */
+  equipId: number;
+  /**
+   * 可靠性寿命预测时间
+   */
+  reliTime: string;
+  /**
+   * 状态评估时间
+   */
+  stateTime: string;
+  /**
+   * ID 编号
+   */
+  testId: number;
+  [property: string]: any;
+}
 export interface Evaluate {
   /**
    * 设备id
