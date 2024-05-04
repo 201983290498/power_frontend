@@ -13,7 +13,13 @@
     </Card>
     <Step1 v-if="src !== undefined" v-show="current === 0" :device="devInfo" :src="src" />
     <Step2 ref="childRef" v-show="current === 1" v-if="state.initStep2" :bordered="boardered" />
-    <Step3 v-show="current === 2" v-if="state.initStep3" :bordered="boardered" :result="results" />
+    <Step3
+      v-show="current === 2"
+      v-if="state.initStep3"
+      :bordered="boardered"
+      :result="results"
+      :loading="loading"
+    />
     <template #rightFooter>
       <a-button ghost type="primary" class="mr-4" @click="analysisFile" v-if="current === 1">
         数据导入
@@ -106,6 +112,7 @@
 
   const devInfo = routeParams.getParams?.device;
   const src = routeParams.getParams?.src;
+  const loading = ref(true);
   if (!routeParams.params.hasOwnProperty('device')) {
     warning('为选择任何设备, 即将返回主页');
     closeTab(currentPage, router);
@@ -191,6 +198,10 @@
       hasAnalysis = true;
       current.value++;
       current.value === 2 && (state.initStep3 = true);
+      setTimeout(() => {
+        console.log(1);
+        loading.value = false;
+      }, 2000);
     }
   }
 

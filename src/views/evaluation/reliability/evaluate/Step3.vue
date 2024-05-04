@@ -7,15 +7,15 @@
     :body-style="{ padding: '5px' }"
   >
     <Card :body-style="{ padding: '15px' }" class="!mt-4 !mb-4 w-9/10 !m-auto" :bordered="false">
-      <CardGrid class="grid mr-4" :style="{ backgroundColor: bkcolor }">
+      <CardGrid class="grid mr-4" :style="{ backgroundColor: textColor.success }">
         <span class="text-3xl">{{ props.result.healthIndex }}</span> <br />
         <span>健康指数</span>
       </CardGrid>
-      <CardGrid class="grid mr-4" :style="{ backgroundColor: bkcolor }">
+      <CardGrid class="grid mr-4" :style="{ backgroundColor: textColor.danger }">
         <span class="text-3xl">{{ props.result.hotSpotTemper }}</span> <br />
         <span>热点温度</span>
       </CardGrid>
-      <CardGrid class="grid" :style="{ backgroundColor: bkcolor }">
+      <CardGrid class="grid" :style="{ backgroundColor: textColor.warning }">
         <span class="text-3xl">{{ props.result.resReliabilityLife }}</span> <br />
         <span>剩余可靠性寿命</span>
       </CardGrid>
@@ -42,7 +42,7 @@
 </template>
 <script lang="ts" setup>
   import { Card, CardGrid } from 'ant-design-vue';
-  import { ref, Ref, watch } from 'vue';
+  import { ref, Ref, watch, reactive } from 'vue';
   import { useECharts } from '/@/hooks/web/useECharts';
 
   const props = defineProps({
@@ -61,7 +61,12 @@
       default: '400px',
     },
   });
-  const bkcolor = ref('#55d187');
+  const textColor = reactive({
+    success: '#55d187',
+    primary: '#0960bd',
+    warning: '#efbd47',
+    danger: '#ed6f6f',
+  });
   const headStyle = { fontWeight: '700', fontSize: '20px' };
   const chartRef1 = ref<HTMLDivElement | null>(null);
   const chartRef2 = ref<HTMLDivElement | null>(null);
