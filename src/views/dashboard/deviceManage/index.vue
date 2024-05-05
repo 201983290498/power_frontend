@@ -1,6 +1,6 @@
 <template>
   <Card>
-    <BasicTable @register="registerTable">
+    <BasicTable @register="registerTable" @click="itemonclick">
       <template #toolbar>
         <!-- 右上角的按钮 -->
         <!-- 搜索表单 -->
@@ -39,13 +39,15 @@
 <script lang="ts" setup>
   import { defineProps, reactive, ref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getDeviceList, searchDevice, viewDevice } from '/@/api/sys/device';
+  import { getDeviceList, searchDevice } from '/@/api/sys/device';
   import { columns, searchFormSchema } from './device.data';
   import { useModal } from '/@/components/Modal';
   import DeviceModal from './DeviceModal.vue';
   import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
-  
+import { dataTool } from 'echarts';
+
+  const emit = defineEmits(['chooseDevice']);
   const props = defineProps({
     reSize: {
       type: Boolean,
@@ -160,6 +162,10 @@
       .catch((error) => {
         console.error('Error searching users:', error);
       });
+  }
+  function itemonclick(record) {
+    console.log(record);
+    emit('chooseDevice', record);
   }
 </script>
 <script lang="ts">

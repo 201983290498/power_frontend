@@ -94,7 +94,7 @@
 
   const tableConfig: Props = {
     title: '历史数据列表',
-    api:getHistoryList(), // 使用箭头函数s包装原 API 调用 (query) => getHistoryList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value })
+    api: getHistoryList(), // 使用箭头函数s包装原 API 调用 (query) => getHistoryList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value })
     afterFetch: (data) => {
       return data.data;
     },

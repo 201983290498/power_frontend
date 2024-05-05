@@ -40,13 +40,13 @@
       setModalProps({ confirmLoading: true });
 
       if (isUpdate.value) {
-        // 如果 isUpdate 为 true，导出历史数据
-        const result = await exportHistory(values.id, values); // 确保 values 包含 id 和其他必要信息
-        console.log('History export:', result);
-      } else {
-        // 否则，添加新的历史数据
+        // 如果 isUpdate 为 true，增加历史数据
         const result = await addHistory(values);
         console.log('New history added:', result);
+      } else {
+        // 否则，添加新的历史数据
+        const result = await exportHistory(values.id, values); // 确保 values 包含 id 和其他必要信息
+        console.log('History export:', result);
       }
 
       closeModal();
