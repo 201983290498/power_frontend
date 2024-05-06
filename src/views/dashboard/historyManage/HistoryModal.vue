@@ -32,7 +32,7 @@
       });
     }
   });
-  const getTitle = computed(() => (!unref(isUpdate) ? '新增历史数据' : '导出历史数据'));
+  const getTitle = computed(() => (unref(isUpdate) ? '新增历史数据' : '导出历史数据'));
 
   async function handleSubmit() {
     try {
@@ -44,7 +44,7 @@
         const result = await addHistory(values);
         console.log('New history added:', result);
       } else {
-        // 否则，添加新的历史数据
+        // 否则，导出新的历史数据
         const result = await exportHistory(values.id, values); // 确保 values 包含 id 和其他必要信息
         console.log('History export:', result);
       }

@@ -1,4 +1,4 @@
-import { EvaluateId, Historydata } from '/#/baseClass';
+import { Historydata } from '/#/baseClass';
 /**
  * @description: get device pagelist interface parameters
  */
@@ -7,19 +7,19 @@ export interface getHistoryPageListParmas {
   pageSize: string | number;
   sortBy?: string;
   sortOrder?: string;
-  /*testId?: number | string;
+  testId?: number | string;
   equipId?: string | number;
   stateTime?: string;
   reliTime?: string;
   ecoTime?: string;
-  decTime?: string;*/
+  decTime?: string;
 }
 export interface HistoryaddParams {
-  equipId?: EvaluateId;
-  stateId?: EvaluateId;
-  reliabilityId?: EvaluateId;
-  economyId?: EvaluateId;
-  decisionId?: EvaluateId;
+  equipId: number;
+  stateId: number;
+  reliabilityId: number;
+  economyId: number;
+  decisionId: number;
 }
 export interface SearchHistoryParmas {
   page: string | number;
@@ -34,5 +34,5 @@ export interface getHistoryPageListData {
 }
 export interface HistoryViewParams {
   testId: number;
-  evaluateType: Number;
+  evaluateType: number;
 }

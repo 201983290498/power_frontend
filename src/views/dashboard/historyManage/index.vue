@@ -78,7 +78,6 @@
     page: 1,
     pageSize: 10,
   });
-  const sortBy = ref('defaultField'); // 默认排序字段
   const sortOrder = ref('asc'); // 排序方向
 
   const [registerModal, { openModal }] = useModal();
@@ -91,11 +90,20 @@
     pageSizeOptions: ['5', '10', '20', '30', '40'],
     showTotal: (total, range) => `显示 ${range[0]}-${range[1]} 共 ${total} 条`,
   });
-
   const tableConfig: Props = {
     title: '历史数据列表',
-    api: getHistoryList(), // 使用箭头函数s包装原 API 调用 (query) => getHistoryList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value })
+    api: async (params) => {
+      try {
+        const response = await getHistoryList(params);
+        // 确保这里返回的是一个对象，其中包含 items 数组和可能的其他元数据
+        return { data: response.items, total: response.rowCount };
+      } catch (error) {
+        console.error('Failed to fetch history data:', error);
+        return { data: [], total: 0 };
+      }
+    }, // 使用箭头函数s包装原 API 调用 (query) => getHistoryList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value })
     afterFetch: (data) => {
+      // data 是从 API 获得的数据，params 是请求参数
       return data.data;
     },
     columns,
@@ -129,11 +137,11 @@
   }
 
   function handleCreate() {
-    openModal(true, { isUpdate: false });
+    openModal(true, { isUpdate: true });
   }
 
   function handleEdit(record) {
-    openModal(true, { record, isUpdate: true });
+    openModal(true, { record, isUpdate: false });
   }
 
   function handleDelete(record) {
@@ -144,8 +152,8 @@
     searchHistory(searchModel)
       .then((result) => {
         // 更新表格数据逻辑，需要根据您的组件具体实现来定
-        pagination.total = result.rowCount; // 使用返回的总数据数量更新分页的总数
-        setTableData(result.items); // 使用 setData 来更新表格数据
+        pagination.total = result.rowCount; // 更新分页的总数
+        setTableData(result.items); // 更新表格数据
         reload();
       })
       .catch((error) => {
@@ -156,6 +164,14 @@
   function handleSuccess() {
     reload(); // 成功后重新加载数据
   }
+  function setTableData(data) {
+    // 这里应该是更新表格数据的逻辑，具体取决于您的表格组件是如何接收数据的
+    // 例如，如果 useTable 返回了一个方法来更新数据，您可能需要调用这个方法
+    setProps({ dataSource: data });
+  }
+  /*function setTableData(data) {
+    tableData.value = data; // 直接更新响应式引用的值
+  }*/
 </script>
 <script lang="ts">
   export default {

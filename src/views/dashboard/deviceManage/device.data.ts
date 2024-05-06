@@ -107,7 +107,13 @@ export const formSchema: FormSchema[] = [
     field: 'status',
     label: '状态',
     required: true,
-    component: 'Input',
+    component: 'Select',
+    componentProps: {
+      options: [
+        { label: '启用', value: '1' },
+        { label: '停用', value: '0' },
+      ],
+    },
   },
   {
     field: 'capacity',

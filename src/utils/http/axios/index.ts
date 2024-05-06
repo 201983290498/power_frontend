@@ -51,6 +51,7 @@ const transform: AxiosTransform = {
     const { code, message } = data;
     let result = data.result;
     result === undefined && (result = data.data);
+    console.log(data);
 
     //const hasSuccess = data && Reflect.has(data, 'code') && Number(code) === ResultEnum.SUCCESS;
     const hasSuccess = data && Reflect.has(data, 'code') && Number(code) === ResultEnum.SUCCESS;

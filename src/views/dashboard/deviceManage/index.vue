@@ -45,7 +45,6 @@
   import DeviceModal from './DeviceModal.vue';
   import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
-import { dataTool } from 'echarts';
 
   const emit = defineEmits(['chooseDevice']);
   const props = defineProps({
@@ -166,6 +165,11 @@ import { dataTool } from 'echarts';
   function itemonclick(record) {
     console.log(record);
     emit('chooseDevice', record);
+  }
+  function setTableData(data) {
+    // 这里应该是更新表格数据的逻辑，具体取决于您的表格组件是如何接收数据的
+    // 例如，如果 useTable 返回了一个方法来更新数据，您可能需要调用这个方法
+    setProps({ dataSource: data });
   }
 </script>
 <script lang="ts">
