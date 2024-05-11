@@ -30,12 +30,11 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
  * @description: getUserInfo
  */
 export function getUserInfo() {
-  const headers: AxiosRequestHeaders = {
-    Authorization: 'Bearer ' + getToken(),
-  };
   // 获取用户信息
-  return defHttp.post<PowGetUserInfoModel>(
-    { url: Api.GetUserInfo, headers },
+  return defHttp.get<PowGetUserInfoModel>(
+    {
+      url: Api.GetUserInfo,
+    },
     { errorMessageMode: 'none' },
   );
 }
