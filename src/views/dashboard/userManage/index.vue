@@ -1,10 +1,10 @@
 <template>
   <Card>
-    <BasicTable @register="registerTable">
+    <BasicTable @register="registerTable" :searchModel="searchModel">
       <template #toolbar>
         <!-- 右上角的按钮 -->
         <!-- 搜索表单 -->
-        <BasicForm :schemas="searchFormSchema" :model="searchModel" @submit="handleSearch" />
+        <!-- BasicForm :schemas="searchFormSchema" :model="searchModel" @submit="handleSearch" /-->
         <a-button type="primary" @click="handleCreate"> 新增用户 </a-button>
         <a-button @click="toggleSortOrder">切换排序</a-button>
       </template>
@@ -40,7 +40,7 @@
   import UserModal from './UserModel.vue';
   import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
-
+  console.log('data');
   const props = defineProps({
     reSize: {
       type: Boolean,
@@ -118,6 +118,10 @@
       dataIndex: 'action',
       slots: { customRender: 'action' },
       fixed: undefined,
+    },
+    handleSearchInfoFn(info) {
+      console.log('handleSearchInfoFn', info);
+      return info;
     },
   };
   props.maxHeight == -1 || (tableConfig['maxHeight'] = props.maxHeight);

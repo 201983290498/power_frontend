@@ -1,10 +1,10 @@
 <template>
   <Card>
-    <BasicTable @register="registerTable" @click="itemonclick">
+    <BasicTable :searchModel="searchModel" @register="registerTable" @click="itemonclick">
       <template #toolbar>
         <!-- 右上角的按钮 -->
         <!-- 搜索表单 -->
-        <BasicForm :schemas="searchFormSchema" :model="searchModel" @submit="handleSearch" />
+        <!--BasicForm :schemas="searchFormSchema" :model="searchModel" @submit="handleSearch" /-->
         <a-button type="primary" @click="handleCreate"> 新增设备 </a-button>
         <a-button @click="toggleSortOrder">切换排序</a-button>
       </template>
@@ -17,16 +17,16 @@
             },
             {
               icon: 'ant-design:delete-outlined',
-              color: 'error',
               popConfirm: {
                 title: '是否确认删除',
+                color: 'error',
                 placement: 'left',
                 confirm: handleDelete.bind(null, record),
               },
             },
             {
               icon: 'ant-design:search-outlined',
-              color: 'black',
+              color: 'success',
               onClick: handleView.bind(null, record),
             },
           ]"
@@ -97,11 +97,14 @@
     pageSizeOptions: ['5', '10', '20', '30', '40'],
     showTotal: (total, range) => `显示 ${range[0]}-${range[1]} 共 ${total} 条`,
   });
+  console.log('data');
 
   const tableConfig: Props = {
     title: '设备列表',
+    rowKey: 'id',
     api: (query) => getDeviceList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }), // 使用箭头函数包装原 API 调用
     afterFetch: (data) => {
+      console.log('data', data.data);
       return data.data;
     },
     columns,
@@ -119,6 +122,10 @@
     showIndexColumn: false,
     pagination,
     canResize: props.reSize,
+    handleSearchInfoFn(info) {
+      console.log('handleSearchInfoFn', info);
+      return info;
+    },
     actionColumn: {
       width: 80,
       title: '操作',
@@ -165,6 +172,9 @@
   function itemonclick(record) {
     console.log(record);
     emit('chooseDevice', record);
+  }
+  function handleSuccess() {
+    reload(); // 成功后重新加载数据
   }
   function setTableData(data) {
     // 这里应该是更新表格数据的逻辑，具体取决于您的表格组件是如何接收数据的

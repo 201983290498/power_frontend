@@ -1,10 +1,9 @@
 <template>
   <Card>
-    <BasicTable @register="registerTable">
+    <BasicTable @register="registerTable" :searchModel="searchModel">
       <template #toolbar>
         <!-- 右上角的按钮 -->
         <!-- 搜索表单 -->
-        <BasicForm :schemas="searchFormSchema" :model="searchModel" @submit="handleSearch" />
         <a-button type="primary" @click="handleCreate"> 新增历史数据 </a-button>
         <a-button @click="toggleSortOrder">切换排序</a-button>
       </template>
@@ -40,6 +39,7 @@
   import HistoryModal from './HistoryModal.vue';
   import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
+  //import { BasicForm } from '/@/components/Form';
 
   const props = defineProps({
     reSize: {
@@ -78,8 +78,8 @@
     page: 1,
     pageSize: 10,
   });
+  const sortBy = ref('defaultField'); // 默认排序字段
   const sortOrder = ref('asc'); // 排序方向
-
   const [registerModal, { openModal }] = useModal();
   const pagination = reactive({
     total: 0,
@@ -92,18 +92,10 @@
   });
   const tableConfig: Props = {
     title: '历史数据列表',
-    api: async (params) => {
-      try {
-        const response = await getHistoryList(params);
-        // 确保这里返回的是一个对象，其中包含 items 数组和可能的其他元数据
-        return { data: response.items, total: response.rowCount };
-      } catch (error) {
-        console.error('Failed to fetch history data:', error);
-        return { data: [], total: 0 };
-      }
-    }, // 使用箭头函数s包装原 API 调用 (query) => getHistoryList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value })
+    api: (query) => getHistoryList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }), // 使用箭头函数s包装原 API 调用 (query) => getHistoryList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value })
     afterFetch: (data) => {
       // data 是从 API 获得的数据，params 是请求参数
+      console.log('data', data.data);
       return data.data;
     },
     columns,
@@ -114,6 +106,10 @@
     fetchSetting: {
       pageField: 'page',
       sizeField: 'pageSize',
+    },
+    handleSearchInfoFn(info) {
+      console.log('handleSearchInfoFn', info);
+      return info;
     },
     useSearchForm: true,
     showTableSetting: true,

@@ -30,7 +30,7 @@ export interface SearchHistoryParmas {
 export interface getHistoryPageListData {
   pageCount: number; // 总页数
   rowCount: number; // 总的数据数量
-  items: Historydata[]; // 设备总数
+  items: Historydata[]; // 历史总数
 }
 export interface HistoryViewParams {
   testId: number;
