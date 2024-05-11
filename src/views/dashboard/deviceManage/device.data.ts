@@ -28,6 +28,11 @@ export const columns: BasicColumn[] = [
     width: 100,
   },
   {
+    title: '安装位置',
+    dataIndex: 'location',
+    width: 100,
+  },
+  {
     title: '评估日期',
     dataIndex: 'evaluateTime',
     width: 100,
@@ -36,6 +41,10 @@ export const columns: BasicColumn[] = [
     title: '状态',
     dataIndex: 'status',
     width: 100,
+    customRender: ({ text }) => {
+      // Check the value of 'status' and return the appropriate label
+      return text === 1 ? '已上线' : '停用';
+    },
   },
 ];
 // 顶部搜索框
