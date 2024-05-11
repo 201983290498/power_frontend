@@ -57,7 +57,15 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       host: true,
       port: VITE_PORT,
       // Load proxy configuration from .env
-      proxy: createProxy(VITE_PROXY),
+      // proxy: createProxy(VITE_PROXY),
+      proxy: {
+        '/basic-api': {
+          target: 'http://10.242.7.10:8080',
+          changeOrigin: true,
+          ws: true,
+          rewrite: (path) => path.replace(new RegExp(`^/basic-api`), ''),
+        },
+      },
     },
     build: {
       target: 'es2015',

@@ -1,5 +1,5 @@
 import { FormSchema } from '/@/components/Form/src/types/form';
-import { createFormSchema, createList } from '/@/utils/listToFiled';
+import { createDivider, createFormSchema, createList } from '/@/utils/listToFiled';
 
 const rankNames: string[] = [];
 for (let i = 1; i <= 17; i++) {
@@ -11,7 +11,7 @@ const abc: string[] = ['ab', 'bc', 'ca'];
 const ABCD: string[] = ['A', 'B', 'C', 'D'];
 
 export const step1Schemas: FormSchema[] = [
-  createFormSchema('temperature', '运行环境年平均温度', '50%', 2, 12),
+  createFormSchema('temperature', '运行环境平均温度', '50%', 2, 12),
   createFormSchema('humidity', '湿度', '50%', 2, 12),
 ];
 
@@ -30,7 +30,7 @@ export const step2Schemas: FormSchema[] = [
 
 export const step3Schemas: FormSchema[] = [
   createFormSchema('oilTemperature', '油温', '60%', 2, 8),
-  createFormSchema('coreLeakage', '铁心泄露电流(uA)', '60%', 2, 8),
+  createFormSchema('coreLeakage', '铁心泄露电流(mA)', '60%', 2, 8),
   createFormSchema('partDischargeNum', '局部放电量', '60%', 2, 8),
   ...createList('绝缘电阻', 'insRes', dirNames, '60%', 8, 2),
   ...createList('吸收比', 'absorptionRatio', dirNames, '60%', 8, 3),
@@ -42,22 +42,10 @@ export const step3Schemas: FormSchema[] = [
   ...createList('绕组直流电阻(中压侧)', 'windingDcResistanceMid', AmOm, '60%', 8, 3),
   ...createList('绕组直流电阻(低压侧)', 'windingDcResistanceLow', abc, '60%', 8, 3),
   ...createList('直流电阻不平衡系数高压侧', 'dcResistanceUnbalanceHigh', rankNames),
-  ...createList(
-    '直流电阻不平衡系数中压侧',
-    'dcResistanceUnbalanceMid',
-    rankNames.slice(0, 1),
-    '60%',
-    6,
-    3,
-  ),
-  ...createList(
-    '直流电阻不平衡系数低压侧',
-    'dcResistanceUnbalanceLow',
-    rankNames.slice(0, 1),
-    '60%',
-    6,
-    3,
-  ),
+  createDivider('直流电阻不平衡系数中压侧'),
+  createFormSchema('dcResistanceUnbalanceMid', '挡位值', '60%', 3, 6),
+  createDivider('直流电阻不平衡系数低压侧'),
+  createFormSchema('dcResistanceUnbalanceLow', '挡位值', '60%', 3, 6),
   ...createList('高压侧套管介质损耗tanδ(%)', 'bushingDielectricLoss', ABCD, '60%', 6, 4),
   ...createList('高压侧套管电容值Cx(pF)', 'bushingCapacitance', ABCD, '60%', 6, 2),
 ];

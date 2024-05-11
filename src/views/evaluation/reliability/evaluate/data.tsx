@@ -63,7 +63,7 @@ export const step1Schemas: FormSchema[] = [
 ];
 
 export const step2Schemas: FormSchema[] = [
-  createFormSchema('avgmonthHotspotTemper', '每月平均热点温度', '60%', 2, 6),
+  createFormSchema('avgmonthHotspotTemper', '每月平均温度', '60%', 2, 6),
   createOptionSchema('thermalModification', '热改性/非热改性', demoOption1, '60%', 6),
   createFormSchema('oilFurfuralindex', '油中糠醛指数', '60%', 2, 6),
   createFormSchema('temperature', '环境温度', '60%', 2, 6),

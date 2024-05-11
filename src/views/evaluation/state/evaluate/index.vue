@@ -84,6 +84,7 @@
   import { useRouteParams } from '/@/store/modules/route';
   import { closeTab } from '../../common/common';
   import { useEvaluateStore } from '/@/store/modules/evaluate';
+
   const evaluateState = useEvaluateStore();
   const deviceId = evaluateState.getDeviceInfo?.deviceId ?? '-1';
   const userId = evaluateState.getUserInfo?.userId ?? '-1';

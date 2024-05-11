@@ -17,19 +17,19 @@
     >
       <CardGrid class="grid" :style="{ backgroundColor: bkcolor }">
         <span class="text-3xl">{{ props.result.personCharge }}</span> <br />
-        <span class="text-sm">测试负责人</span>
+        <span class="text-sm">责任人</span>
       </CardGrid>
       <CardGrid class="grid" :style="{ backgroundColor: bkcolor }">
         <span class="text-3xl">{{ props.result.evaluateTime }}</span> <br />
-        <span>测试时间</span>
+        <span>评估时间</span>
       </CardGrid>
       <CardGrid class="grid" :style="{ backgroundColor: bkcolor }">
         <span class="text-3xl">{{ props.result.statusValue }}</span> <br />
-        <span>设备状态值</span>
+        <span>健康指数</span>
       </CardGrid>
       <CardGrid class="grid" :style="{ backgroundColor: bkcolor }">
         <span class="text-3xl">{{ props.result.status }}</span> <br />
-        <span>设备状态</span>
+        <span>运行状态</span>
       </CardGrid>
     </Card>
   </Card>

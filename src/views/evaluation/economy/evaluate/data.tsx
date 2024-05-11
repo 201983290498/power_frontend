@@ -1,5 +1,16 @@
+import { OptionPair } from '../../common/data';
 import { FormSchema } from '/@/components/Form/src/types/form';
-import { createFormSchema } from '/@/utils/listToFiled';
+import { createFormSchema, createOptionSchema } from '/@/utils/listToFiled';
+
+const statusOptions = [
+  new OptionPair('0.05', 0.05).getConstantValue(),
+  new OptionPair('0.015', 0.015).getConstantValue(),
+];
+
+const statusOptions1 = [
+  new OptionPair('存在第一次大修', 1).getConstantValue(),
+  new OptionPair('不存在第一次大修', 0).getConstantValue(),
+];
 
 export const step1Schemas: FormSchema[] = [
   createFormSchema('purchaseCost', '购置成本（万元）', '60%', 2, 6),
@@ -21,4 +32,14 @@ export const step1Schemas: FormSchema[] = [
   createFormSchema('installFee', '设备安装费', '60%', 2, 6),
   createFormSchema('residualValueRate', '设备残值率', '60%', 2, 6),
   createFormSchema('cleaningFeeRate', '清理费费率', '60%', 2, 6),
+  createFormSchema('equipRunLife', '变压器运行寿命(年)', '60%', 2, 6),
+  createOptionSchema('maintainCostFactor', '预防性维护的费用系数', statusOptions, '60%', 6),
+  createFormSchema('firstOverhaulTime', '第一次大修时间(x小时)', '60%', 2, 6),
+  createOptionSchema('firstOverhaulFactor', '第一次大修系数', statusOptions1, '60%', 6),
+  createFormSchema('secondOverhaulTime', '第二次大修时间(x小时)', '60%', 2, 6),
+  createOptionSchema('secondOverhaulFactor', '第二次大修系数', statusOptions1, '60%', 6),
+  createFormSchema('discountRate', '折现率(%)', '60%', 2, 6),
+  createFormSchema('equipDesignLife', '变压器设计寿命', '60%', 2, 6),
+  createFormSchema('equipDesignLife', '变压器设计寿命', '60%', 2, 6),
+  createFormSchema('runningCost', '运行成本(万元)', '60%', 2, 6),
 ];

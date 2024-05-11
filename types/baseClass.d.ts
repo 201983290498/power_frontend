@@ -250,11 +250,11 @@ export interface StateInput {
   /**
    * 直流电阻不平衡系数低压侧，1
    */
-  dcResistanceUnbalanceLow: number[];
+  dcResistanceUnbalanceLow: number;
   /**
    * 直流电阻不平衡系数中压侧，1-3
    */
-  dcResistanceUnbalanceMid: number[];
+  dcResistanceUnbalanceMid: number;
   /**
    * 绕组介质损耗tanδ(%)，高中低依次存储
    */
@@ -330,14 +330,6 @@ export interface StateInput {
    */
   testingDeviceStatus: number;
   /**
-   * 总烃绝对产气速率(%/月)
-   */
-  totalHAbsolute: number;
-  /**
-   * 总烃相对产气速率(%/月)
-   */
-  totalHRelative: number;
-  /**
    * 总烃含量(uL/L)
    */
   totalHydrocarbon: number;
@@ -373,30 +365,45 @@ export interface StateInput {
 }
 
 /**
- * StateEvaluation Output
+ * StateOutput
  */
 export interface StateOutput {
-  evaluateId: EvaluateId;
+  /**
+   * 油中溶解气体劣化度信息
+   */
+  deterFactor1: number;
+  /**
+   * 电气试验劣化度信息
+   */
+  deterFactor2: number;
+  /**
+   * 油化试验劣化度信息
+   */
+  deterFactor3: number;
   /**
    * 变压器（本次评价的变压器的编号等简要变压器信息）
    */
-  equiment: { [key: string]: any };
+  equiment: string;
+  /**
+   * 测试id
+   */
+  evaluateId: number;
   /**
    * 时间（在何时进行的本次状态评价）
    */
-  evalTime: string;
+  evaluateTime: string;
   /**
    * 负责人（执行本次状态评价的负责人姓名）
    */
   personCharge: string;
   /**
-   * 状态（输出：正常、严重等状态）
+   * 状态（输出：正常、严重等状态），评估状态
    */
-  status: StateEnum;
+  status: string;
   /**
    * 状态值（变压器健康指数或者劣化度等用来衡量变压器状态的一个数值）
    */
-  statusValue: string;
+  statusValue: number;
   [property: string]: any;
 }
 
@@ -441,7 +448,7 @@ export interface ReliabilityInput {
    */
   appearanceScore?: number[] | string;
   /**
-   * 每月平均热点温度
+   * 每月平均温度
    */
   avgmonthHotspotTemper?: number;
   /**
@@ -608,6 +615,7 @@ export interface ReliabilityInput {
    * 三相电抗最大差值
    */
   threePhaseRactanceMaxDiff?: number;
+  runningCost?: number;
   [property: string]: any;
 }
 
@@ -618,39 +626,59 @@ export interface EconomyInput {
   /**
    * 年平均故障次数
    */
-  annualAvgFailure?: number;
+  annualAvgFailure: number;
   /**
    * 年故障中断供电时间
    */
-  annualPowerOutageTime?: number;
+  annualPowerOutageTime: number;
   /**
    * 年小修总费用
    */
-  annualRepairCost?: number;
+  annualRepairCost: number;
   /**
    * 平均负载率
    */
-  avgLoadRate?: number;
+  avgLoadRate: number;
   /**
    * 平均功率因数
    */
-  avgPowerFactor?: number;
+  avgPowerFactor: number;
   /**
    * 平均修复时间MTTR
    */
-  avgRepairTime?: number;
+  avgRepairTime: number;
   /**
    * 清理费费率
    */
-  cleaningFeeRate?: number;
+  cleaningFeeRate: number;
+  /**
+   * 折现率
+   */
+  discountRate: number;
   /**
    * 电价
    */
-  electricityPrice?: number;
+  electricityPrice: number;
+  /**
+   * 变压器设计寿命
+   */
+  equipDesignLife: number;
+  /**
+   * 变压器运行寿命
+   */
+  equipRunLife: number;
   /**
    * 测试Id
    */
-  evaluateId: EvaluateId;
+  evaluateId?: number;
+  /**
+   * 第一次大修系数，存在第一次大修为1.否则为0
+   */
+  firstOverhaulFactor: number;
+  /**
+   * 第一次大修时间
+   */
+  firstOverhaulTime: number;
   /**
    * 初始其他成本
    */
@@ -662,27 +690,31 @@ export interface EconomyInput {
   /**
    * 设备安装费
    */
-  installFee?: number;
+  installFee: number;
   /**
    * 负载损耗
    */
-  loadLoss?: number;
+  loadLoss: number;
+  /**
+   * 预防性维护的费用系数
+   */
+  maintainCostFactor: number;
   /**
    * 空载损耗（KW）
    */
-  noneLoadLoss?: number;
+  noneLoadLoss: number;
   /**
    * 单次大修总费用
    */
-  overhaulCost?: number;
+  overhaulCost: number;
   /**
    * 单位时间平均修复成本
    */
-  pertimeAvgRepairCost?: number;
+  pertimeAvgRepairCost: number;
   /**
    * 供电利润 （元/kwh）
    */
-  powerProfit?: number;
+  powerProfit: number;
   /**
    * 购置成本（万元）
    */
@@ -694,7 +726,15 @@ export interface EconomyInput {
   /**
    * 设备残值率
    */
-  residualValueRate?: number;
+  residualValueRate: number;
+  /**
+   * 第二次大修系数，存在第二次大修为1.否则为0
+   */
+  secondOverhaulFactor: number;
+  /**
+   * 第二次大修时间
+   */
+  secondOverhaulTime: number;
   [property: string]: any;
 }
 
