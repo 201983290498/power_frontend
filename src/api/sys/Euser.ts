@@ -5,6 +5,8 @@ import {
   getUserPageListParmas,
   UseraddParams,
   SearchUserParams,
+  UserupdateParams,
+  UserdeleteParams,
 } from './model/userModel';
 enum Api {
   GetUserPageList = '/powergrid/sys/user',
@@ -21,9 +23,7 @@ const demoParam: getUserPageListParmas = {
 // 获取用户列表
 export const getUserList = (params: getUserPageListParmas = demoParam) =>
   defHttp.get<getUserPageListData>({ url: Api.GetUserPageList, params });
-// 添加用户
-/*export const addUser = (userData: UseraddParams = demoParam) =>
-  defHttp.post<{ message: string }>({ url: Api.AddUser, data: userData });*/
+//获取用户列表
 export function addUser(params: UseraddParams, mode: ErrorMessageMode = 'modal') {
   return defHttp.post(
     {
@@ -37,12 +37,37 @@ export function addUser(params: UseraddParams, mode: ErrorMessageMode = 'modal')
 }
 
 // 删除用户
-export const deleteUser = (userName: string) =>
-  defHttp.delete<{ message: string }>({ url: `${Api.DeleteUser}/${userName}` });
+/**
+ * 删除设备
+ * @param params 删除设备请求参数
+ * @param mode 错误消息模式，默认为 'modal'
+ * @returns 返回 Promise 对象，包含删除操作的结果
+ */
+export function deleteUser(params: UserdeleteParams, mode: ErrorMessageMode = 'modal') {
+  return defHttp.delete(
+    {
+      url: Api.DeleteUser,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+}
 
-// 更新用户
-export const updateUser = (userName: number, userData: getUserPageListParmas = demoParam) =>
-  defHttp.put<{ message: string }>({ url: `${Api.UpdateUser}/${userName}`, data: userData });
+//更新用户
+export function updateUser(params: UserupdateParams, mode: ErrorMessageMode = 'modal') {
+  return defHttp.put(
+    {
+      url: Api.UpdateUser,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+}
+
 // 新增搜索用户的函数
 export const searchUsers = async (params: SearchUserParams, mode: ErrorMessageMode = 'modal') => {
   return await defHttp.get<getUserPageListData>(
@@ -55,15 +80,3 @@ export const searchUsers = async (params: SearchUserParams, mode: ErrorMessageMo
     },
   );
 };
-/*export const SearchUserList = (params: SearchUserParams) =>
-  defHttp.get<getUserPageListData>({
-    url: Api.SearchUser,
-    params,
-  });
-
-/* export const updateUser = (userId: number | string, userData: User) => {
-  return defHttp.put<{ message: string; user: User }>({
-    url: `${Api.UpdateUser}/${userId}`,
-    data: userData,
-  });
-}; */

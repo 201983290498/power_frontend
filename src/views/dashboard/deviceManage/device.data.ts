@@ -83,10 +83,17 @@ export const searchFormSchema: FormSchema[] = [
 // 新增页面的效果
 export const formSchema: FormSchema[] = [
   {
+    field: 'fixedPwd',
+    label: '管理员密码',
+    component: 'InputPassword',
+    required: true,
+  },
+  {
     field: 'equipId',
     label: '设备Id',
-    component: 'Input',
-    required: true,
+    component: 'InputNumber',
+    required: false,
+    componentProps: { disabled: true },
   },
   {
     field: 'equipNo',
@@ -129,6 +136,7 @@ export const formSchema: FormSchema[] = [
     label: '容量',
     required: true,
     component: 'Input',
+    componentProps: { step: 0.0001, precision: 4 },
   },
   {
     field: 'connectionSymbol',
@@ -170,12 +178,14 @@ export const formSchema: FormSchema[] = [
     field: 'noLoadCurrent',
     label: '空载电流',
     required: true,
+    componentProps: { step: 0.0001, precision: 4 },
     component: 'Input',
   },
   {
     field: 'noLoadLoss',
     label: '空载损耗',
     required: true,
+    componentProps: { step: 0.0001, precision: 4 },
     component: 'Input',
   },
   {
@@ -194,12 +204,14 @@ export const formSchema: FormSchema[] = [
     field: 'phase',
     label: '相数',
     required: true,
+    componentProps: { step: 0.0001, precision: 4 },
     component: 'Input',
   },
   {
     field: 'ratedVoltage',
     label: '额定电压',
     required: true,
+    componentProps: { step: 0.0001, precision: 4 },
     component: 'Input',
   },
   {
@@ -218,6 +230,7 @@ export const formSchema: FormSchema[] = [
     field: 'systemNominalVoltage',
     label: '系统标称电压',
     required: true,
+    componentProps: { step: 0.0001, precision: 4 },
     component: 'Input',
   },
 ];
@@ -225,7 +238,7 @@ export const Viewform: FormSchema[] = [
   {
     field: 'equipId',
     label: '设备Id',
-    component: 'Input',
+    component: 'InputNumber',
     required: true,
     componentProps: { disabled: true },
   },

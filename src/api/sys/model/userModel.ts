@@ -64,20 +64,22 @@ export interface getUserPageListParmas {
   organaztion?: string | number;
   personCharge?: string | number;
 }
+
 export interface UseraddParams {
-  // 权限等级
-  level: number;
-  // 所属单位
-  organization: string;
-  // 密码
-  password: string;
-  //责任人
-  personCharge: string;
-  //用户了
-  role: string;
-  //用户名
-  userName: string;
-  userId: number;
+  adminName?: string;
+  adminPwd?: string;
+  data: Partial<User>;
+}
+
+export interface UserupdateParams {
+  adminName?: string;
+  adminPwd?: string;
+  data: Partial<User>;
+}
+export interface UserdeleteParams {
+  adminName?: string;
+  adminPwd?: string;
+  id: string | number;
 }
 
 export interface getUserPageListData {

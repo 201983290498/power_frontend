@@ -54,13 +54,43 @@
       const values = await validate();
       setModalProps({ confirmLoading: true });
 
+      const equipment = {
+        equipNo: values.equipNo,
+        personCharge: values.personCharge,
+        score: values.score,
+        evaluateTime: values.evaluateTime,
+        status: values.status,
+        organization: values.organization,
+        runNo: values.runNo,
+        substationName: values.substationName,
+        operationTime: values.operationTime,
+        systemNominalVoltage: values.systemNominalVoltage,
+        type: values.type,
+        phase: values.phase,
+        location: values.location,
+        capacity: values.capacity,
+        ratedVoltage: values.ratedVoltage,
+        connectionSymbol: values.connectionSymbol,
+        noLoadCurrent: values.noLoadCurrent,
+        noLoadLoss: values.noLoadLoss,
+        manufacturer: values.manufacturer,
+        manufactureDate: values.manufactureDate,
+        factoryNo: values.factoryNo,
+        equipId: values.equipId, // 确保 equipId 被正确设置
+      };
+
+      const params = {
+        fixedPwd: values.fixedPwd,
+        equipment,
+      };
+
       if (isUpdate.value) {
         // 如果 isUpdate 为 true，更新设备信息
-        const result = await updateDevice(values.id, values); // 确保 values 包含 id 和其他必要信息
+        const result = await updateDevice(params);
         console.log('Device updated:', result);
       } else {
         // 否则，添加新设备
-        const result = await addDevice(values);
+        const result = await addDevice(params);
         console.log('New device added:', result);
       }
 

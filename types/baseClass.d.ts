@@ -10,102 +10,30 @@ export type EvaluateId = string | number | undefined | null;
  * Device
  */
 export interface Device {
-  /**
-   * 容量
-   */
-  capacity: number;
-  /**
-   * 联结组标号
-   */
-  connectionSymbol: string;
-  /**
-   * 设备id
-   */
-  equipId: string;
-  /**
-   * 编号
-   */
+  equipId: number;
   equipNo: string;
-  /**
-   * 评估日期，为打分日期
-   */
-  evaluateTime?: string;
-  /**
-   * 出厂序号
-   */
-  factoryNo: string;
-  /**
-   * 安置地点，（室内/室外
-   */
-  location: string;
-  /**
-   * 制造日期，同上
-   */
-  manufactureDate: string;
-  /**
-   * 制造厂家
-   */
-  manufacturer: string;
-  /**
-   * 型号
-   */
-  type: string;
-  /**
-   * 空载电流
-   */
-  noLoadCurrent: number;
-  /**
-   * 空载损耗
-   */
-  noLoadLoss: number;
-  /**
-   * 投运时间，时间（2024-04-24）
-   */
-  operationTime: string;
-  /**
-   * 单位
-   */
-  organization: string;
-  /**
-   * 评估人
-   */
-  personCharge?: string;
-  /**
-   * 相数
-   */
-  phase: number;
-  /**
-   * 额定电压
-   */
-  ratedVoltage: number;
-  /**
-   * 运行编号
-   */
-  runNo: string;
-  /**
-   * 综合得分
-   */
+  personCharge: string;
   score: number;
-  /**
-   * 状态，1上线0未上线
-   */
+  evaluateTime: string; // 假设这是一个日期时间字符串，实际应用中可能需要Date类型或其他格式
   status: number;
-  /**
-   * 变电站名称
-   */
+  organization: string;
+  runNo: string;
   substationName: string;
-  /**
-   * 系统标称电压
-   */
+  operationTime: string; // 同上
   systemNominalVoltage: number;
-  [property: string]: any;
+  type: string;
+  phase: number;
+  location: string;
+  capacity: number;
+  ratedVoltage: number;
+  connectionSymbol: string;
+  noLoadCurrent: number;
+  noLoadLoss: number;
+  manufacturer: string;
+  manufactureDate: string; // 同上
+  factoryNo: string;
 }
-/**
- * DeviceIno
- */
-/**
- * Evaluate
- */
+
 export interface Historydata {
   /*** 运维决策时间*/
   decTime: string;
