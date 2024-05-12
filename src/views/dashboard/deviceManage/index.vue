@@ -1,6 +1,6 @@
 <template>
   <Card>
-    <BasicTable :searchModel="searchModel" @register="registerTable" @click="itemonclick">
+    <BasicTable :searchModel="searchModel" @register="registerTable" @rowClick="itemonclick">
       <template #toolbar>
         <!-- 右上角的按钮 -->
         <!-- 搜索表单 -->
@@ -99,7 +99,6 @@
     pageSizeOptions: ['5', '10', '20', '30', '40'],
     showTotal: (total, range) => `显示 ${range[0]}-${range[1]} 共 ${total} 条`,
   });
-  console.log('data');
 
   const tableConfig: Props = {
     title: '设备列表',
@@ -171,8 +170,7 @@
         console.error('Error searching users:', error);
       });
   }
-  function itemonclick(record) {
-    console.log(record);
+  function itemonclick(record, index) {
     emit('chooseDevice', record);
   }
   function handleSuccess() {
