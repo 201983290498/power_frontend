@@ -82,7 +82,6 @@ export const formSchema: FormSchema[] = [
     field: 'password',
     label: '密码',
     required: true,
-    componentProps: { disabled: true },
     component: 'InputPassword',
   },
   {

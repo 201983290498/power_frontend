@@ -60,18 +60,9 @@ export interface getUserPageListParmas {
   // 上次登录时间
   sortBy?: string;
   sortOrder?: string;
-  lastLogin?: string;
-  // 权限等级
-  level?: number | string;
-  // 所属单位
-  password?: string;
-  //责任人
-  personCharge?: string;
-  organization?: string;
-  role?: string;
-  //用户名
   userName?: string | number;
-  userId?: string | number;
+  organaztion?: string | number;
+  personCharge?: string | number;
 }
 export interface UseraddParams {
   // 权限等级

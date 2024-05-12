@@ -77,7 +77,7 @@
     role: '',
   });
 
-  const sortBy = ref('defaultField'); // 默认排序字段
+  const sortBy = ref('user_id'); // 默认排序字段
   const sortOrder = ref('asc'); // 排序方向
 
   const [registerModal, { openModal }] = useModal();

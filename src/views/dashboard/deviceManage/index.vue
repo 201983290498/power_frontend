@@ -82,9 +82,11 @@
     location: '',
     page: 1,
     pageSize: 10,
+    sortBy: '',
+    sortOrder: '',
   });
 
-  const sortBy = ref('defaultField'); // 默认排序字段
+  const sortBy = ref(''); // 默认排序字段
   const sortOrder = ref('asc'); // 排序方向
 
   const [registerModal, { openModal }] = useModal();
