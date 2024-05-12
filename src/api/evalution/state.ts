@@ -31,6 +31,7 @@ export function stateEvaluation(params: StateParam, mode: ErrorMessageMode = 'mo
  * @description: 保存某测测评的输入
  */
 export async function saveStateRcord(params: SaveParam) {
+  await defHttp.get<any>({ url: Api.RecordSave, params });
   const evaluate = useEvaluateStore();
   const historyPararm: HistoryaddParams = {
     stateId: params.evaluateId,

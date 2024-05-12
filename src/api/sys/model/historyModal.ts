@@ -1,4 +1,5 @@
 import { Historydata } from '/#/baseClass';
+import { EvaluateId } from '/#/baseClass';
 /**
  * @description: get device pagelist interface parameters
  */
@@ -15,11 +16,11 @@ export interface getHistoryPageListParmas {
   decTime?: string;
 }
 export interface HistoryaddParams {
-  equipId: number;
-  stateId: number;
-  reliabilityId: number;
-  economyId: number;
-  decisionId: number;
+  equipId: EvaluateId;
+  stateId: EvaluateId;
+  reliabilityId: EvaluateId;
+  economyId: EvaluateId;
+  decisionId: EvaluateId;
 }
 export interface SearchHistoryParmas {
   page: string | number;

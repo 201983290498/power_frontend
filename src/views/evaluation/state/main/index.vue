@@ -45,9 +45,11 @@
   const showDetail = ref(false);
   const deviceInfo = ref<Partial<any> | null>(deviceDemo);
   const evaluateState = useEvaluateStore();
+  const { createMessage } = useMessage();
   evaluateState.getDeviceInfo !== null && devicePreProcess();
 
   function selectDevice(device) {
+    console.log(device);
     deviceInfo.value = device;
     evaluateState.setDeviceInfo(device);
     evaluateState.setDeviceImage(logo);
@@ -66,8 +68,8 @@
   }
 
   function devicePreProcess() {
-    // createMessage.info('默认选择上次测评的设备');
-    // deviceInfo.value = evaluateState.getDeviceInfo;
-    // showDetail.value = true;
+    createMessage.info('默认选择上次测评的设备');
+    deviceInfo.value = evaluateState.getDeviceInfo;
+    showDetail.value = true;
   }
 </script>

@@ -20,7 +20,7 @@
         <span class="text-sm">责任人</span>
       </CardGrid>
       <CardGrid class="grid" :style="{ backgroundColor: bkcolor }">
-        <span class="text-3xl">{{ props.result.evaluateTime }}</span> <br />
+        <span class="text-3xl">{{ new Date(props.result.evaluateTime).toLocaleString() }}</span> <br />
         <span>评估时间</span>
       </CardGrid>
       <CardGrid class="grid" :style="{ backgroundColor: bkcolor }">
@@ -59,6 +59,7 @@
       default: {},
     },
   });
+  console.log(props.result);
   switch (props.result.status) {
     case '正常':
       bkcolor.value = textColor.success;

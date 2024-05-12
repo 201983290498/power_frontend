@@ -170,7 +170,7 @@
         console.error('Error searching users:', error);
       });
   }
-  function itemonclick(record, index) {
+  function itemonclick(record) {
     emit('chooseDevice', record);
   }
   function handleSuccess() {

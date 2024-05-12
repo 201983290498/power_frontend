@@ -39,7 +39,7 @@
   const btnTexts = ref<Array<string>>(['可靠性寿命预测', '历史评估结果']);
   const deviceInfo = ref<Partial<any> | null>(deviceDemo);
   const maxHeight: Ref<number | string> = ref(-1);
-  const showDetail = ref(true);
+  const showDetail = ref(false);
   const evaluateState = useEvaluateStore();
   const { createMessage } = useMessage();
 

@@ -85,7 +85,7 @@
   import { useEvaluateStore } from '/@/store/modules/evaluate';
   const evaluateState = useEvaluateStore();
   const userId = evaluateState.getUserInfo?.userId ?? '-1';
-  const deviceId = evaluateState.getDeviceInfo?.deviceId ?? '-1';
+  const equipId = evaluateState.getDeviceInfo?.equipId ?? '-1';
 
   const routeParams = useRouteParams();
   const currentPage = PageEnum.Devops_Evaluate_Page;
@@ -182,7 +182,7 @@
         error('存在部分字段未填写, 请先填写完整');
         return;
       }
-      const evaluateResult = await devopsEvaluation({ items: formData, userId, deviceId });
+      const evaluateResult = await devopsEvaluation({ items: formData, userId, equipId });
       results.value = evaluateResult;
       hasAnalysis = true;
       current.value++;

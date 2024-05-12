@@ -2,7 +2,7 @@ import { ReliabilityInput, ReliabilityOutput } from '/#/baseClass';
 
 export type ReliabilityParam = {
   userId?: string;
-  deviceId?: string;
+  equipId?: string;
   items: Partial<ReliabilityInput>;
 };
 
