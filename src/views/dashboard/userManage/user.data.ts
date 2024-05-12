@@ -67,6 +67,19 @@ export const searchFormSchema: FormSchema[] = [
 // 新增页面的效果
 export const formSchema: FormSchema[] = [
   {
+    field: 'adminName',
+    label: '管理员',
+    required: true,
+    component: 'Input',
+  },
+  {
+    field: 'adminPwd',
+    label: '管理员密码',
+    required: true,
+    component: 'InputPassword',
+  },
+
+  {
     field: 'userName',
     required: true,
     label: '用户名',
@@ -75,8 +88,9 @@ export const formSchema: FormSchema[] = [
   {
     field: 'userId',
     label: '用户ID',
-    required: true,
-    component: 'Input',
+    required: false,
+    componentProps: { disabled: true },
+    component: 'InputNumber',
   },
   {
     field: 'password',
@@ -106,6 +120,57 @@ export const formSchema: FormSchema[] = [
     field: 'level',
     label: '权限等级',
     required: true,
+    component: 'InputNumber',
+  },
+];
+export const Viewform: FormSchema[] = [
+  {
+    field: 'userName',
+    required: true,
+    label: '用户名',
     component: 'Input',
+    componentProps: { disabled: true },
+  },
+  {
+    field: 'userId',
+    label: '用户ID',
+    required: false,
+    component: 'Input',
+    componentProps: { disabled: true },
+  },
+  {
+    field: 'password',
+    label: '密码',
+    required: true,
+    component: 'InputPassword',
+    componentProps: { disabled: true },
+  },
+  {
+    field: 'role',
+    label: '用户类型',
+    required: true,
+    component: 'Input',
+    componentProps: { disabled: true },
+  },
+  {
+    field: 'organization',
+    label: '所属单位',
+    required: true,
+    component: 'Input',
+    componentProps: { disabled: true },
+  },
+  {
+    field: 'personCharge',
+    label: '责任人',
+    required: true,
+    component: 'Input',
+    componentProps: { disabled: true },
+  },
+  {
+    field: 'level',
+    label: '权限等级',
+    required: true,
+    component: 'Input',
+    componentProps: { disabled: true },
   },
 ];

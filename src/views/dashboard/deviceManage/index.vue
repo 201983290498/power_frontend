@@ -1,6 +1,6 @@
 <template>
   <Card>
-    <BasicTable :searchModel="searchModel" @register="registerTable" @click="itemonclick">
+    <BasicTable :searchModel="searchModel" @register="registerTable" @rowClick="itemonclick">
       <template #toolbar>
         <!-- 右上角的按钮 -->
         <!-- 搜索表单 -->
@@ -34,19 +34,22 @@
       </template>
     </BasicTable>
     <DeviceModal @register="registerModal" @success="handleSuccess" />
+    <!--PasswordModal :isVisible="isPwdModalVisible" @confirm="confirmDelete" @cancel="cancelDelete" /-->
   </Card>
 </template>
 <script lang="ts" setup>
   import { defineProps, reactive, ref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getDeviceList, searchDevice } from '/@/api/sys/device';
+  import { getDeviceList, deleteDevice } from '/@/api/sys/device';
   import { columns, searchFormSchema } from './device.data';
   import { useModal } from '/@/components/Modal';
   import DeviceModal from './DeviceModal.vue';
   import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
+  import { DevicedeleteParams } from '/@/api/sys/model/deviceModel';
 
   const emit = defineEmits(['chooseDevice']);
+  //const [registerPwdModal, { openModal: openPwdModal }] = useModal();
   const props = defineProps({
     reSize: {
       type: Boolean,
@@ -103,7 +106,7 @@
 
   const tableConfig: Props = {
     title: '设备列表',
-    rowKey: 'id',
+
     api: (query) => getDeviceList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }), // 使用箭头函数包装原 API 调用
     afterFetch: (data) => {
       console.log('data', data.data);
@@ -154,34 +157,53 @@
     // Assuming `viewDevice` is a function that fetches device details from the API
     openModal(true, { record, isView: true }); // Ensure the modal knows it's in view mode
   }
-
+ /*const currentRecord = ref<Recordable<any> | null>();
+  const isPwdModalVisible = ref(false);
+  function cancelDelete() {
+    isPwdModalVisible.value = false;
+    currentRecord.value = null;
+  }
   function handleDelete(record) {
-    console.log('Delete', record);
+    currentRecord.value = record; // 保存当前要删除的记录，便于后续使用
+    isPwdModalVisible.value = true; // 打开密码输入模态框
   }
 
-  function handleSearch() {
-    searchDevice(searchModel)
-      .then((result) => {
-        // 更新表格数据逻辑，需要根据您的组件具体实现来定
-        pagination.total = result.rowCount; // 使用返回的总数据数量更新分页的总数
-        setTableData(result.items); // // 更新表格数据
+  async function confirmDelete(adminPwd: string) {
+    if (currentRecord.value) {
+      const params: DevicedeleteParams = {
+        fixedPwd: adminPwd,
+        equipId: currentRecord.value.equipId,
+      };
+      try {
+        await deleteDevice(params);
+        console.log('设备删除成功');
         reload();
-      })
-      .catch((error) => {
-        console.error('Error searching users:', error);
-      });
+      } catch (error) {
+        console.error('删除失败', error);
+      } finally {
+        isPwdModalVisible.value = false;
+        currentRecord.value = null;
+      }
+    }
+  }*/
+  function handleDelete(record) {
+    console.log('handleDelete', record);
+    const params: DevicedeleteParams = {
+      fixedPwd: '123456',
+      equipId: record.equipId,
+    };
+    deleteDevice(params).then((res) => {
+      console.log('res', res);
+      reload();
+    });
   }
+
   function itemonclick(record) {
     console.log(record);
     emit('chooseDevice', record);
   }
   function handleSuccess() {
     reload(); // 成功后重新加载数据
-  }
-  function setTableData(data) {
-    // 这里应该是更新表格数据的逻辑，具体取决于您的表格组件是如何接收数据的
-    // 例如，如果 useTable 返回了一个方法来更新数据，您可能需要调用这个方法
-    setProps({ dataSource: data });
   }
 </script>
 <script lang="ts">

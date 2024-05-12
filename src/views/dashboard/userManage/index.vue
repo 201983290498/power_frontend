@@ -1,6 +1,6 @@
 <template>
   <Card>
-    <BasicTable @register="registerTable" :searchModel="searchModel">
+    <BasicTable :searchModel="searchModel" @register="registerTable">
       <template #toolbar>
         <!-- 右上角的按钮 -->
         <!-- 搜索表单 -->
@@ -24,6 +24,11 @@
                 confirm: handleDelete.bind(null, record),
               },
             },
+            {
+              icon: 'ant-design:search-outlined',
+              color: 'success',
+              onClick: handleView.bind(null, record),
+            },
           ]"
         />
       </template>
@@ -34,7 +39,7 @@
 <script lang="ts" setup>
   import { defineProps, reactive, ref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getUserList, searchUsers } from '/@/api/sys/Euser';
+  import { getUserList } from '/@/api/sys/Euser';
   import { columns, searchFormSchema } from './user.data';
   import { useModal } from '/@/components/Modal';
   import UserModal from './UserModel.vue';
@@ -142,23 +147,9 @@
   function handleDelete(record) {
     console.log('Delete', record);
   }
-
-  function handleSearch() {
-    searchUsers(searchModel)
-      .then((result) => {
-        // 更新表格数据逻辑，需要根据您的组件具体实现来定
-        pagination.total = result.rowCount; // 使用返回的总数据数量更新分页的总数
-        setTableData(result.items); // // 更新表格数据
-        reload();
-      })
-      .catch((error) => {
-        console.error('Error searching users:', error);
-      });
-  }
-  function setTableData(data) {
-    // 这里应该是更新表格数据的逻辑，具体取决于您的表格组件是如何接收数据的
-    // 例如，如果 useTable 返回了一个方法来更新数据，您可能需要调用这个方法
-    setProps({ dataSource: data });
+  function handleView(record) {
+    // Assuming `viewDevice` is a function that fetches device details from the API
+    openModal(true, { record, isView: true }); // Ensure the modal knows it's in view mode
   }
   function handleSuccess() {
     reload(); // 成功后重新加载数据
