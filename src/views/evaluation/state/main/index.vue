@@ -42,14 +42,14 @@
   const go = useGo();
   const btnTexts = ref<Array<string>>(['进入状态评估', '历史评估结果']);
   const maxHeight: Ref<number | string> = ref(-1);
-  const showDetail = ref(true);
+  const showDetail = ref(false);
   const deviceInfo = ref<Partial<any> | null>(deviceDemo);
   const evaluateState = useEvaluateStore();
   const { createMessage } = useMessage();
-
   evaluateState.getDeviceInfo !== null && devicePreProcess();
 
   function selectDevice(device) {
+    console.log(device);
     deviceInfo.value = device;
     evaluateState.setDeviceInfo(device);
     evaluateState.setDeviceImage(logo);

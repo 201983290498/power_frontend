@@ -102,7 +102,6 @@
     pageSizeOptions: ['5', '10', '20', '30', '40'],
     showTotal: (total, range) => `显示 ${range[0]}-${range[1]} 共 ${total} 条`,
   });
-  console.log('data');
 
   const tableConfig: Props = {
     title: '设备列表',
@@ -200,7 +199,6 @@
   }
 
   function itemonclick(record) {
-    console.log(record);
     emit('chooseDevice', record);
   }
   function handleSuccess() {

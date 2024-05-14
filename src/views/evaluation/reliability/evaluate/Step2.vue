@@ -91,6 +91,7 @@
   }
 
   function setFormFields(data) {
+    console.log(data);
     setFieldsValue1(data);
     setFieldsValue2(data);
     setFieldsValue3(data);

@@ -2,7 +2,7 @@ import { EconomyInput, EconomyOutput } from '/#/baseClass';
 
 export type EconomyParam = {
   userId?: string;
-  deviceId?: string;
+  equipId?: string;
   items: Partial<EconomyInput>;
 };
 

@@ -228,6 +228,7 @@ export function mapObjectToInterface<T>(obj: Object, interfaceKeys: Record<strin
 }
 
 export const reliabilityInputFields: ReliabilityInput = {
+  runningCost: 1000,
   evaluateId: DEFAULT_VALUE.INPUT_VALUE,
   equipNo: '123456',
   organization: '南网红河供电局xx变电站',

@@ -86,7 +86,7 @@
   import { useEvaluateStore } from '/@/store/modules/evaluate';
 
   const evaluateState = useEvaluateStore();
-  const deviceId = evaluateState.getDeviceInfo?.deviceId ?? '-1';
+  const equipId = evaluateState.getDeviceInfo?.equipId ?? '-1';
   const userId = evaluateState.getUserInfo?.userId ?? '-1';
 
   const go = useGo();
@@ -161,6 +161,7 @@
   }
 
   function saveRecord() {
+    console.log(results.value?.evaluateId);
     hasAnalysis &&
       saveStateRcord({ evaluateId: results.value?.evaluateId }).then(() => {
         evaluateState.clearRecord();
@@ -186,7 +187,7 @@
         error('存在部分字段未填写, 请先填写完整');
         return;
       }
-      const evaluateResult = await stateEvaluation({ items: formData, userId, deviceId });
+      const evaluateResult = await stateEvaluation({ items: formData, userId, equipId });
       results.value = evaluateResult;
       hasAnalysis = true;
       current.value++;

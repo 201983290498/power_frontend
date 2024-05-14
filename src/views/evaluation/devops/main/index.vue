@@ -93,7 +93,7 @@
   const btnTexts = ref<Array<string>>(['进入运维决策', '历史评估结果']);
   const deviceInfo = ref<Partial<any> | null>(deviceDemo);
   const maxHeight: Ref<number | string> = ref(-1);
-  const showDetail = ref(true);
+  const showDetail = ref(false);
 
   function selectDevice(device) {
     deviceInfo.value = device;

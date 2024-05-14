@@ -1,4 +1,5 @@
 import { Historydata } from '/#/baseClass';
+<<<<<<< HEAD
 import {
   StateEvaluateInput,
   StateEvaluateOutput,
@@ -9,6 +10,9 @@ import {
   DecisionEvaluateInput,
   DecisionEvaluateOutput,
 } from '/#/historyRecord';
+=======
+import { EvaluateId } from '/#/baseClass';
+>>>>>>> 99d7249b44392425ee9ad8383abc2508850fd5dc
 /**
  * @description: get device pagelist interface parameters
  */
@@ -25,11 +29,11 @@ export interface getHistoryPageListParmas {
   decTime?: string;
 }
 export interface HistoryaddParams {
-  equipId: number;
-  stateId: number;
-  reliabilityId: number;
-  economyId: number;
-  decisionId: number;
+  equipId: EvaluateId;
+  stateId: EvaluateId;
+  reliabilityId: EvaluateId;
+  economyId: EvaluateId;
+  decisionId: EvaluateId;
 }
 export interface HistoryexportParams {
   testId: number | string;

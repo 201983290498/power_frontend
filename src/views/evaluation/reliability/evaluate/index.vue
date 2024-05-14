@@ -95,7 +95,7 @@
   import { useEvaluateStore } from '/@/store/modules/evaluate';
   const evaluateState = useEvaluateStore();
   const userId = evaluateState.getUserInfo?.userId ?? '-1';
-  const deviceId = evaluateState.getDeviceInfo?.deviceId ?? '-1';
+  const equipId = evaluateState.getDeviceInfo?.equipId ?? '-1';
 
   const go = useGo();
   const routeParams = useRouteParams();
@@ -111,7 +111,6 @@
   const src = routeParams.getParams?.src;
   const currentPage = PageEnum.Reliability_Evaluate_Page;
   const loading = ref(true);
-
   if (!routeParams.params.hasOwnProperty('device')) {
     warning('为选择任何设备, 即将返回主页');
     closeTab(currentPage, router);
@@ -132,7 +131,7 @@
     current.value--;
     if (current.value === -1) {
       await closeTab(currentPage, router);
-      go(PageEnum.Economy_Main_Page);
+      go(PageEnum.Reliability_Main_Page);
     }
   }
 
@@ -149,6 +148,12 @@
     current.value === 1 && (state.initStep2 = true);
     current.value === 2 && (state.initStep3 = true);
     current.value === 2 && hasAnalysis && warning('显示上次的测评结果！');
+    if (current.value === 1) {
+      setTimeout(() => {
+        childRef.value?.setFormFields({ ...devInfo });
+        console.log(childRef.value);
+      }, 50);
+    }
   }
 
   async function handleGiveup() {
@@ -193,7 +198,11 @@
         error('存在部分字段未填写, 请先填写完整');
         return;
       }
-      const evaluateResult = await reliableEvaluation({ items: formData, userId, deviceId });
+      const evaluateResult = await reliableEvaluation({
+        items: formData,
+        userId,
+        equipId,
+      });
       results.value = evaluateResult;
       hasAnalysis = true;
       current.value++;
@@ -218,7 +227,6 @@
     const formData = await getReliableRecordInput({ evaluateId });
     childRef.value?.setFormFields(formData);
   }
-
   async function handleInputClick(e: Event) {
     const files = e && (e.target as HTMLInputElement).files;
     const rawFile = files && files[0]; // only setting files[0]
