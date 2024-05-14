@@ -4,6 +4,8 @@ import {
   getHistoryPageListData,
   getHistoryPageListParmas,
   HistoryaddParams,
+  HistoryexportParams,
+  ExportHistoryData,
   HistoryViewParams,
 } from './model/historyModal';
 import { ErrorMessageMode } from '/#/axios';
@@ -13,7 +15,7 @@ enum Api {
   AddHistory = '/powergrid/sys/historicaldata/add',
   ViewHistory = '/powergrid/sys/historicaldata/view',
   DeleteHistory = '/powergrid/sys/historicaldata/delete',
-  ImportHistory = '/powergrid/sys/historicaldata/export',
+  ExportHistory = '/powergrid/sys/historicaldata/export',
   SearchHistory = '/powergrid/sys/historicaldata',
 }
 
@@ -36,27 +38,23 @@ export async function addHistory(params: HistoryaddParams, mode: ErrorMessageMod
     },
   );
 }
-export const exportHistory = async (
-  params: getHistoryPageListParmas,
-  mode: ErrorMessageMode = 'modal',
-) => {
-  return await defHttp.get<getHistoryPageListData>(
-    {
-      url: Api.ImportHistory,
-      params,
-    },
-    {
-      errorMessageMode: mode,
-    },
-  );
-};
 
 // 删除历史数据
 export const deleteHistory = (testId: number | string) =>
   defHttp.delete<{ message: string }>({ url: `${Api.DeleteHistory}/${testId}` });
 
 // 导出历史数据信息
-
+export async function exportHistory(params: HistoryexportParams, mode: ErrorMessageMode = 'modal') {
+  return defHttp.post<ExportHistoryData>(
+    {
+      url: Api.ExportHistory,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+}
 // 新增历史数据的函数
 export const searchHistory = async (
   params: SearchHistoryParmas,

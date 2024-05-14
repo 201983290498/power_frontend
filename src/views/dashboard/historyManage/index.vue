@@ -4,7 +4,7 @@
       <template #toolbar>
         <!-- 右上角的按钮 -->
         <!-- 搜索表单 -->
-        <a-button type="primary" @click="handleCreate"> 新增历史数据 </a-button>
+        <a-button type="primary" @click="handleCreate"> 写入历史数据 </a-button>
         <a-button @click="toggleSortOrder">切换排序</a-button>
       </template>
       <template #action="{ record }">
@@ -33,7 +33,7 @@
 <script lang="ts" setup>
   import { defineProps, reactive, ref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getHistoryList, searchHistory } from '/@/api/sys/history';
+  import { getHistoryList } from '/@/api/sys/history';
   import { columns, searchFormSchema } from './history.data';
   import { useModal } from '/@/components/Modal';
   import HistoryModal from './HistoryModal.vue';
@@ -129,41 +129,23 @@
   const [registerTable, { reload, setProps }] = useTable(tableConfig);
   function toggleSortOrder() {
     sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
-    handleSearch(); // 更新数据而不是调用 reload
+    reload(); // 重新加载数据，应用新的排序
   }
 
   function handleCreate() {
-    openModal(true, { isUpdate: true });
+    openModal(true, { isUpdate: false });
   }
 
   function handleEdit(record) {
-    openModal(true, { record, isUpdate: false });
+    openModal(true, { record, isUpdate: true });
   }
 
   function handleDelete(record) {
     console.log('Delete', record);
   }
 
-  function handleSearch() {
-    searchHistory(searchModel)
-      .then((result) => {
-        // 更新表格数据逻辑，需要根据您的组件具体实现来定
-        pagination.total = result.rowCount; // 更新分页的总数
-        setTableData(result.items); // 更新表格数据
-        reload();
-      })
-      .catch((error) => {
-        console.error('Error searching historydata:', error);
-      });
-  }
-
   function handleSuccess() {
     reload(); // 成功后重新加载数据
-  }
-  function setTableData(data) {
-    // 这里应该是更新表格数据的逻辑，具体取决于您的表格组件是如何接收数据的
-    // 例如，如果 useTable 返回了一个方法来更新数据，您可能需要调用这个方法
-    setProps({ dataSource: data });
   }
   /*function setTableData(data) {
     tableData.value = data; // 直接更新响应式引用的值

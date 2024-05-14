@@ -390,3 +390,4 @@ export const Viewform: FormSchema[] = [
     componentProps: { disabled: true },
   },
 ];
+export const DeleteSchema: FormSchema[] = [];

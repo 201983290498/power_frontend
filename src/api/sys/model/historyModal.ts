@@ -1,4 +1,14 @@
 import { Historydata } from '/#/baseClass';
+import {
+  StateEvaluateInput,
+  StateEvaluateOutput,
+  ReliabilityEvaluateInput,
+  ReliabilityEvaluateOutput,
+  EconomyEvaluateInput,
+  EconomyEvaluateOutput,
+  DecisionEvaluateInput,
+  DecisionEvaluateOutput,
+} from '/#/historyRecord';
 /**
  * @description: get device pagelist interface parameters
  */
@@ -21,6 +31,9 @@ export interface HistoryaddParams {
   economyId: number;
   decisionId: number;
 }
+export interface HistoryexportParams {
+  testId: number | string;
+}
 export interface SearchHistoryParmas {
   page: string | number;
   pageSize: string | number;
@@ -35,4 +48,19 @@ export interface getHistoryPageListData {
 export interface HistoryViewParams {
   testId: number;
   evaluateType: number;
+}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ExportHistoryData {
+  result: HistoryDataResult;
+}
+export interface Evaluate<TInput, TOutput> {
+  input: TInput;
+  output: TOutput;
+}
+
+export interface HistoryDataResult {
+  stateEvaluate: Evaluate<StateEvaluateInput, StateEvaluateOutput>;
+  reliabilityEvaluate: Evaluate<ReliabilityEvaluateInput, ReliabilityEvaluateOutput>;
+  economyEvaluate: Evaluate<EconomyEvaluateInput, EconomyEvaluateOutput>;
+  decisionEvaluate: Evaluate<DecisionEvaluateInput, DecisionEvaluateOutput>;
 }

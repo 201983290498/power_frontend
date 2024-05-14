@@ -157,7 +157,7 @@
     // Assuming `viewDevice` is a function that fetches device details from the API
     openModal(true, { record, isView: true }); // Ensure the modal knows it's in view mode
   }
- /*const currentRecord = ref<Recordable<any> | null>();
+  /*const currentRecord = ref<Recordable<any> | null>();
   const isPwdModalVisible = ref(false);
   function cancelDelete() {
     isPwdModalVisible.value = false;
@@ -187,6 +187,7 @@
     }
   }*/
   function handleDelete(record) {
+    // 处理删除逻辑
     console.log('handleDelete', record);
     const params: DevicedeleteParams = {
       fixedPwd: '123456',
