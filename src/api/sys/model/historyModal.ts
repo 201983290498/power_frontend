@@ -1,5 +1,5 @@
-import { Historydata } from '/#/baseClass';
-<<<<<<< HEAD
+import { Historydata, item } from '/#/baseClass';
+
 import {
   StateEvaluateInput,
   StateEvaluateOutput,
@@ -10,9 +10,7 @@ import {
   DecisionEvaluateInput,
   DecisionEvaluateOutput,
 } from '/#/historyRecord';
-=======
-import { EvaluateId } from '/#/baseClass';
->>>>>>> 99d7249b44392425ee9ad8383abc2508850fd5dc
+
 /**
  * @description: get device pagelist interface parameters
  */
@@ -29,11 +27,11 @@ export interface getHistoryPageListParmas {
   decTime?: string;
 }
 export interface HistoryaddParams {
-  equipId: EvaluateId;
-  stateId: EvaluateId;
-  reliabilityId: EvaluateId;
-  economyId: EvaluateId;
-  decisionId: EvaluateId;
+  equipId: string | number;
+  stateId: string | number;
+  reliabilityId: string | number;
+  economyId: string | number;
+  decisionId: string | number;
 }
 export interface HistoryexportParams {
   testId: number | string;
@@ -47,7 +45,7 @@ export interface SearchHistoryParmas {
 export interface getHistoryPageListData {
   pageCount: number; // 总页数
   rowCount: number; // 总的数据数量
-  items: Historydata[]; // 历史总数
+  items: item[]; // 历史总数
 }
 export interface HistoryViewParams {
   testId: number;

@@ -2,14 +2,10 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 // 注册的列名
 export const columns: BasicColumn[] = [
   {
-    title: '设备Id',
-    dataIndex: 'equipId',
-    width: 50,
-  },
-  {
     title: '设备编号',
     dataIndex: 'equipNo',
     width: 100,
+    sorter: (a, b) => a.equipNo.length - b.equipNo.length,
   },
   {
     title: '评估人',
@@ -26,6 +22,7 @@ export const columns: BasicColumn[] = [
     title: '综合得分',
     dataIndex: 'score',
     width: 100,
+    sorter: (a, b) => a.score - b.score,
   },
   {
     title: '安装位置',
@@ -36,6 +33,7 @@ export const columns: BasicColumn[] = [
     title: '评估日期',
     dataIndex: 'evaluateTime',
     width: 100,
+    sorter: (a, b) => a.evaluateTime - b.evaluateTime,
   },
   {
     title: '状态',
@@ -43,15 +41,16 @@ export const columns: BasicColumn[] = [
     width: 100,
     customRender: ({ text }) => {
       // Check the value of 'status' and return the appropriate label
-      return text === 1 ? '已上线' : '停用';
+      const numericStatus = Number(text);
+      return numericStatus === 1 ? '启用' : '停用';
     },
   },
 ];
 // 顶部搜索框
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'equipId',
-    label: '设备Id',
+    field: 'equipNo',
+    label: '设备编号',
     component: 'Input',
     colProps: { span: 4 },
   },
@@ -67,18 +66,23 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Input',
     colProps: { span: 4 },
   },
-  /*{
+  {
     field: 'status',
-    label: '设备状态',
+    label: '状态',
+    required: true,
     component: 'Select',
     componentProps: {
       options: [
-        { label: '启用', value: '1' },
-        { label: '停用', value: '0' },
+        { label: '启用', value: 1 },
+        { label: '停用', value: 0 },
       ],
+      onChange: (value) => {
+        console.log('Selected Status:', value);
+        // 可以在这里根据 value 的变化做进一步处理
+      },
     },
-    colProps: { span: 3 },
-  },*/
+    colProps: { span: 4 },
+  },
 ];
 // 新增页面的效果
 export const formSchema: FormSchema[] = [
@@ -126,8 +130,8 @@ export const formSchema: FormSchema[] = [
     component: 'Select',
     componentProps: {
       options: [
-        { label: '启用', value: '1' },
-        { label: '停用', value: '0' },
+        { label: '启用', value: 1 },
+        { label: '停用', value: 0 },
       ],
     },
   },

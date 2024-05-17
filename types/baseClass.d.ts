@@ -784,3 +784,105 @@ export interface DecisionOutput {
   suggestedMaintenanceMethod: string;
   [property: string]: any;
 }
+export interface Item {
+  /**
+   * 年均成本
+   */
+  avgAnnualCost: number;
+  /**
+   * 油中溶解气体劣化度信息
+   */
+  deterFactor1: number;
+  /**
+   * 电气试验劣化度信息
+   */
+  deterFactor2: number;
+  /**
+   * 油化试验劣化度信息
+   */
+  deterFactor3: number;
+  /**
+   * 变压器（本次评价的变压器的编号等简要变压器信息）
+   */
+  equiment: string;
+  /**
+   * 设备编号
+   */
+  equipId: number;
+  /**
+   * 设备编号
+   */
+  equipNo: string;
+  evaluateId: number;
+  /**
+   * 评估时间
+   */
+  evaluateTime: string;
+  /**
+   * 健康指数
+   */
+  healthIndex: number;
+  /**
+   * 热点温度
+   */
+  hotSpotTemper: number;
+  /**
+   * 上次评估结果
+   */
+  lastResult: number;
+  /**
+   * 寿命进程（剩余寿命/设计寿命）数值0%~100%
+   */
+  lifespanProcess: number;
+  /**
+   * 位置
+   */
+  location: string;
+  /**
+   * 检修内容
+   */
+  maintenanceContent: string;
+  /**
+   * 运行年限
+   */
+  operatingYears: number;
+  /**
+   * 责任人
+   */
+  personCharge: string;
+  /**
+   * 剩余可靠性寿命
+   */
+  resReliabilityLife: number;
+  /**
+   * 建议检修方式的风险收益成本比
+   */
+  riskRewardCostRatio: number;
+  /**
+   * 状态
+   */
+  status: string;
+  /**
+   * 状态值（变压器健康指数或者劣化度等用来衡量变压器状态的一个数值）
+   */
+  statusValue: number;
+  /**
+   * 建议检修方式
+   */
+  suggestedMaintenanceMethod: string;
+  /**
+   * ID 编号
+   */
+  testId: number;
+  /**
+   * 热寿命损失率
+   */
+  thermalLifeLossRate: number;
+  /**
+   * 类型
+   */
+  type: string;
+  userId: number;
+  evaluateId: number;
+  [property: string]: any;
+}

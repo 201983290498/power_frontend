@@ -2,6 +2,7 @@
   <Card>
     <BasicTable :searchModel="searchModel" @register="registerTable" @rowClick="itemonclick">
       <template #toolbar>
+        <!-- Additional toolbar buttons and forms can go here -->
         <!-- 右上角的按钮 -->
         <!-- 搜索表单 -->
         <!--BasicForm :schemas="searchFormSchema" :model="searchModel" @submit="handleSearch" /-->
@@ -47,7 +48,6 @@
   import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
   import { DevicedeleteParams } from '/@/api/sys/model/deviceModel';
-
   const emit = defineEmits(['chooseDevice']);
   //const [registerPwdModal, { openModal: openPwdModal }] = useModal();
   const props = defineProps({
@@ -87,11 +87,11 @@
     pageSize: 10,
     sortBy: '',
     sortOrder: '',
+    status: ' ',
   });
 
   const sortBy = ref(''); // 默认排序字段
   const sortOrder = ref('asc'); // 排序方向
-
   const [registerModal, { openModal }] = useModal();
   const pagination = reactive({
     total: 0,
@@ -100,7 +100,6 @@
     showSizeChanger: true,
     showQuickJumper: true,
     pageSizeOptions: ['5', '10', '20', '30', '40'],
-    showTotal: (total, range) => `显示 ${range[0]}-${range[1]} 共 ${total} 条`,
   });
 
   const tableConfig: Props = {
@@ -108,6 +107,10 @@
 
     api: (query) => getDeviceList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }), // 使用箭头函数包装原 API 调用
     afterFetch: (data) => {
+      pagination.total = data.rowCount;
+      pagination.current = data.page; // 更新当前页码
+      pagination.pageSize = data.pageSize; // 更新每页显示条目数
+      // 确保更新总条目数
       console.log('data', data.data);
       return data.data;
     },
@@ -127,7 +130,16 @@
     pagination,
     canResize: props.reSize,
     handleSearchInfoFn(info) {
-      console.log('handleSearchInfoFn', info);
+      console.log('Original Search Info:', info);
+      // 转换为数字，如果后端期待数字类型
+      if (info.status) {
+        if (info.status === 1) {
+          info.status = '启用';
+        } else {
+          info.status = '停用';
+        }
+      }
+      console.log('Return Info:', info);
       return info;
     },
     actionColumn: {
@@ -156,35 +168,6 @@
     // Assuming `viewDevice` is a function that fetches device details from the API
     openModal(true, { record, isView: true }); // Ensure the modal knows it's in view mode
   }
-  /*const currentRecord = ref<Recordable<any> | null>();
-  const isPwdModalVisible = ref(false);
-  function cancelDelete() {
-    isPwdModalVisible.value = false;
-    currentRecord.value = null;
-  }
-  function handleDelete(record) {
-    currentRecord.value = record; // 保存当前要删除的记录，便于后续使用
-    isPwdModalVisible.value = true; // 打开密码输入模态框
-  }
-
-  async function confirmDelete(adminPwd: string) {
-    if (currentRecord.value) {
-      const params: DevicedeleteParams = {
-        fixedPwd: adminPwd,
-        equipId: currentRecord.value.equipId,
-      };
-      try {
-        await deleteDevice(params);
-        console.log('设备删除成功');
-        reload();
-      } catch (error) {
-        console.error('删除失败', error);
-      } finally {
-        isPwdModalVisible.value = false;
-        currentRecord.value = null;
-      }
-    }
-  }*/
   function handleDelete(record) {
     // 处理删除逻辑
     console.log('handleDelete', record);

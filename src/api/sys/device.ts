@@ -19,10 +19,7 @@ enum Api {
   ViewDevice = '/powergrid/sys/equipment/retrieve',
 }
 
-const demoParam: getDevicePageListParmas = {
-  page: 1,
-  pageSize: 10,
-};
+const demoParam: getDevicePageListParmas = {};
 
 export const getDeviceList = (params: getDevicePageListParmas = demoParam) =>
   defHttp.get<getDevicePageListData>({ url: Api.GetPageList, params });

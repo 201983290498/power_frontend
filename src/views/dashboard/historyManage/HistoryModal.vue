@@ -56,7 +56,6 @@
         // 如果 isUpdate 为 true，写入历史数据
         const result = await exportHistory(params2);
         console.log('New device added:', result);
-
       } else {
         // 否则，导出历史数据
         const result = await addHistory(params);
