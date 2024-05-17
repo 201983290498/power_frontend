@@ -1,8 +1,8 @@
 import { ReliabilityInput, ReliabilityOutput } from '/#/baseClass';
 
 export type ReliabilityParam = {
-  userId?: string;
-  equipId?: string;
+  userId?: string | number;
+  equipId?: string | number;
   items: Partial<ReliabilityInput>;
 };
 

@@ -2,7 +2,7 @@ import { DecisionInput, DecisionOutput, EvaluateId } from '/#/baseClass';
 
 export type DevopsParam = {
   userId?: string | null | number;
-  equipId?: string;
+  equipId?: string | number;
   items: Partial<DecisionInput>;
 };
 

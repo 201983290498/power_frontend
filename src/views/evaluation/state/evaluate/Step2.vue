@@ -1,18 +1,18 @@
 <template>
   <div>
-    <Card title="运行环境" :bordered="bordered">
+    <Card title="运行环境" :bordered="props.bordered">
       <BasicForm @register="register1" />
     </Card>
-    <Card title="油色谱分析" :bordered="bordered" class="!mt-2">
+    <Card title="油色谱分析" :bordered="props.bordered" class="!mt-2">
       <BasicForm @register="register2" />
     </Card>
-    <Card title="电气试验" :bordered="bordered" class="!mt-2">
+    <Card title="电气试验" :bordered="props.bordered" class="!mt-2">
       <BasicForm @register="register3" />
     </Card>
-    <Card title="油化试验" :bordered="bordered" class="!mt-2">
+    <Card title="油化试验" :bordered="props.bordered" class="!mt-2">
       <BasicForm @register="register4" />
     </Card>
-    <Card title="其他项目" :bordered="bordered" class="!mt-2">
+    <Card title="其他项目" :bordered="props.bordered" class="!mt-2">
       <BasicForm @register="register5" />
     </Card>
   </div>
@@ -23,12 +23,23 @@
   import { Card } from 'ant-design-vue';
   import { transformDataToField } from '/@/utils/listToFiled';
 
+  const props = defineProps({
+    bordered: {
+      type: Boolean,
+      default: true,
+    },
+    showMode: {
+      type: Boolean,
+      default: false,
+    },
+  });
+
   const [
     register1,
     { getFieldsValue: getFieldsValue1, setFieldsValue: setFieldsValue1, validate: validate1 },
   ] = useForm({
     labelWidth: 200,
-    schemas: step1Schemas,
+    schemas: step1Schemas(props.showMode),
     actionColOptions: {
       span: 24,
     },
@@ -42,7 +53,7 @@
     { getFieldsValue: getFieldsValue2, setFieldsValue: setFieldsValue2, validate: validate2 },
   ] = useForm({
     labelWidth: 200,
-    schemas: step2Schemas,
+    schemas: step2Schemas(props.showMode),
     actionColOptions: {
       span: 24,
     },
@@ -56,7 +67,7 @@
     { getFieldsValue: getFieldsValue3, setFieldsValue: setFieldsValue3, validate: validate3 },
   ] = useForm({
     labelWidth: 200,
-    schemas: step3Schemas,
+    schemas: step3Schemas(props.showMode),
     actionColOptions: {
       span: 24,
     },
@@ -70,7 +81,7 @@
     { getFieldsValue: getFieldsValue4, setFieldsValue: setFieldsValue4, validate: validate4 },
   ] = useForm({
     labelWidth: 200,
-    schemas: step4Schemas,
+    schemas: step4Schemas(props.showMode),
     actionColOptions: {
       span: 24,
     },
@@ -84,20 +95,13 @@
     { getFieldsValue: getFieldsValue5, setFieldsValue: setFieldsValue5, validate: validate5 },
   ] = useForm({
     labelWidth: 200,
-    schemas: step5Schemas,
+    schemas: step5Schemas(props.showMode),
     actionColOptions: {
       span: 24,
     },
     showResetButton: false,
     showAdvancedButton: false,
     showSubmitButton: false,
-  });
-
-  defineProps({
-    bordered: {
-      type: Boolean,
-      default: true,
-    },
   });
 
   async function submitData() {

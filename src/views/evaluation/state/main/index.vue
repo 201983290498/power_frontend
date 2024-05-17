@@ -25,36 +25,30 @@
   import { PageWrapper } from '/@/components/Page';
   import DeviceManagement from '/@/views/dashboard/deviceManage/index.vue';
   import DeviceInfo from '../../common/DeviceInfo.vue';
-  import { deviceDemo } from '../../common/data';
   import logo from '/@/assets/images/1.jpg';
   import { ref, Ref } from 'vue';
   import { useGo } from '/@/hooks/web/usePage';
   import { PageEnum } from '/@/enums/pageEnum';
   import { useRouteParams } from '/@/store/modules/route';
-  import { closeTab } from '../../common/common';
-  import { useRouter } from 'vue-router';
   import { useEvaluateStore } from '/@/store/modules/evaluate';
   import { useMessage } from '/@/hooks/web/useMessage';
 
   const routeParam = useRouteParams();
-  const currentPage = PageEnum.State_Main_Page;
-  const router = useRouter();
   const go = useGo();
   const btnTexts = ref<Array<string>>(['进入状态评估', '历史评估结果']);
   const maxHeight: Ref<number | string> = ref(-1);
   const showDetail = ref(false);
-  const deviceInfo = ref<Partial<any> | null>(deviceDemo);
+  const deviceInfo = ref<Partial<any> | null>(null); // 设备信息
   const evaluateState = useEvaluateStore();
   const { createMessage } = useMessage();
   evaluateState.getDeviceInfo !== null && devicePreProcess();
 
   function selectDevice(device) {
-    console.log(device);
     deviceInfo.value = device;
-    evaluateState.setDeviceInfo(device);
-    evaluateState.setDeviceImage(logo);
     showDetail.value = true;
     maxHeight.value = 200;
+    evaluateState.setDeviceInfo(device);
+    evaluateState.setDeviceImage(logo);
   }
 
   async function goEvaluation() {
@@ -63,13 +57,13 @@
   }
 
   async function goHistory() {
-    await closeTab(currentPage, router);
     go(PageEnum.HistoryManage_Page);
   }
 
   function devicePreProcess() {
     createMessage.info('默认选择上次测评的设备');
     deviceInfo.value = evaluateState.getDeviceInfo;
+    evaluateState.setDeviceImage(logo);
     showDetail.value = true;
   }
 </script>

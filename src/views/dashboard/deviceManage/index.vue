@@ -108,7 +108,6 @@
 
     api: (query) => getDeviceList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }), // 使用箭头函数包装原 API 调用
     afterFetch: (data) => {
-      console.log('data', data.data);
       return data.data;
     },
     columns,

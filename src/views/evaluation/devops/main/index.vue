@@ -131,14 +131,12 @@
     evaluateState.setEconomicId(selectID.economicId);
     evaluateState.setReliabilityId(selectID.reliabilityId);
     evaluateState.setStateId(selectID.stateId);
-    // 渲染详细信息
-    console.log('选择成功', selectID);
   }
 
   function devicePreProcess() {
     createMessage.info('默认选择上次测评的设备');
     deviceInfo.value = evaluateState.getDeviceInfo;
+    evaluateState.setDeviceImage(logo);
     showDetail.value = true;
-    console.log(evaluateState.getDeviceInfo);
   }
 </script>

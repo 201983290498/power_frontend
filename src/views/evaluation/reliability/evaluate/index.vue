@@ -11,13 +11,19 @@
         <Steps.Step title="评估结果" />
       </Steps>
     </Card>
-    <Step1 v-if="src !== undefined" v-show="current === 0" :device="devInfo" :src="src" />
-    <Step2 ref="childRef" v-show="current === 1" v-if="state.initStep2" :bordered="boardered" />
+    <Step1 v-show="current === 0" :device="receiveData.devInfo" :src="receiveData.src" />
+    <Step2
+      ref="childRef"
+      v-show="current === 1"
+      v-if="state.initStep2"
+      :bordered="boardered"
+      :showMode="receiveData.showHistory"
+    />
     <Step3
       v-show="current === 2"
       v-if="state.initStep3"
       :bordered="boardered"
-      :result="results"
+      :result="receiveData.results"
       :loading="loading"
     />
     <template #rightFooter>
@@ -50,7 +56,7 @@
         type="primary"
         class="mr-4"
         @click="handleStepNext"
-        v-if="current === 0 || (current === 1 && hasAnalysis)"
+        v-if="current === 0 || (current === 1 && receiveData.hasAnalysis)"
       >
         下一步</a-button
       >
@@ -93,32 +99,43 @@
   import { useRouteParams } from '/@/store/modules/route';
   import { closeTab } from '../../common/common';
   import { useEvaluateStore } from '/@/store/modules/evaluate';
-  const evaluateState = useEvaluateStore();
-  const userId = evaluateState.getUserInfo?.userId ?? '-1';
-  const equipId = evaluateState.getDeviceInfo?.equipId ?? '-1';
 
+  const evaluateState = useEvaluateStore();
+  const params = useRouteParams().getParams;
   const go = useGo();
-  const routeParams = useRouteParams();
+  defineOptions({ name: 'ReliabilityEvaluatePage' });
+  const { createMessage, createConfirm } = useMessage();
+  const { warning, error, success } = createMessage;
+
+  const receiveData = reactive({
+    devInfo: {},
+    src: '',
+    equipId: evaluateState.getDeviceInfo?.equipId ?? '-1',
+    userId: evaluateState.getUserInfo?.userId ?? '-1',
+    hasAnalysis: false,
+    results: {},
+    formData: {},
+    showHistory: false,
+  });
+  if (!params.hasOwnProperty('device')) {
+    warning('为选择任何设备, 即将返回主页');
+    backHome();
+  } else {
+    // 需要传递device,src, hasAnalysis, results, showHistory
+    receiveData.devInfo = params['device']; // 设备信息
+    receiveData.src = params['src'] || ''; // 图标路径
+    receiveData.hasAnalysis = params['hasAnalysis'] || false; // 是否检测过
+    receiveData.results = params['results'] || {}; // 结果
+    receiveData.formData = params['formData'] || {}; // 填入的数据
+    receiveData.showHistory = params['showHistory'] || false;
+  }
+
   const router = useRouter();
   const boardered = ref(false);
   const inputRef = ref(null);
   const childRef = ref(null);
-  let hasAnalysis = false; // 是否已经提交了
-  const { createMessage, createConfirm } = useMessage();
-  const { warning, error, success } = createMessage;
-  const results = ref();
-  const devInfo = routeParams.getParams?.device;
-  const src = routeParams.getParams?.src;
   const currentPage = PageEnum.Reliability_Evaluate_Page;
   const loading = ref(true);
-  if (!routeParams.params.hasOwnProperty('device')) {
-    warning('为选择任何设备, 即将返回主页');
-    closeTab(currentPage, router);
-    go(PageEnum.Reliability_Main_Page);
-  }
-
-  defineOptions({ name: 'ReliabilityEvaluatePage' });
-
   const current = ref(0);
   const [registerModal, { openModal }] = useModal();
 
@@ -136,7 +153,7 @@
   }
 
   function handleStepNext() {
-    if (current.value === 1 && !hasAnalysis) {
+    if (current.value === 1 && !receiveData.hasAnalysis) {
       createConfirm({
         iconType: 'error',
         title: 'tips',
@@ -147,18 +164,18 @@
     current.value++;
     current.value === 1 && (state.initStep2 = true);
     current.value === 2 && (state.initStep3 = true);
-    current.value === 2 && hasAnalysis && warning('显示上次的测评结果！');
+    current.value === 2 && receiveData.hasAnalysis && warning('显示上次的测评结果！');
     if (current.value === 1) {
       setTimeout(() => {
-        childRef.value?.setFormFields({ ...devInfo });
-        console.log(childRef.value);
+        console.log('device', receiveData.devInfo);
+        childRef.value?.setFormFields({ ...receiveData.devInfo });
       }, 50);
     }
   }
 
   async function handleGiveup() {
     current.value = 0;
-    hasAnalysis = false;
+    receiveData.hasAnalysis = false;
     await closeTab(currentPage, router);
     go(PageEnum.Reliability_Main_Page);
   }
@@ -173,12 +190,12 @@
   }
 
   function saveRecord() {
-    hasAnalysis &&
-      saveReliableRcord({ evaluateId: results.value?.evaluateId }).then(() => {
+    receiveData.hasAnalysis &&
+      saveReliableRcord({ evaluateId: receiveData.results.evaluateId }).then(() => {
         evaluateState.clearRecord();
         success('测评记录保存成功。');
       });
-    !hasAnalysis && warning('请先测评！');
+    !receiveData.hasAnalysis && warning('请先测评！');
   }
 
   function historyFilledIn() {
@@ -193,18 +210,18 @@
 
   async function evaluate() {
     if (childRef.value !== null) {
-      const formData = await childRef.value.submitData();
-      if (formData === null) {
+      receiveData.formData = await childRef.value.submitData();
+      if (receiveData.formData === null) {
         error('存在部分字段未填写, 请先填写完整');
         return;
       }
       const evaluateResult = await reliableEvaluation({
-        items: formData,
-        userId,
-        equipId,
+        items: receiveData.formData,
+        userId: receiveData.userId,
+        equipId: receiveData.equipId,
       });
-      results.value = evaluateResult;
-      hasAnalysis = true;
+      receiveData.results = evaluateResult;
+      receiveData.hasAnalysis = true;
       current.value++;
       current.value === 2 && (state.initStep3 = true);
       setTimeout(() => {
@@ -223,10 +240,13 @@
     go(PageEnum.Economy_Main_Page);
   }
 
+  // 历史数据选择成功
   async function chooseSuccess(evaluateId: string) {
-    const formData = await getReliableRecordInput({ evaluateId });
-    childRef.value?.setFormFields(formData);
+    receiveData.formData = await getReliableRecordInput({ evaluateId });
+    childRef.value?.setFormFields(receiveData.formData);
   }
+
+  // 数据导入
   async function handleInputClick(e: Event) {
     const files = e && (e.target as HTMLInputElement).files;
     const rawFile = files && files[0]; // only setting files[0]
@@ -245,7 +265,13 @@
       typeof result.appearanceScore === 'string' &&
         (result.appearanceScore = JSON.parse(result.appearanceScore));
       childRef.value !== null && childRef.value.setFormFields(result);
+      receiveData.formData = result;
     }
+  }
+
+  async function backHome() {
+    await closeTab(currentPage, router);
+    go(PageEnum.Reliability_Main_Page);
   }
 </script>
 <script lang="ts">

@@ -1,5 +1,3 @@
-import { StateEnum } from '/@/enums/stateEnum';
-
 export type DetailType = undefined;
 export type EvaluateId = string | number | undefined | null;
 // 编写数据库中的基础类

@@ -19,6 +19,7 @@ export function useGo(_router?: Router) {
   if (!_router) {
     router = useRouter();
   }
+  useRouteParams().expireParams(); // 清除路由的参数
   const { push, replace } = _router || router;
   function go(opt: PageEnum | RouteLocationRawEx | string = PageEnum.BASE_HOME, isReplace = false) {
     if (!opt) {
