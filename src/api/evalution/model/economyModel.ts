@@ -1,8 +1,8 @@
 import { EconomyInput, EconomyOutput } from '/#/baseClass';
 
 export type EconomyParam = {
-  userId?: string;
-  equipId?: string;
+  userId?: string | number;
+  equipId?: string | number;
   items: Partial<EconomyInput>;
 };
 

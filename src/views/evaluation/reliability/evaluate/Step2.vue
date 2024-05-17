@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Card title="基本参数" :bordered="bordered">
+    <Card title="基本参数" :bordered="props.bordered">
       <BasicForm @register="register1" />
     </Card>
-    <Card title="关键参数" :bordered="bordered" class="!mt-2">
+    <Card title="关键参数" :bordered="props.bordered" class="!mt-2">
       <BasicForm @register="register2" />
     </Card>
-    <Card title="检修与运行状况" :bordered="bordered" class="!mt-2">
+    <Card title="检修与运行状况" :bordered="props.bordered" class="!mt-2">
       <BasicForm @register="register3" />
     </Card>
   </div>
@@ -16,12 +16,23 @@
   import { step1Schemas, step2Schemas, step3Schemas } from './data';
   import { Card } from 'ant-design-vue';
 
+  const props = defineProps({
+    bordered: {
+      type: Boolean,
+      default: true,
+    },
+    showMode: {
+      type: Boolean,
+      default: false,
+    },
+  });
+
   const [
     register1,
     { getFieldsValue: getFieldsValue1, setFieldsValue: setFieldsValue1, validate: validate1 },
   ] = useForm({
     labelWidth: 200,
-    schemas: step1Schemas,
+    schemas: step1Schemas(true),
     actionColOptions: {
       span: 24,
     },
@@ -35,7 +46,7 @@
     { getFieldsValue: getFieldsValue2, setFieldsValue: setFieldsValue2, validate: validate2 },
   ] = useForm({
     labelWidth: 200,
-    schemas: step2Schemas,
+    schemas: step2Schemas(props.showMode),
     actionColOptions: {
       span: 24,
     },
@@ -49,20 +60,13 @@
     { getFieldsValue: getFieldsValue3, setFieldsValue: setFieldsValue3, validate: validate3 },
   ] = useForm({
     labelWidth: 200,
-    schemas: step3Schemas,
+    schemas: step3Schemas(props.showMode),
     actionColOptions: {
       span: 24,
     },
     showResetButton: false,
     showAdvancedButton: false,
     showSubmitButton: false,
-  });
-
-  defineProps({
-    bordered: {
-      type: Boolean,
-      default: true,
-    },
   });
 
   async function submitData() {
@@ -91,7 +95,6 @@
   }
 
   function setFormFields(data) {
-    console.log(data);
     setFieldsValue1(data);
     setFieldsValue2(data);
     setFieldsValue3(data);

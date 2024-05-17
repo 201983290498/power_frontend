@@ -25,7 +25,6 @@
   import { PageWrapper } from '/@/components/Page';
   import DeviceManagement from '/@/views/dashboard/deviceManage/index.vue';
   import DeviceInfo from '../../common/DeviceInfo.vue';
-  import { deviceDemo } from '../../common/data';
   import logo from '/@/assets/images/1.jpg';
   import { ref, Ref } from 'vue';
   import { useGo } from '/@/hooks/web/usePage';
@@ -37,7 +36,7 @@
   const routeParam = useRouteParams();
   const go = useGo();
   const btnTexts = ref<Array<string>>(['可靠性寿命预测', '历史评估结果']);
-  const deviceInfo = ref<Partial<any> | null>(deviceDemo);
+  const deviceInfo = ref<Partial<any> | null>(null);
   const maxHeight: Ref<number | string> = ref(-1);
   const showDetail = ref(false);
   const evaluateState = useEvaluateStore();
@@ -47,11 +46,10 @@
 
   function selectDevice(device) {
     deviceInfo.value = device;
-    evaluateState.setDeviceInfo(device);
-    evaluateState.setDeviceImage(logo);
     showDetail.value = true;
     maxHeight.value = 200;
-    // 渲染详细信息
+    evaluateState.setDeviceInfo(device);
+    evaluateState.setDeviceImage(logo);
   }
 
   async function goEvaluation() {
@@ -64,8 +62,9 @@
   }
 
   function devicePreProcess() {
-    createMessage.info('默认选择上次测评的设备');
+    createMessage.success('默认选择上次测评的设备');
     deviceInfo.value = evaluateState.getDeviceInfo;
+    evaluateState.setDeviceImage(logo);
     showDetail.value = true;
   }
 </script>

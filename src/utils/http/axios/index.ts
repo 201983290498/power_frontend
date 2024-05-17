@@ -50,9 +50,7 @@ const transform: AxiosTransform = {
     //  这里 code，result，message为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
     const { code, message } = data;
     let result = data.result;
-    console.log(result);
     result === undefined && (result = data.data);
-    console.log(data);
 
     //const hasSuccess = data && Reflect.has(data, 'code') && Number(code) === ResultEnum.SUCCESS;
     const hasSuccess = data && Reflect.has(data, 'code') && Number(code) === ResultEnum.SUCCESS;
@@ -156,7 +154,6 @@ const transform: AxiosTransform = {
    * @description: 响应拦截器处理
    */
   responseInterceptors: (res: AxiosResponse<any>) => {
-    console.log(res);
     return res;
   },
 

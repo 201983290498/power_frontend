@@ -10,25 +10,29 @@
   import { step1Schemas } from './data';
   import { Card } from 'ant-design-vue';
 
+  const props = defineProps({
+    bordered: {
+      type: Boolean,
+      default: true,
+    },
+    showMode: {
+      type: Boolean,
+      default: false,
+    },
+  });
+
   const [
     register1,
     { getFieldsValue: getFieldsValue1, setFieldsValue: setFieldsValue1, validate },
   ] = useForm({
     labelWidth: 200,
-    schemas: step1Schemas,
+    schemas: step1Schemas(props.showMode),
     actionColOptions: {
       span: 24,
     },
     showResetButton: false,
     showAdvancedButton: false,
     showSubmitButton: false,
-  });
-
-  defineProps({
-    bordered: {
-      type: Boolean,
-      default: true,
-    },
   });
 
   async function submitData() {

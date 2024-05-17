@@ -6,12 +6,13 @@ import { EvaluateStatusEnum } from '/@/enums/evaluateEnum';
 import logo from '/@/assets/images/1.jpg';
 
 const { createConfirm } = useMessage();
-
+const ttl: number = 600 * 1000;
 interface EvaluateStore {
   ids: EvaluatedIds;
   userInfo: Partial<User> | null;
   deviceInfo: Partial<Device> | null;
   deviceImage: any;
+  expiryTime: number; // 毫秒
 }
 export const useEvaluateStore = defineStore({
   id: 'evaluateStore',
@@ -25,6 +26,7 @@ export const useEvaluateStore = defineStore({
     userInfo: null,
     deviceInfo: null,
     deviceImage: null,
+    expiryTime: Date.now(),
   }),
   getters: {
     getStateId(): EvaluateId {
@@ -43,6 +45,9 @@ export const useEvaluateStore = defineStore({
       return this.userInfo;
     },
     getDeviceInfo(): Partial<Device> | null {
+      if (Date.now() > this.expiryTime) {
+        return null;
+      }
       return this.deviceInfo ?? deviceDemo;
     },
     getEvaluateIds(): EvaluateId[] {
@@ -74,6 +79,7 @@ export const useEvaluateStore = defineStore({
       this.userInfo = userId;
     },
     setDeviceInfo(deviceId: Partial<Device>) {
+      this.expiryTime = Date.now() + ttl;
       this.deviceInfo = deviceId;
     },
     setDeviceImage(image: any) {

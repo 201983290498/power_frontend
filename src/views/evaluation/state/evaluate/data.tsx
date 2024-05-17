@@ -10,59 +10,77 @@ const AmOm: string[] = ['AmOm', 'BmOm', 'CmOm'];
 const abc: string[] = ['ab', 'bc', 'ca'];
 const ABCD: string[] = ['A', 'B', 'C', 'D'];
 
-export const step1Schemas: FormSchema[] = [
-  createFormSchema('temperature', '运行环境平均温度', '50%', 2, 12),
-  createFormSchema('humidity', '湿度', '50%', 2, 12),
-];
+export function step1Schemas(showMode: boolean): FormSchema[] {
+  return [
+    createFormSchema(showMode, 'temperature', '运行环境平均温度', '50%', 2, 12),
+    createFormSchema(showMode, 'humidity', '湿度', '50%', 2, 12),
+  ];
+}
 
-export const step2Schemas: FormSchema[] = [
-  createFormSchema('hydrogen', '氢气含量(uL/L)', '60%', 2, 6),
-  createFormSchema('methane', '甲烷含量(uL/L)', '60%', 2, 6),
-  createFormSchema('ethane', '乙烷含量(uL/L)', '60%', 2, 6),
-  createFormSchema('acetylene', '乙炔含量(uL/L)', '60%', 2, 6),
-  createFormSchema('ethylene', '乙烯含量(uL/L)', '60%', 2, 6),
-  createFormSchema('co', 'CO含量(uL/L)', '60%', 2, 6),
-  createFormSchema('co2', 'CO2含量(uL/L)', '60%', 2, 6),
-  createFormSchema('totalHydrocarbon', '总烃含量(uL/L)', '60%', 2, 6),
-  createFormSchema('totalHyRelative', '总烃相对产气速率(%/月)', '60%', 2, 6),
-  createFormSchema('totalHyAbsolute', '总烃绝对产气速率(%/月)', '60%', 2, 6),
-];
+export function step2Schemas(showMode: boolean): FormSchema[] {
+  return [
+    createFormSchema(showMode, 'hydrogen', '氢气含量(uL/L)', '60%', 2, 6),
+    createFormSchema(showMode, 'methane', '甲烷含量(uL/L)', '60%', 2, 6),
+    createFormSchema(showMode, 'ethane', '乙烷含量(uL/L)', '60%', 2, 6),
+    createFormSchema(showMode, 'acetylene', '乙炔含量(uL/L)', '60%', 2, 6),
+    createFormSchema(showMode, 'ethylene', '乙烯含量(uL/L)', '60%', 2, 6),
+    createFormSchema(showMode, 'co', 'CO含量(uL/L)', '60%', 2, 6),
+    createFormSchema(showMode, 'co2', 'CO2含量(uL/L)', '60%', 2, 6),
+    createFormSchema(showMode, 'totalHydrocarbon', '总烃含量(uL/L)', '60%', 2, 6),
+    createFormSchema(showMode, 'totalHyRelative', '总烃相对产气速率(%/月)', '60%', 2, 6),
+    createFormSchema(showMode, 'totalHyAbsolute', '总烃绝对产气速率(%/月)', '60%', 2, 6),
+  ];
+}
 
-export const step3Schemas: FormSchema[] = [
-  createFormSchema('oilTemperature', '油温', '60%', 2, 8),
-  createFormSchema('coreLeakage', '铁心泄露电流(mA)', '60%', 2, 8),
-  createFormSchema('partDischargeNum', '局部放电量', '60%', 2, 8),
-  ...createList('绝缘电阻', 'insRes', dirNames, '60%', 8, 2),
-  ...createList('吸收比', 'absorptionRatio', dirNames, '60%', 8, 3),
-  ...createList('绕组介质损耗tanδ(%)', 'dielectricLoss', dirNames, '60%', 8, 3),
-  ...createList('绕组电容量Cx(pF)', 'capacitance', dirNames, '60%', 8, 2),
-  ...createList('绕组直流电阻(高压侧)AO', 'windingDcResistanceHighAO', rankNames),
-  ...createList('绕组直流电阻(高压侧)BO', 'windingDcResistanceHighBO', rankNames),
-  ...createList('绕组直流电阻(高压侧)CO', 'windingDcResistanceHighCO', rankNames),
-  ...createList('绕组直流电阻(中压侧)', 'windingDcResistanceMid', AmOm, '60%', 8, 3),
-  ...createList('绕组直流电阻(低压侧)', 'windingDcResistanceLow', abc, '60%', 8, 3),
-  ...createList('直流电阻不平衡系数高压侧', 'dcResistanceUnbalanceHigh', rankNames),
-  createDivider('直流电阻不平衡系数中压侧'),
-  createFormSchema('dcResistanceUnbalanceMid', '挡位值', '60%', 3, 6),
-  createDivider('直流电阻不平衡系数低压侧'),
-  createFormSchema('dcResistanceUnbalanceLow', '挡位值', '60%', 3, 6),
-  ...createList('高压侧套管介质损耗tanδ(%)', 'bushingDielectricLoss', ABCD, '60%', 6, 4),
-  ...createList('高压侧套管电容值Cx(pF)', 'bushingCapacitance', ABCD, '60%', 6, 2),
-];
+export function step3Schemas(showMode: boolean): FormSchema[] {
+  return [
+    createFormSchema(showMode, 'oilTemperature', '油温', '60%', 2, 8),
+    createFormSchema(showMode, 'coreLeakage', '铁心泄露电流(mA)', '60%', 2, 8),
+    createFormSchema(showMode, 'partDischargeNum', '局部放电量', '60%', 2, 8),
+    ...createList(showMode, '绝缘电阻', 'insRes', dirNames, '60%', 8, 2),
+    ...createList(showMode, '吸收比', 'absorptionRatio', dirNames, '60%', 8, 3),
+    ...createList(showMode, '绕组介质损耗tanδ(%)', 'dielectricLoss', dirNames, '60%', 8, 3),
+    ...createList(showMode, '绕组电容量Cx(pF)', 'capacitance', dirNames, '60%', 8, 2),
+    ...createList(showMode, '绕组直流电阻(高压侧)AO', 'windingDcResistanceHighAO', rankNames),
+    ...createList(showMode, '绕组直流电阻(高压侧)BO', 'windingDcResistanceHighBO', rankNames),
+    ...createList(showMode, '绕组直流电阻(高压侧)CO', 'windingDcResistanceHighCO', rankNames),
+    ...createList(showMode, '绕组直流电阻(中压侧)', 'windingDcResistanceMid', AmOm, '60%', 8, 3),
+    ...createList(showMode, '绕组直流电阻(低压侧)', 'windingDcResistanceLow', abc, '60%', 8, 3),
+    ...createList(showMode, '直流电阻不平衡系数高压侧', 'dcResistanceUnbalanceHigh', rankNames),
+    createDivider('直流电阻不平衡系数中压侧'),
+    createFormSchema(showMode, 'dcResistanceUnbalanceMid', '挡位值', '60%', 3, 6),
+    createDivider('直流电阻不平衡系数低压侧'),
+    createFormSchema(showMode, 'dcResistanceUnbalanceLow', '挡位值', '60%', 3, 6),
+    ...createList(
+      showMode,
+      '高压侧套管介质损耗tanδ(%)',
+      'bushingDielectricLoss',
+      ABCD,
+      '60%',
+      6,
+      4,
+    ),
+    ...createList(showMode, '高压侧套管电容值Cx(pF)', 'bushingCapacitance', ABCD, '60%', 6, 2),
+  ];
+}
 
-export const step4Schemas: FormSchema[] = [
-  createFormSchema('microWaterContent', '微水', '60%', 2, 8),
-  createFormSchema('breakdownVoltage', '击穿电压', '60%', 2, 8),
-  createFormSchema('oilDielectricLoss', '油介损', '60%', 2, 8),
-  createFormSchema('furfuralContent', '糠醛含量', '60%', 2, 8),
-  createFormSchema('acidValue', '酸值', '60%', 2, 8),
-];
+export function step4Schemas(showMode: boolean): FormSchema[] {
+  return [
+    createFormSchema(showMode, 'microWaterContent', '微水', '60%', 2, 8),
+    createFormSchema(showMode, 'breakdownVoltage', '击穿电压', '60%', 2, 8),
+    createFormSchema(showMode, 'oilDielectricLoss', '油介损', '60%', 2, 8),
+    createFormSchema(showMode, 'furfuralContent', '糠醛含量', '60%', 2, 8),
+    createFormSchema(showMode, 'acidValue', '酸值', '60%', 2, 8),
+  ];
+}
 
-export const step5Schemas: FormSchema[] = [
-  createFormSchema('inspectionRecord', '巡检记录', '60%', 2, 8),
-  createFormSchema('familyDefect', '家族缺陷', '60%', 2, 8),
-  createFormSchema('coolingSystemStatus', '冷却系统状态', '60%', 2, 8),
-  createFormSchema('tapSwitcherStatus', '分接开关状态', '60%', 2, 8),
-  createFormSchema('protectionDeviceStatus', '保护装置状态', '60%', 2, 8),
-  createFormSchema('testingDeviceStatus', '测试装置状态', '60%', 2, 8),
-];
+export function step5Schemas(showMode: boolean): FormSchema[] {
+  return [
+    createFormSchema(showMode, 'inspectionRecord', '巡检记录', '60%', 2, 8),
+    createFormSchema(showMode, 'familyDefect', '家族缺陷', '60%', 2, 8),
+    createFormSchema(showMode, 'coolingSystemStatus', '冷却系统状态', '60%', 2, 8),
+    createFormSchema(showMode, 'tapSwitcherStatus', '分接开关状态', '60%', 2, 8),
+    createFormSchema(showMode, 'protectionDeviceStatus', '保护装置状态', '60%', 2, 8),
+    createFormSchema(showMode, 'testingDeviceStatus', '测试装置状态', '60%', 2, 8),
+  ];
+}

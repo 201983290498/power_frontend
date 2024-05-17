@@ -11,9 +11,20 @@
         <Steps.Step title="评估结果" />
       </Steps>
     </Card>
-    <Step1 v-if="src !== undefined" v-show="current === 0" :device="devInfo" :src="src" />
-    <Step2 ref="childRef" v-show="current === 1" v-if="state.initStep2" :bordered="boardered" />
-    <Step3 v-show="current === 2" v-if="state.initStep3" :bordered="boardered" :result="results" />
+    <Step1 v-show="current === 0" :device="receiveData.devInfo" :src="receiveData.src" />
+    <Step2
+      ref="childRef"
+      v-show="current === 1"
+      v-if="state.initStep2"
+      :bordered="boardered"
+      :showMode="receiveData.showHistory"
+    />
+    <Step3
+      v-show="current === 2"
+      v-if="state.initStep3"
+      :bordered="boardered"
+      :result="receiveData.results"
+    />
     <template #rightFooter>
       <a-button ghost type="primary" class="mr-4" @click="analysisFile" v-if="current === 1">
         数据导入
@@ -44,7 +55,7 @@
         type="primary"
         class="mr-4"
         @click="handleStepNext"
-        v-if="current === 0 || (current === 1 && hasAnalysis)"
+        v-if="current === 0 || (current === 1 && receiveData.hasAnalysis)"
       >
         下一步</a-button
       >
@@ -84,29 +95,41 @@
   import { closeTab } from '../../common/common';
   import { useEvaluateStore } from '/@/store/modules/evaluate';
   const evaluateState = useEvaluateStore();
-  const userId = evaluateState.getUserInfo?.userId ?? '-1';
-  const equipId = evaluateState.getDeviceInfo?.equipId ?? '-1';
 
-  const routeParams = useRouteParams();
+  const params = useRouteParams().getParams;
   const currentPage = PageEnum.Devops_Evaluate_Page;
   const go = useGo();
   const router = useRouter();
   const boardered = ref(false);
   const inputRef = ref(null);
   const childRef = ref(null);
-  let hasAnalysis = false; // 是否已经提交了
   const { createMessage, createConfirm } = useMessage();
   const { warning, error, success } = createMessage;
-  const results = ref();
 
-  const devInfo = routeParams.getParams?.device; // 获取设备信息
-  const src = routeParams.getParams?.src; // 获取设备图片
+  const receiveData = reactive({
+    devInfo: {},
+    src: '',
+    equipId: evaluateState.getDeviceInfo?.equipId ?? '-1',
+    userId: evaluateState.getUserInfo?.userId ?? '-1',
+    hasAnalysis: false,
+    results: {},
+    formData: {},
+    showHistory: false,
+  });
 
-  if (!routeParams.params.hasOwnProperty('device')) {
+  if (!params.hasOwnProperty('device')) {
     warning('为选择任何设备, 即将返回主页');
-    closeTab(currentPage, router);
-    go(PageEnum.Devops_Main_Page);
+    backHome();
+  } else {
+    // 需要传递device,src, hasAnalysis, results, showHistory
+    receiveData.devInfo = params['device']; // 设备信息
+    receiveData.src = params['src'] || ''; // 图标路径
+    receiveData.hasAnalysis = params['hasAnalysis'] || false; // 是否检测过
+    receiveData.results = params['results'] || {}; // 结果
+    receiveData.formData = params['formData'] || {}; // 填入的数据
+    receiveData.showHistory = params['showHistory'] || false;
   }
+
   defineOptions({ name: 'EconomyEvaluatePage' });
 
   const current = ref(0);
@@ -126,7 +149,7 @@
   }
 
   function handleStepNext() {
-    if (current.value === 1 && !hasAnalysis) {
+    if (current.value === 1 && !receiveData.hasAnalysis) {
       createConfirm({
         iconType: 'error',
         title: 'tips',
@@ -137,12 +160,12 @@
     current.value++;
     current.value === 1 && (state.initStep2 = true);
     current.value === 2 && (state.initStep3 = true);
-    current.value === 2 && hasAnalysis && warning('显示上次的测评结果！');
+    current.value === 2 && receiveData.hasAnalysis && warning('显示上次的测评结果！');
   }
 
   async function handleGiveup() {
     current.value = 0;
-    hasAnalysis = false;
+    receiveData.hasAnalysis = false;
     await closeTab(currentPage, router);
     go(PageEnum.Devops_Main_Page);
   }
@@ -157,12 +180,12 @@
   }
 
   function saveRecord() {
-    hasAnalysis &&
-      saveDevopsRcord({ evaluateId: results.value?.evaluateId }).then(() => {
+    receiveData.hasAnalysis &&
+      saveDevopsRcord({ evaluateId: receiveData.results.evaluateId }).then(() => {
         evaluateState.clearRecord();
         success('测评记录保存成功。');
       });
-    !hasAnalysis && error('请先测评！没有任何测评记录前无法保存。');
+    !receiveData.hasAnalysis && error('请先测评！没有任何测评记录前无法保存。');
   }
 
   function historyFilledIn() {
@@ -177,14 +200,18 @@
 
   async function evaluate() {
     if (childRef.value !== null) {
-      const formData = await childRef.value.submitData();
-      if (formData === null) {
+      receiveData.formData = await childRef.value.submitData();
+      if (receiveData.formData === null) {
         error('存在部分字段未填写, 请先填写完整');
         return;
       }
-      const evaluateResult = await devopsEvaluation({ items: formData, userId, equipId });
-      results.value = evaluateResult;
-      hasAnalysis = true;
+      const evaluateResult = await devopsEvaluation({
+        items: receiveData.formData,
+        userId: receiveData.userId,
+        equipId: receiveData.equipId,
+      });
+      receiveData.results = evaluateResult;
+      receiveData.hasAnalysis = true;
       current.value++;
       current.value === 2 && (state.initStep3 = true);
     }
@@ -200,8 +227,8 @@
   }
 
   async function chooseSuccess(evaluateId: string) {
-    const formData = await getDevopsRecordInput({ evaluateId });
-    childRef.value?.setFormFields(formData);
+    receiveData.formData = await getDevopsRecordInput({ evaluateId });
+    childRef.value?.setFormFields(receiveData.formData);
   }
 
   async function handleInputClick(e: Event) {
@@ -220,7 +247,13 @@
         JSON.parse(JSON.stringify(devopsInputFields)),
       );
       childRef.value !== null && childRef.value.setFormFields(result);
+      receiveData.formData = result;
     }
+  }
+
+  function backHome() {
+    closeTab(currentPage, router);
+    go(PageEnum.Devops_Main_Page);
   }
 </script>
 <script lang="ts">

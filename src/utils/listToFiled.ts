@@ -54,6 +54,7 @@ export function createDivider(name: string, restart = false): FormSchema {
  * @description 常见Number字段
  */
 export function createFormSchema(
+  showMode: boolean,
   field: string,
   label: string,
   width = '60%',
@@ -67,6 +68,7 @@ export function createFormSchema(
     componentProps: {
       step: Math.pow(10, -digital),
       style: { width: width }, // 设置输入框宽度为100%，可根据需要调整
+      disabled: showMode,
     },
     rules: [
       { required: true, message: '请输入数值', trigger: 'blur' },
@@ -82,6 +84,7 @@ export function createFormSchema(
  * @description 创建文本列
  */
 export function createTextSchema(
+  showMode: boolean,
   field: string,
   label: string,
   width = '60%',
@@ -93,6 +96,7 @@ export function createTextSchema(
     component: 'Input',
     componentProps: {
       style: { width: width }, // 设置输入框宽度为100%，可根据需要调整
+      disabled: showMode,
     },
     required: true,
     colProps: {
@@ -102,6 +106,7 @@ export function createTextSchema(
 }
 
 export function createTimeSchema(
+  showMode: boolean,
   field: string,
   label: string,
   width = '60%',
@@ -113,6 +118,7 @@ export function createTimeSchema(
     component: 'DatePicker',
     componentProps: {
       style: { width: width }, // 设置输入框宽度为100%，可根据需要调整
+      disabled: showMode,
     },
     required: true,
     colProps: {
@@ -122,13 +128,13 @@ export function createTimeSchema(
 }
 
 export function createOptionSchema(
+  showMode: boolean,
   field: string,
   label: string,
   options,
   width = '60%',
   span = 4,
-  defaultValue = 0,
-  mode = undefined,
+  mode: string | undefined = undefined,
 ): FormSchema {
   return {
     field: field,
@@ -138,6 +144,7 @@ export function createOptionSchema(
       style: { width: width }, // 设置输入框宽度为100%，可根据需要调整
       options,
       mode,
+      disabled: showMode,
     },
     required: true,
     colProps: {
@@ -147,6 +154,7 @@ export function createOptionSchema(
 }
 
 export function createList(
+  showMode: boolean,
   name: string,
   field: string,
   subNames: string[],
@@ -157,7 +165,7 @@ export function createList(
   const res: FormSchema[] = [];
   res.push(createDivider(name));
   for (let i = 0; i < subNames.length; i++) {
-    res.push(createFormSchema(field + '.' + i, subNames[i], width, digital, span));
+    res.push(createFormSchema(showMode, field + '.' + i, subNames[i], width, digital, span));
   }
   return res;
 }
@@ -309,6 +317,7 @@ export const economyInputFields: EconomyInput = {
   maintainCostFactor: 0,
   secondOverhaulFactor: 0.05,
   secondOverhaulTime: 0,
+  runningCost: 5,
 };
 
 export const devopsInputFields: DecisionInput = {
