@@ -95,6 +95,14 @@
   }
 
   function setFormFields(data) {
+    if (data.hasOwnProperty('appearanceScore') && data.appearanceScore.length === 5) {
+      for (let i = 0; i < data.appearanceScore.length; i++){
+        if (data.appearanceScore[i] === '1') {
+          data.appearanceScore = i + 1;
+          break;
+        }
+      }
+    }
     setFieldsValue1(data);
     setFieldsValue2(data);
     setFieldsValue3(data);

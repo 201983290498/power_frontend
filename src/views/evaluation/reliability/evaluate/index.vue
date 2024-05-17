@@ -60,7 +60,13 @@
       >
         下一步</a-button
       >
-      <a-button type="primary" class="mr-4" color="success" @click="evaluate" v-if="current === 1">
+      <a-button
+        type="primary"
+        class="mr-4"
+        color="success"
+        @click="evaluate"
+        v-if="current === 1 && !receiveData.showHistory"
+      >
         提交
       </a-button>
       <a-button type="primary" class="mr-4" color="warning" @click="handleGiveup"> 放弃 </a-button>
@@ -99,6 +105,7 @@
   import { useRouteParams } from '/@/store/modules/route';
   import { closeTab } from '../../common/common';
   import { useEvaluateStore } from '/@/store/modules/evaluate';
+  import { downloadJsonRecord } from '/@/views/dashboard/historyManage/history.data';
 
   const evaluateState = useEvaluateStore();
   const params = useRouteParams().getParams;
@@ -106,6 +113,14 @@
   defineOptions({ name: 'ReliabilityEvaluatePage' });
   const { createMessage, createConfirm } = useMessage();
   const { warning, error, success } = createMessage;
+  const router = useRouter();
+  const boardered = ref(false);
+  const inputRef = ref(null);
+  const childRef = ref(null);
+  const currentPage = PageEnum.Reliability_Evaluate_Page;
+  const loading = ref(true);
+  const current = ref(0);
+  const [registerModal, { openModal }] = useModal();
 
   const receiveData = reactive({
     devInfo: {},
@@ -116,6 +131,7 @@
     results: {},
     formData: {},
     showHistory: false,
+    testId: '',
   });
   if (!params.hasOwnProperty('device')) {
     warning('为选择任何设备, 即将返回主页');
@@ -128,16 +144,8 @@
     receiveData.results = params['results'] || {}; // 结果
     receiveData.formData = params['formData'] || {}; // 填入的数据
     receiveData.showHistory = params['showHistory'] || false;
+    receiveData.testId = params['testId'] || '';
   }
-
-  const router = useRouter();
-  const boardered = ref(false);
-  const inputRef = ref(null);
-  const childRef = ref(null);
-  const currentPage = PageEnum.Reliability_Evaluate_Page;
-  const loading = ref(true);
-  const current = ref(0);
-  const [registerModal, { openModal }] = useModal();
 
   const state = reactive({
     initStep2: false,
@@ -167,9 +175,14 @@
     current.value === 2 && receiveData.hasAnalysis && warning('显示上次的测评结果！');
     if (current.value === 1) {
       setTimeout(() => {
-        console.log('device', receiveData.devInfo);
+        childRef.value?.setFormFields(receiveData.formData);
         childRef.value?.setFormFields({ ...receiveData.devInfo });
       }, 50);
+    }
+    if (current.value === 2) {
+      setTimeout(() => {
+        loading.value = false;
+      }, 500);
     }
   }
 
@@ -186,13 +199,18 @@
   }
 
   function downloadRecord() {
-    // TODO downloadRecord
+    if (receiveData.testId === '') {
+      warning('在没有保存记录前无法到处测评结果');
+    } else {
+      downloadJsonRecord(receiveData.testId);
+    }
   }
 
   function saveRecord() {
     receiveData.hasAnalysis &&
-      saveReliableRcord({ evaluateId: receiveData.results.evaluateId }).then(() => {
+      saveReliableRcord({ evaluateId: receiveData.results.evaluateId }).then((resp) => {
         evaluateState.clearRecord();
+        receiveData.testId = resp.testId;
         success('测评记录保存成功。');
       });
     !receiveData.hasAnalysis && warning('请先测评！');
@@ -222,11 +240,7 @@
       });
       receiveData.results = evaluateResult;
       receiveData.hasAnalysis = true;
-      current.value++;
-      current.value === 2 && (state.initStep3 = true);
-      setTimeout(() => {
-        loading.value = false;
-      }, 1500);
+      handleStepNext();
     }
   }
 

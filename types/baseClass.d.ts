@@ -782,7 +782,7 @@ export interface DecisionOutput {
   suggestedMaintenanceMethod: string;
   [property: string]: any;
 }
-export interface Item {
+export interface HistoryRecordItem {
   /**
    * 年均成本
    */

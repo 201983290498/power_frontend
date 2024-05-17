@@ -1,4 +1,4 @@
-import { Item } from '/#/baseClass';
+import { EvaluateId, HistoryRecordItem } from '/#/baseClass';
 
 import {
   StateEvaluateInput,
@@ -27,11 +27,11 @@ export interface getHistoryPageListParmas {
   decTime?: string;
 }
 export interface HistoryaddParams {
-  equipId: string | number;
-  stateId: string | number;
-  reliabilityId: string | number;
-  economyId: string | number;
-  decisionId: string | number;
+  equipId: EvaluateId;
+  stateId: EvaluateId;
+  reliabilityId: EvaluateId;
+  economyId: EvaluateId;
+  decisionId: EvaluateId;
 }
 export interface HistoryexportParams {
   testId: number | string;
@@ -45,7 +45,7 @@ export interface SearchHistoryParmas {
 export interface getHistoryPageListData {
   pageCount: number; // 总页数
   rowCount: number; // 总的数据数量
-  items: Item[]; // 历史总数
+  items: HistoryRecordItem[]; // 历史总数
 }
 export interface HistoryViewParams {
   testId: number;
@@ -65,4 +65,8 @@ export interface HistoryDataResult {
   reliabilityEvaluate: Evaluate<ReliabilityEvaluateInput, ReliabilityEvaluateOutput>;
   economyEvaluate: Evaluate<EconomyEvaluateInput, EconomyEvaluateOutput>;
   decisionEvaluate: Evaluate<DecisionEvaluateInput, DecisionEvaluateOutput>;
+}
+
+export interface addHistoryResult {
+  testId: EvaluateId;
 }

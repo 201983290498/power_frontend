@@ -4,7 +4,6 @@ import moment from 'moment';
 import { loadEnv } from 'vite';
 import { resolve } from 'path';
 import { generateModifyVars } from './build/generate/generateModifyVars';
-import { createProxy } from './build/vite/proxy';
 import { wrapperEnv } from './build/utils';
 import { createVitePlugins } from './build/vite/plugin';
 import { OUTPUT_DIR } from './build/constant';
@@ -60,7 +59,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       // proxy: createProxy(VITE_PROXY),
       proxy: {
         '/basic-api': {
-          target: 'http://10.242.7.26:8080',
+          target: 'http://10.242.7.23:8080',
           changeOrigin: true,
           ws: true,
           rewrite: (path) => path.replace(new RegExp(`^/basic-api`), ''),

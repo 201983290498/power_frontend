@@ -7,6 +7,7 @@ import {
   HistoryexportParams,
   ExportHistoryData,
   HistoryViewParams,
+  addHistoryResult,
 } from './model/historyModal';
 import { ErrorMessageMode } from '/#/axios';
 
@@ -28,7 +29,7 @@ export const getHistoryList = (params: getHistoryPageListParmas = demoParam) =>
   defHttp.get<getHistoryPageListData>({ url: Api.GetPageList, params });
 
 export async function addHistory(params: HistoryaddParams, mode: ErrorMessageMode = 'modal') {
-  return defHttp.post(
+  return defHttp.post<addHistoryResult>(
     {
       url: Api.AddHistory,
       params,

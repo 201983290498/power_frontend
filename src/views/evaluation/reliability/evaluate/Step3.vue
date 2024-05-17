@@ -102,16 +102,14 @@
             avoidLabelOverlap: false,
             data: [
               {
-                value: props.result.thermalLifeLossRate,
+                value: props.result.thermalLifeLossRate / 100,
                 name:
-                  '热寿命损失率:' + Math.round(props.result.thermalLifeLossRate * 1000) / 10 + '%',
+                  '热寿命损失率:' + Math.round(props.result.thermalLifeLossRate * 10) / 10 + '%',
               },
               {
-                value: 1 - props.result.thermalLifeLossRate,
+                value: 1 - props.result.thermalLifeLossRate / 100,
                 name:
-                  '已损失率:' +
-                  Math.round((1 - props.result.thermalLifeLossRate) * 1000) / 10 +
-                  '%',
+                  '已损失率:' + Math.round((1 - props.result.thermalLifeLossRate) * 10) / 10 + '%',
               },
             ].sort(function (a, b) {
               return a.value - b.value;
@@ -141,13 +139,12 @@
             color: ['#3BA272', '#EE6666'],
             data: [
               {
-                value: props.result.lifespanProcess,
-                name: '剩余寿命:' + Math.round(props.result.lifespanProcess * 1000) / 10 + '%',
+                value: props.result.lifespanProcess / 100,
+                name: '剩余寿命:' + Math.round(props.result.lifespanProcess * 10) / 10 + '%',
               },
               {
-                value: 1 - props.result.lifespanProcess,
-                name:
-                  '已用寿命:' + Math.round((1 - props.result.lifespanProcess) * 1000) / 10 + '%',
+                value: 1 - props.result.lifespanProcess / 100,
+                name: '已用寿命:' + Math.round((1 - props.result.lifespanProcess) * 10) / 10 + '%',
               },
             ].sort(function (a, b) {
               return a.value - b.value;
@@ -164,6 +161,7 @@
     },
     { immediate: true },
   );
+  console.log(props.result);
 </script>
 <style scoped>
   .grid {

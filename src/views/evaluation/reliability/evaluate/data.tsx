@@ -78,7 +78,7 @@ export function step2Schemas(showMode: boolean): FormSchema[] {
     createFormSchema(showMode, 'noLoadLossChange', '负载损耗变化量', '60%', 3, 6),
     createFormSchema(showMode, 'ratedCurrent', '额定电流', '60%', 2, 6),
     createFormSchema(showMode, 'loadCurrent', '负载电流', '60%', 2, 6),
-    createFormSchema(showMode, 'noloadCurrent', '空载电流', '60%', 2, 6),
+    createFormSchema(showMode, 'noLoadCurrent', '空载电流', '60%', 2, 6),
     createFormSchema(showMode, 'noLoadLossKey', '空载损耗', '60%', 2, 6),
     createFormSchema(showMode, 'loadLoss', '负载损耗', '60%', 2, 6),
     createFormSchema(showMode, 'designLife', '设计寿命', '60%', 2, 6),

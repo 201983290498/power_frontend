@@ -8,8 +8,8 @@ import { addHistory } from '../sys/history';
 enum Api {
   Evaluate = '/powergrid/state/evaluate',
   RecordSave = '/powergrid/evaluate/save',
-  GetInputById = '/powergrid/status/retrieve/input',
-  GetOutputById = '/powergrid/status/retrieve/output',
+  GetInputById = '/powergrid/state/retrieve/input',
+  GetOutputById = '/powergrid/state/retrieve/output',
 }
 
 /**

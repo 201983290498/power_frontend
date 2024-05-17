@@ -1,5 +1,6 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import moment from 'moment';
+import { exportHistory } from '/@/api/sys/history';
 
 // 注册的列名
 export const columns: BasicColumn[] = [
@@ -218,3 +219,31 @@ export const decisionSchema: FormSchema[] = [
     component: 'InputNumber',
   },
 ];
+
+export async function downloadJsonRecord(testId) {
+  try {
+    const params = {
+      testId,
+    };
+
+    // 调用 API 获取数据
+    const response = await exportHistory(params);
+    if (response) {
+      const data = response.result;
+      // 创建 JSON 文件
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `history_${Date.now()}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } else {
+      console.error('Failed to export data:');
+    }
+  } catch (error) {
+    console.error('Export failed:', error);
+  }
+}

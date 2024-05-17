@@ -41,13 +41,25 @@
 <script lang="ts" setup>
   import { defineProps, reactive, ref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getHistoryList, exportHistory } from '/@/api/sys/history';
-  import { columns, searchFormSchema } from './history.data';
+  import { getHistoryList } from '/@/api/sys/history';
+  import { columns, downloadJsonRecord, searchFormSchema } from './history.data';
   import { useModal } from '/@/components/Modal';
   import HistoryModal from './HistoryModal.vue';
   import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import logo from '/@/assets/images/1.jpg';
+  import { viewDevice } from '/@/api/sys/device';
+  import { getDevopsRecordInput, getDevopsRecordOutput } from '/@/api/evalution/devops';
+  import { getStateRecordInput, getStateRecordOutput } from '/@/api/evalution/state';
+  import { getReliableRecordInput, getReliableRecordOutput } from '/@/api/evalution/reliability';
+  import { getEconomyRecordInput, getEconomyRecordOutput } from '/@/api/evalution/economy';
+  import { useRouteParams } from '/@/store/modules/route';
+  import { useGo } from '/@/hooks/web/usePage';
+  import { PageEnum } from '/@/enums/pageEnum';
 
+  const { createMessage } = useMessage();
+  const { warning } = createMessage;
   const props = defineProps({
     reSize: {
       type: Boolean,
@@ -65,7 +77,8 @@
 
   //保存一组被选中的记录
   const selectedRows = ref(new Set());
-
+  const routeParam = useRouteParams();
+  const go = useGo();
   const searchModel = reactive({
     equipId: '',
     testId: '',
@@ -137,38 +150,46 @@
   }
 
   async function handleExport(record) {
-    try {
-      const params = {
-        testId: record.testId,
-      };
-
-      // 调用 API 获取数据
-      const response = await exportHistory(params);
-      if (response) {
-        const data = response.result;
-
-        // 创建 JSON 文件
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `history_${Date.now()}.json`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-
-        console.log('Exporting record:', record);
-      } else {
-        console.error('Failed to export data:');
-      }
-    } catch (error) {
-      console.error('Export failed:', error);
-    }
+    downloadJsonRecord(record.testId);
   }
 
-  function handleView(record){
-    // TODO
+  async function handleView(record) {
+    warning('正在进行页面跳转...');
+    const params = {
+      device: {},
+      src: logo,
+      hasAnalysis: true,
+      results: {},
+      formData: {},
+      showHistory: true,
+      testId: record.testId,
+    };
+    params['device'] = await viewDevice({ id: record.equipId });
+    if (record['decisionId'] !== -1) {
+      // 跳转到运维评估页面
+      params['formData'] = await getDevopsRecordInput({ evaluateId: record['decisionId'] });
+      params['results'] = await getDevopsRecordOutput({ evaluateId: record['decisionId'] });
+      routeParam.setParams(params);
+      go(PageEnum.Devops_Evaluate_Page);
+    } else if (record['stateId'] !== -1) {
+      // 跳转到状态评估页面
+      params['formData'] = await getStateRecordInput({ evaluateId: record['stateId'] });
+      params['results'] = await getStateRecordOutput({ evaluateId: record['stateId'] });
+      routeParam.setParams(params);
+      go(PageEnum.State_Evaluate_Page);
+    } else if (record['reliabilityId'] !== -1) {
+      // 跳转到可靠性评估页面
+      params['formData'] = await getReliableRecordInput({ evaluateId: record['reliabilityId'] });
+      params['results'] = await getReliableRecordOutput({ evaluateId: record['reliabilityId'] });
+      routeParam.setParams(params);
+      go(PageEnum.Reliability_Evaluate_Page);
+    } else if (record['economyId'] !== -1) {
+      // 跳转到经济性评估页面
+      params['formData'] = await getEconomyRecordInput({ evaluateId: record['economyId'] });
+      params['results'] = await getEconomyRecordOutput({ evaluateId: record['economyId'] });
+      routeParam.setParams(params);
+      go(PageEnum.Economy_Evaluate_Page);
+    }
   }
 
   //handleSelect函数切换行的选定状态并记录选定的行。
