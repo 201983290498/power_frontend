@@ -1,4 +1,4 @@
-import { Historydata, item } from '/#/baseClass';
+import { Item } from '/#/baseClass';
 
 import {
   StateEvaluateInput,
@@ -45,7 +45,7 @@ export interface SearchHistoryParmas {
 export interface getHistoryPageListData {
   pageCount: number; // 总页数
   rowCount: number; // 总的数据数量
-  items: item[]; // 历史总数
+  items: Item[]; // 历史总数
 }
 export interface HistoryViewParams {
   testId: number;

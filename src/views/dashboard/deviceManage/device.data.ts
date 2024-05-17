@@ -1,46 +1,56 @@
+import moment from 'moment';
 import { BasicColumn, FormSchema } from '/@/components/Table';
 // 注册的列名
 export const columns: BasicColumn[] = [
   {
     title: '设备编号',
     dataIndex: 'equipNo',
-    width: 100,
+    width: 120,
+    ellipsis: true,
     sorter: (a, b) => a.equipNo.length - b.equipNo.length,
   },
   {
     title: '评估人',
     dataIndex: 'personCharge',
-    width: 100,
+    width: 120,
+    ellipsis: true,
   },
   {
     title: '设备型号',
     dataIndex: 'type',
-    width: 100,
+    width: 120,
+    ellipsis: true,
   },
-
   {
     title: '综合得分',
     dataIndex: 'score',
-    width: 100,
+    width: 120,
     sorter: (a, b) => a.score - b.score,
+    ellipsis: true,
   },
   {
     title: '安装位置',
     dataIndex: 'location',
-    width: 100,
+    width: 120,
+    ellipsis: true,
   },
   {
-    title: '评估日期',
+    title: '评估时间',
     dataIndex: 'evaluateTime',
-    width: 100,
-    sorter: (a, b) => a.evaluateTime - b.evaluateTime,
+    width: 120,
+    customRender: ({ text }) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
+    ellipsis: true,
+    sorter: (a, b) => {
+      const dateA = moment(a.evaluateTime);
+      const dateB = moment(b.evaluateTime);
+      return dateA.isBefore(dateB) ? -1 : dateA.isAfter(dateB) ? 1 : 0;
+    },
   },
   {
     title: '状态',
     dataIndex: 'status',
-    width: 100,
+    width: 120,
     customRender: ({ text }) => {
-      // Check the value of 'status' and return the appropriate label
       const numericStatus = Number(text);
       return numericStatus === 1 ? '启用' : '停用';
     },
@@ -66,7 +76,7 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Input',
     colProps: { span: 4 },
   },
-  {
+  /*{
     field: 'status',
     label: '状态',
     required: true,
@@ -82,7 +92,7 @@ export const searchFormSchema: FormSchema[] = [
       },
     },
     colProps: { span: 4 },
-  },
+  },*/
 ];
 // 新增页面的效果
 export const formSchema: FormSchema[] = [

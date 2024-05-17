@@ -1,18 +1,34 @@
 <template>
   <Card>
-    <BasicTable @register="registerTable" :searchModel="searchModel">
+    <BasicTable @register="registerTable" :searchModel="searchModel" :scroll="{ x: 1600, y: 3000 }">
       <template #toolbar>
-        <!-- 右上角的按钮 -->
-        <!-- 搜索表单 -->
-        <a-button type="primary" @click="handleCreate"> 写入历史数据 </a-button>
+        <!--a-button type="primary" @click="handleCreate"> 写入历史数据 </a-button-->
         <a-button @click="toggleSortOrder">切换排序</a-button>
       </template>
       <template #action="{ record }">
         <TableAction
           :actions="[
             {
-              icon: 'clarity:note-edit-line',
-              onClick: handleEdit.bind(null, record),
+              icon: 'clarity:backup-line',
+              label: '导出',
+              divider: true,
+              ifShow: !props.chooseMode,
+              onClick: handleExport.bind(null, record),
+            },
+            {
+              icon: 'clarity:check-circle-solid',
+              label: '选中',
+              color: isSelected(record) ? 'success' : 'default',
+              divider: true,
+              ifShow: props.chooseMode,
+              onClick: handleSelect.bind(null, record),
+            },
+            {
+              icon: 'ant-design:search-outlined',
+              label: '查看',
+              divider: true,
+              ifShow: !props.chooseMode,
+              onClick: handleView.bind(null, record),
             },
           ]"
         />
@@ -21,16 +37,16 @@
     <HistoryModal @register="registerModal" @success="handleSuccess" />
   </Card>
 </template>
+
 <script lang="ts" setup>
   import { defineProps, reactive, ref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getHistoryList } from '/@/api/sys/history';
+  import { getHistoryList, exportHistory } from '/@/api/sys/history';
   import { columns, searchFormSchema } from './history.data';
   import { useModal } from '/@/components/Modal';
   import HistoryModal from './HistoryModal.vue';
   import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
-  //import { BasicForm } from '/@/components/Form';
 
   const props = defineProps({
     reSize: {
@@ -41,25 +57,14 @@
       type: Number,
       default: -1,
     },
+    chooseMode: {
+      type: Boolean,
+      default: false,
+    },
   });
 
-  watch(
-    () => props.maxHeight,
-    (newValue) => {
-      if (newValue !== -1) {
-        setProps({ maxHeight: newValue });
-      }
-    },
-  );
-
-  watch(
-    () => props.reSize,
-    (newValue) => {
-      if (newValue) {
-        setProps({ canResize: newValue });
-      }
-    },
-  );
+  //保存一组被选中的记录
+  const selectedRows = ref(new Set());
 
   const searchModel = reactive({
     equipId: '',
@@ -69,8 +74,8 @@
     page: 1,
     pageSize: 10,
   });
-  const sortBy = ref(''); // 默认排序字段
-  const sortOrder = ref('asc'); // 排序方向
+  const sortBy = ref('');
+  const sortOrder = ref('asc');
   const [registerModal, { openModal }] = useModal();
   const pagination = reactive({
     total: 0,
@@ -81,12 +86,14 @@
     pageSizeOptions: ['5', '10', '20', '30', '40'],
     showTotal: (total, range) => `显示 ${range[0]}-${range[1]} 共 ${total} 条`,
   });
+
   const tableConfig: Props = {
     title: '历史数据列表',
-    api: (query) => getHistoryList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }), // 使用箭头函数s包装原 API 调用 (query) => getHistoryList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value })
+    api: (query) => getHistoryList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }),
     afterFetch: (data) => {
-      // data 是从 API 获得的数据，params 是请求参数
-      console.log('data', data.data);
+      pagination.total = data.rowCount;
+      pagination.current = data.page;
+      pagination.pageSize = data.pageSize;
       return data.data;
     },
     columns,
@@ -116,28 +123,91 @@
       fixed: undefined,
     },
   };
+
   props.maxHeight == -1 || (tableConfig['maxHeight'] = props.maxHeight);
   const [registerTable, { reload, setProps }] = useTable(tableConfig);
+
   function toggleSortOrder() {
     sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
-    reload(); // 重新加载数据，应用新的排序
+    reload();
   }
 
   function handleCreate() {
-    openModal(true, { isUpdate: false });
+    openModal(true);
   }
 
-  function handleEdit(record) {
-    openModal(true, { record, isUpdate: true });
+  async function handleExport(record) {
+    try {
+      const params = {
+        testId: record.testId,
+      };
+
+      // 调用 API 获取数据
+      const response = await exportHistory(params);
+      if (response) {
+        const data = response.result;
+
+        // 创建 JSON 文件
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `history_${Date.now()}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        console.log('Exporting record:', record);
+      } else {
+        console.error('Failed to export data:');
+      }
+    } catch (error) {
+      console.error('Export failed:', error);
+    }
+  }
+
+  function handleView(record){
+    // TODO
+  }
+
+  //handleSelect函数切换行的选定状态并记录选定的行。
+  function handleSelect(record) {
+    if (selectedRows.value.has(record)) {
+      selectedRows.value.delete(record);
+    } else {
+      selectedRows.value.add(record);
+    }
+    console.log('Selected rows:', selectedRows.value);
+  }
+
+  function isSelected(record) {
+    return selectedRows.value.has(record);
   }
 
   function handleSuccess() {
-    reload(); // 成功后重新加载数据
+    reload();
   }
-  /*function setTableData(data) {
-    tableData.value = data; // 直接更新响应式引用的值
-  }*/
+
+  watch(
+    () => props.maxHeight,
+    (newValue) => {
+      if (newValue !== -1) {
+        setProps({ maxHeight: newValue });
+      }
+    },
+  );
+
+  watch(
+    () => props.reSize,
+    (newValue) => {
+      if (newValue) {
+        setProps({ canResize: newValue });
+      }
+    },
+  );
 </script>
+
 <script lang="ts">
   export default {
     name: 'HistoryManagement',

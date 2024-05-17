@@ -60,11 +60,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       // proxy: createProxy(VITE_PROXY),
       proxy: {
         '/basic-api': {
-<<<<<<< HEAD
           target: 'http://10.242.7.26:8080',
-=======
-          target: 'http://10.242.7.23:8080',
->>>>>>> 7f75e2a49825b6f303f304aadf162fcab28e9d8a
           changeOrigin: true,
           ws: true,
           rewrite: (path) => path.replace(new RegExp(`^/basic-api`), ''),
