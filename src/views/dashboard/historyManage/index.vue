@@ -57,9 +57,12 @@
   import { useRouteParams } from '/@/store/modules/route';
   import { useGo } from '/@/hooks/web/usePage';
   import { PageEnum } from '/@/enums/pageEnum';
+  import { object } from 'vue-types';
 
   const { createMessage } = useMessage();
   const { warning } = createMessage;
+  const emit = defineEmits(['select']);
+
   const props = defineProps({
     reSize: {
       type: Boolean,
@@ -72,6 +75,10 @@
     chooseMode: {
       type: Boolean,
       default: false,
+    },
+    conditions: {
+      type: object,
+      default: {},
     },
   });
 
@@ -199,6 +206,7 @@
     } else {
       selectedRows.value.add(record);
     }
+    emit('select', selectedRows.value);
     console.log('Selected rows:', selectedRows.value);
   }
 
@@ -225,6 +233,13 @@
       if (newValue) {
         setProps({ canResize: newValue });
       }
+    },
+  );
+  watch(
+    () => props.conditions,
+    (newValue) => {
+      // TODO
+      // 按照条件搜索展示表格
     },
   );
 </script>

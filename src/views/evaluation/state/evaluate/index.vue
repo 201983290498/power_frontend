@@ -118,7 +118,7 @@
   const childRef = ref(null); // 子组件的ref
   const current = ref(0);
 
-  const [registerModal, { openModal }] = useModal();
+  const [registerModal, { openModal, closeModal }] = useModal();
 
   // 定义接收参数的类型
   const receiveData = reactive({
@@ -214,10 +214,10 @@
   function historyFilledIn() {
     // TODO 传入参数, 设备Id和排序字段, 排序方式
     openModal(true, {
-      equipId: '1', // 设备Id
-      sortField: 'createTime', // 按照时间
+      equipId: receiveData.equipId, // 设备Id
+      sortField: 'evaluateTime', // 按照时间
       decending: true, // 降序
-      searched: true, // 是否排序
+      type: 'state', // 状态评估
     });
   }
 
@@ -252,6 +252,7 @@
 
   // 历史数据选择成功
   async function chooseSuccess(evaluateId: string) {
+    closeModal();
     receiveData.formData = await getStateRecordInput({ evaluateId }); // 获取测试Id对应的输入数据
     childRef.value?.setFormFields(receiveData.formData);
   }
