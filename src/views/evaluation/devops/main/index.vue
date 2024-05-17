@@ -10,7 +10,7 @@
       </div>
     </template>
     <DeviceManagement @chooseDevice="selectDevice" :re-size="false" :max-height="maxHeight" />
-    <Card class="!mt-1">
+    <Card class="!mt-1" v-if="showDetail">
       <template #title> 依赖测评 </template>
       <template #extra>
         <a-button type="primary" @click="chooseEvaluationRecord"> 选择测评记录 </a-button>
@@ -55,14 +55,13 @@
       :device="deviceInfo"
       v-if="showDetail"
     />
-    <HistoryModal @register="registerModal" @success="chooseSuccess" />
+    <HistoryModal @register="registerModal" :checkFunction="selectCheck" />
   </PageWrapper>
 </template>
 <script lang="ts" setup>
   import { PageWrapper } from '/@/components/Page';
   import DeviceManagement from '/@/views/dashboard/deviceManage/index.vue';
   import DeviceInfo from '../../common/DeviceInfo.vue';
-  import { deviceDemo } from '../../common/data';
   import logo from '/@/assets/images/1.jpg';
   import { ref, Ref } from 'vue';
   import { useGo } from '/@/hooks/web/usePage';
@@ -91,7 +90,7 @@
 
   const go = useGo();
   const btnTexts = ref<Array<string>>(['进入运维决策', '历史评估结果']);
-  const deviceInfo = ref<Partial<any> | null>(deviceDemo);
+  const deviceInfo = ref<Partial<any> | null>(null);
   const maxHeight: Ref<number | string> = ref(-1);
   const showDetail = ref(false);
 
@@ -115,13 +114,16 @@
   }
 
   function chooseEvaluationRecord() {
-    // TODO
-    openModal(true, {
-      equipId: '1', // 设备Id
-      sortField: 'createTime', // 按照时间
-      decending: true, // 降序
-      searched: true, // 是否排序
-    });
+    if (deviceInfo.value) {
+      openModal(true, {
+        equipId: deviceInfo.value?.equipId, // 设备Id
+        sortField: 'evaluateTime', // 按照时间
+        decending: true, // 降序
+        type: 'all',
+      });
+    } else {
+      createMessage.error('请先选中设备');
+    }
   }
 
   async function chooseSuccess(selectID: EvaluatedIds) {
@@ -138,5 +140,34 @@
     deviceInfo.value = evaluateState.getDeviceInfo;
     evaluateState.setDeviceImage(logo);
     showDetail.value = true;
+  }
+
+  function selectCheck(items) {
+    const itemList = [...items];
+    let evaluateIds: EvaluatedIds = {
+      stateId: '',
+      reliabilityId: '',
+      economicId: '',
+    };
+    let usefulTi = 0;
+    itemList.forEach((element) => {
+      if (element['economyId'] !== -1 && element['decisionId'] === 1) {
+        evaluateIds['economicId'] = element['economyId'];
+        usefulTi += 1;
+      }
+      if (element['reliabilityId'] !== -1 && element['decisionId'] === 1) {
+        evaluateIds['reliabilityId'] = element['reliabilityId'];
+        usefulTi += 1;
+      }
+      if (element['stateId'] !== -1 && element['decisionId'] === 1) {
+        evaluateIds['stateId'] = element['stateId'];
+        usefulTi += 1;
+      }
+    });
+    if (usefulTi !== 3 || items.size !== 3) {
+      createMessage.error('请选择该设备的三种类型的评估各一条');
+    } else {
+      chooseSuccess(evaluateIds);
+    }
   }
 </script>

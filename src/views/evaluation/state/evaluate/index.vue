@@ -71,7 +71,7 @@
       </a-button>
       <a-button type="primary" class="mr-4" color="warning" @click="handleGiveup"> 放弃 </a-button>
     </template>
-    <HistoryModal @register="registerModal" @success="chooseSuccess" />
+    <HistoryModal @register="registerModal" :checkFunction="selectCheck" />
     <input
       ref="inputRef"
       type="file"
@@ -251,7 +251,7 @@
   }
 
   // 历史数据选择成功
-  async function chooseSuccess(evaluateId: string) {
+  async function chooseSuccess(evaluateId) {
     closeModal();
     receiveData.formData = await getStateRecordInput({ evaluateId }); // 获取测试Id对应的输入数据
     childRef.value?.setFormFields(receiveData.formData);
@@ -281,6 +281,16 @@
   async function backHome() {
     await closeTab(PageEnum.State_Evaluate_Page, router);
     go(PageEnum.State_Main_Page);
+  }
+
+  function selectCheck(items) {
+    const itemList = [...items];
+    if (items.size > 1 || itemList[0]['stateId'] === -1) {
+      warning('请选择一条该设备的历史状态评估数据作为导入！');
+      return false;
+    } else {
+      chooseSuccess(itemList[0]['stateId']);
+    }
   }
 </script>
 <script lang="ts">

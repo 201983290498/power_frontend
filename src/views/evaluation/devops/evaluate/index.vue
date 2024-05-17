@@ -70,7 +70,7 @@
       </a-button>
       <a-button type="primary" class="mr-4" color="warning" @click="handleGiveup"> 放弃 </a-button>
     </template>
-    <HistoryModal @register="registerModal" @success="chooseSuccess" />
+    <HistoryModal @register="registerModal" :checkFunction="selectCheck" />
     <input
       ref="inputRef"
       type="file"
@@ -141,7 +141,7 @@ import { downloadJsonRecord } from '/@/views/dashboard/historyManage/history.dat
   }
 
   const current = ref(0);
-  const [registerModal, { openModal }] = useModal(); // 打开modal框
+  const [registerModal, { openModal, closeModal }] = useModal(); // 打开modal框
 
   const state = reactive({
     initStep2: false,
@@ -209,10 +209,10 @@ import { downloadJsonRecord } from '/@/views/dashboard/historyManage/history.dat
   function historyFilledIn() {
     // TODO 传入参数, 设备Id和排序字段, 排序方式
     openModal(true, {
-      equipId: '1', // 设备Id
-      sortField: 'createTime', // 按照时间
+      equipId: receiveData.equipId, // 设备Id
+      sortField: 'evaluateTime', // 按照时间
       decending: true, // 降序
-      searched: true, // 是否排序
+      type: 'devops',
     });
   }
 
@@ -245,6 +245,7 @@ import { downloadJsonRecord } from '/@/views/dashboard/historyManage/history.dat
   }
 
   async function chooseSuccess(evaluateId: string) {
+    closeModal();
     receiveData.formData = await getDevopsRecordInput({ evaluateId });
     childRef.value?.setFormFields(receiveData.formData);
   }
@@ -272,6 +273,16 @@ import { downloadJsonRecord } from '/@/views/dashboard/historyManage/history.dat
   function backHome() {
     closeTab(currentPage, router);
     go(PageEnum.Devops_Main_Page);
+  }
+
+  function selectCheck(items) {
+    const itemList = [...items];
+    if (items.size > 1 || itemList[0]['decisionId'] === -1) {
+      warning('请选择一条该设备的历史运维评估数据作为导入！');
+      return false;
+    } else {
+      chooseSuccess(itemList[0]['decisionId']);
+    }
   }
 </script>
 <script lang="ts">

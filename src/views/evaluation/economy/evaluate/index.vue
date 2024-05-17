@@ -71,7 +71,7 @@
       </a-button>
       <a-button type="primary" class="mr-4" color="warning" @click="handleGiveup"> 放弃 </a-button>
     </template>
-    <HistoryModal @register="registerModal" @success="chooseSuccess" />
+    <HistoryModal @register="registerModal" :checkFunction="selectCheck" />
     <input
       ref="inputRef"
       type="file"
@@ -121,7 +121,7 @@
   const childRef = ref(null);
   const loading = ref(true);
   const current = ref(0);
-  const [registerModal, { openModal }] = useModal();
+  const [registerModal, { openModal, closeModal }] = useModal();
 
   const receiveData = reactive({
     devInfo: {},
@@ -215,10 +215,10 @@
   function historyFilledIn() {
     // TODO 传入参数, 设备Id和排序字段, 排序方式
     openModal(true, {
-      equipId: '1', // 设备Id
-      sortField: 'createTime', // 按照时间
+      equipId: receiveData.equipId, // 设备Id
+      sortField: 'evaluateTime', // 按照时间
       decending: true, // 降序
-      searched: true, // 是否排序
+      type: 'economy',
     });
   }
 
@@ -255,6 +255,7 @@
   }
 
   async function chooseSuccess(evaluateId: string) {
+    closeModal();
     receiveData.formData = await getEconomyRecordInput({ evaluateId });
     childRef.value?.setFormFields(receiveData.formData);
   }
@@ -282,6 +283,17 @@
   async function backHome() {
     closeTab(PageEnum.Economy_Evaluate_Page, router);
     go(PageEnum.Economy_Main_Page);
+  }
+
+  function selectCheck(items) {
+    const itemList = [...items];
+    if (items.size > 1 || itemList[0]['economyId'] === -1) {
+      warning('请选择一条该设备的历史经济性评估数据作为导入！');
+      return false;
+    } else {
+      chooseSuccess(itemList[0]['economyId']);
+      return true;
+    }
   }
 </script>
 <script lang="ts">

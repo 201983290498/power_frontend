@@ -57,7 +57,6 @@
   import { useRouteParams } from '/@/store/modules/route';
   import { useGo } from '/@/hooks/web/usePage';
   import { PageEnum } from '/@/enums/pageEnum';
-  import { object } from 'vue-types';
 
   const { createMessage } = useMessage();
   const { warning } = createMessage;
@@ -77,7 +76,7 @@
       default: false,
     },
     conditions: {
-      type: object,
+      type: Object,
       default: {},
     },
   });

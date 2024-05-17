@@ -71,7 +71,7 @@
       </a-button>
       <a-button type="primary" class="mr-4" color="warning" @click="handleGiveup"> 放弃 </a-button>
     </template>
-    <HistoryModal @register="registerModal" @success="chooseSuccess" />
+    <HistoryModal @register="registerModal" :checkFunction="selectCheck" />
     <input
       ref="inputRef"
       type="file"
@@ -120,7 +120,7 @@
   const currentPage = PageEnum.Reliability_Evaluate_Page;
   const loading = ref(true);
   const current = ref(0);
-  const [registerModal, { openModal }] = useModal();
+  const [registerModal, { openModal, closeModal }] = useModal();
 
   const receiveData = reactive({
     devInfo: {},
@@ -219,10 +219,10 @@
   function historyFilledIn() {
     // TODO 传入参数, 设备Id和排序字段, 排序方式
     openModal(true, {
-      equipId: '1', // 设备Id
-      sortField: 'createTime', // 按照时间
+      equipId: receiveData.equipId, // 设备Id
+      sortField: 'evaluateTime', // 按照时间
       decending: true, // 降序
-      searched: true, // 是否排序
+      type: 'reliability',
     });
   }
 
@@ -256,6 +256,7 @@
 
   // 历史数据选择成功
   async function chooseSuccess(evaluateId: string) {
+    closeModal();
     receiveData.formData = await getReliableRecordInput({ evaluateId });
     childRef.value?.setFormFields(receiveData.formData);
   }
@@ -286,6 +287,16 @@
   async function backHome() {
     await closeTab(currentPage, router);
     go(PageEnum.Reliability_Main_Page);
+  }
+
+  function selectCheck(items) {
+    const itemList = [...items];
+    if (items.size > 1 || itemList[0]['reliabilityId'] === -1) {
+      warning('请选择一条该设备的历史可靠性评估数据作为导入！');
+      return false;
+    } else {
+      chooseSuccess(itemList[0]['reliabilityId']);
+    }
   }
 </script>
 <script lang="ts">
