@@ -132,6 +132,7 @@
     pagination,
     canResize: props.reSize,
     handleSearchInfoFn(info) {
+      console.log('handleSearchInfoFn', info);
       if (info.status !== undefined) {
         info.status = info.status === 1 ? '启用' : '停用';
       }

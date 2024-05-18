@@ -274,6 +274,9 @@
           searchModel.economyId = { $ne: -1 };
         } else {
           searchModel.decisionId = { $ne: -1 };
+          searchModel.reliabilityId = { $ne: -1 };
+          searchModel.economyId = { $ne: -1 };
+          searchModel.stateId = { $ne: -1 };
         }
       }
       reload();
