@@ -2,6 +2,7 @@
   <Card>
     <BasicTable
       :searchModel="searchModel"
+      :columns="columns"
       @register="registerTable"
       @rowClick="itemonclick"
       :scroll="{ x: 1500, y: 3000 }"
@@ -146,6 +147,13 @@
   };
   props.maxHeight == -1 || (tableConfig['maxHeight'] = props.maxHeight);
   const [registerTable, { reload, setProps }] = useTable(tableConfig);
+  watch(
+    searchModel,
+    () => {
+      reload();
+    },
+    { deep: true },
+  );
 
   function toggleSortOrder() {
     sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';

@@ -5,6 +5,13 @@ import { exportHistory } from '/@/api/sys/history';
 // 注册的列名
 export const columns: BasicColumn[] = [
   {
+    title: '设备Id',
+    dataIndex: 'equipId',
+    width: 50,
+    ellipsis: true,
+    sorter: (a, b) => a.equipId - b.equipId,
+  },
+  {
     title: '设备编号',
     dataIndex: 'equipNo',
     width: 50,
@@ -91,14 +98,8 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 4 },
   },
   {
-    field: 'evaluateId',
-    label: '评估Id',
-    component: 'Input',
-    colProps: { span: 4 },
-  },
-  {
     field: 'personCharge',
-    label: '责任人',
+    label: '评估人',
     component: 'Input',
     colProps: { span: 4 },
   },

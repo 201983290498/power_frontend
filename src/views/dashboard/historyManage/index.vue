@@ -1,6 +1,6 @@
 <template>
   <Card>
-    <BasicTable @register="registerTable" :searchModel="searchModel" :scroll="{ x: 1600, y: 3000 }">
+    <BasicTable @register="registerTable" :searchInfo="searchModel" :scroll="{ x: 1600, y: 3000 }">
       <template #toolbar>
         <!--a-button type="primary" @click="handleCreate"> 写入历史数据 </a-button-->
         <a-button @click="toggleSortOrder">切换排序</a-button>
@@ -77,24 +77,47 @@
     },
     conditions: {
       type: Object,
-      default: {},
+      default: () => ({}),
     },
   });
-
+  type StateIdType = number | { $ne: number };
+  type numbertype = { $ne: number }
   //保存一组被选中的记录
+  type SearchModelType = {
+    equipNo: string;
+    personCharge: string;
+    equipId: numbertype;
+    testId: numbertype;
+    sortBy: string;
+    sortOrder: string;
+    page: number;
+    pageSize: number;
+    type: string;
+    stateId: StateIdType;
+    economyId: StateIdType;
+    reliabilityId: StateIdType;
+    decisionId: StateIdType;
+  };
   const selectedRows = ref(new Set());
   const routeParam = useRouteParams();
   const go = useGo();
-  const searchModel = reactive({
-    equipId: '',
-    testId: '',
-    sortBy: '',
-    sortOrder: '',
+  const searchModel: SearchModelType = reactive({
+    equipNo: '',
+    personCharge: '',
+    equipId: { $ne: 0 },
+    testId: { $ne: 0 },
+    sortBy: 'evaluateTime', // 默认排序字段
+    sortOrder: 'desc', // 默认降序
     page: 1,
     pageSize: 10,
+    type: '',
+    decisionId: { $ne: 0 },
+    economyId: { $ne: 0 },
+    stateId: { $ne: 0 },
+    reliabilityId: { $ne: 0 },
   });
-  const sortBy = ref('');
-  const sortOrder = ref('asc');
+  const sortBy = ref('evaluateTime'); // 默认排序字段
+  const sortOrder = ref('desc'); // 默认降序排序
   const [registerModal, { openModal }] = useModal();
   const pagination = reactive({
     total: 0,
@@ -216,7 +239,6 @@
   function handleSuccess() {
     reload();
   }
-
   watch(
     () => props.maxHeight,
     (newValue) => {
@@ -237,9 +259,34 @@
   watch(
     () => props.conditions,
     (newValue) => {
-      // TODO
       // 按照条件搜索展示表格
+      if (newValue) {
+        searchModel.equipId = newValue.equipId;
+        searchModel.type = newValue.type;
+        console.log('log', newValue);
+        // 设置筛选条件
+        if (searchModel.type === 'state') {
+          searchModel.stateId = { $ne: -1 };
+        } else if (searchModel.type === 'devops') {
+          searchModel.decisionId = { $ne: -1 };
+        } else if (searchModel.type === 'reliability') {
+          searchModel.reliabilityId = { $ne: -1 };
+        } else if (searchModel.type === 'economy') {
+          searchModel.economyId = { $ne: -1 };
+        } else {
+          searchModel.decisionId = { $ne: -1 }
+        }
+      }
+      reload();
     },
+    { immediate: true },
+  );
+  watch(
+    searchModel,
+    () => {
+      reload();
+    },
+    { deep: true },
   );
 </script>
 

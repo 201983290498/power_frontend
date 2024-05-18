@@ -3,6 +3,13 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 // 注册的列名
 export const columns: BasicColumn[] = [
   {
+    title: '设备ID',
+    dataIndex: 'equipId',
+    width: 60,
+    ellipsis: true,
+    sorter: (a, b) => a.equipId - b.equipId,
+  },
+  {
     title: '设备编号',
     dataIndex: 'equipNo',
     width: 120,
