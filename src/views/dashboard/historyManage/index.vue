@@ -81,13 +81,12 @@
     },
   });
   type StateIdType = number | { $ne: number };
-  type numbertype = { $ne: number }
   //保存一组被选中的记录
   type SearchModelType = {
     equipNo: string;
     personCharge: string;
-    equipId: numbertype;
-    testId: numbertype;
+    equipId: undefined;
+    testId: undefined;
     sortBy: string;
     sortOrder: string;
     page: number;
@@ -104,8 +103,8 @@
   const searchModel: SearchModelType = reactive({
     equipNo: '',
     personCharge: '',
-    equipId: { $ne: 0 },
-    testId: { $ne: 0 },
+    equipId: undefined,
+    testId: undefined,
     sortBy: 'evaluateTime', // 默认排序字段
     sortOrder: 'desc', // 默认降序
     page: 1,
@@ -274,7 +273,7 @@
         } else if (searchModel.type === 'economy') {
           searchModel.economyId = { $ne: -1 };
         } else {
-          searchModel.decisionId = { $ne: -1 }
+          searchModel.decisionId = { $ne: -1 };
         }
       }
       reload();
