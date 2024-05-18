@@ -1,6 +1,11 @@
 <template>
   <Card>
-    <BasicTable @register="registerTable" :searchInfo="searchModel" :scroll="{ x: 1600, y: 3000 }">
+    <BasicTable
+      @register="registerTable"
+      :columns="columns"
+      :searchInfo="searchModel"
+      :scroll="{ x: 2000, y: 3000 }"
+    >
       <template #toolbar>
         <!--a-button type="primary" @click="handleCreate"> 写入历史数据 </a-button-->
         <a-button @click="toggleSortOrder">切换排序</a-button>
@@ -135,7 +140,7 @@
       pagination.total = data.rowCount;
       pagination.current = data.page;
       pagination.pageSize = data.pageSize;
-      return data.data;
+      return data;
     },
     columns,
     formConfig: {
@@ -146,16 +151,18 @@
       pageField: 'page',
       sizeField: 'pageSize',
     },
-    handleSearchInfoFn(info) {
-      console.log('handleSearchInfoFn', info);
-      return info;
-    },
+
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
     showIndexColumn: false,
     pagination,
     canResize: props.reSize,
+    handleSearchInfoFn(info) {
+      console.log('handleSearchInfoFn', info);
+      return info;
+      //return Object.entries(info).map(([key, value]) => ({ [key]: value }));
+    },
     actionColumn: {
       width: 80,
       title: '操作',

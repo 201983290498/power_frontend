@@ -1,11 +1,11 @@
 <template>
   <Card>
     <BasicTable
-      :searchModel="searchModel"
+      :searchInfo="searchModel"
       :columns="columns"
       @register="registerTable"
       @rowClick="itemonclick"
-      :scroll="{ x: 1500, y: 3000 }"
+      :scroll="{ x: 2000, y: 3000 }"
     >
       <template #toolbar>
         <a-button type="primary" @click="handleCreate">新增设备</a-button>
@@ -148,14 +148,6 @@
   };
   props.maxHeight == -1 || (tableConfig['maxHeight'] = props.maxHeight);
   const [registerTable, { reload, setProps }] = useTable(tableConfig);
-  watch(
-    searchModel,
-    () => {
-      reload();
-    },
-    { deep: true },
-  );
-
   function toggleSortOrder() {
     sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
     reload();
