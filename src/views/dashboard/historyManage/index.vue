@@ -1,11 +1,6 @@
 <template>
   <Card>
-    <BasicTable
-      @register="registerTable"
-      :columns="columns"
-      :searchInfo="searchModel"
-      :scroll="{ x: 2000, y: 3000 }"
-    >
+    <BasicTable @register="registerTable" :searchInfo="searchModel" :scroll="{ x: 2000, y: 3000 }">
       <template #toolbar>
         <!--a-button type="primary" @click="handleCreate"> 写入历史数据 </a-button-->
         <a-button @click="toggleSortOrder">切换排序</a-button>
@@ -86,12 +81,13 @@
     },
   });
   type StateIdType = number | { $ne: number };
+  type numberType = undefined;
   //保存一组被选中的记录
   type SearchModelType = {
     equipNo: string;
     personCharge: string;
-    equipId: undefined;
-    testId: undefined;
+    equipId: numberType;
+    testId: numberType;
     sortBy: string;
     sortOrder: string;
     page: number;
@@ -105,20 +101,20 @@
   const selectedRows = ref(new Set());
   const routeParam = useRouteParams();
   const go = useGo();
-  const searchModel: SearchModelType = reactive({
+  const searchModel = reactive({
     equipNo: '',
     personCharge: '',
-    equipId: undefined,
-    testId: undefined,
+    equipId: null,
+    testId: null,
     sortBy: 'evaluateTime', // 默认排序字段
     sortOrder: 'desc', // 默认降序
     page: 1,
     pageSize: 10,
     type: '',
+    reliabilityId: { $ne: 0 },
     decisionId: { $ne: 0 },
     economyId: { $ne: 0 },
     stateId: { $ne: 0 },
-    reliabilityId: { $ne: 0 },
   });
   const sortBy = ref('evaluateTime'); // 默认排序字段
   const sortOrder = ref('desc'); // 默认降序排序
@@ -285,8 +281,8 @@
           searchModel.economyId = { $ne: -1 };
           searchModel.stateId = { $ne: -1 };
         }
+        reload();
       }
-      reload();
     },
     { immediate: true },
   );
