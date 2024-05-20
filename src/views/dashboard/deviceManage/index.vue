@@ -88,11 +88,12 @@
     equipNo: '',
     type: '',
     location: '',
-    status: undefined as number | undefined, // 初始化为 undefined，可以在后面设置为 1 或 0
+    status: undefined, // 初始化为 undefined，可以在后面设置为 1 或 0
     page: 1,
     pageSize: 10,
     sortBy: '',
     sortOrder: '',
+    equipName: '',
   });
 
   const sortBy = ref('');
@@ -110,7 +111,11 @@
   const tableConfig: Props = {
     title: '设备列表',
     api: (query) => getDeviceList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }),
+    beforeFetch: (data) => {
+      console.log('param', data);
+    },
     afterFetch: (data) => {
+      console.log('results', data);
       pagination.total = data.rowCount;
       pagination.current = data.page;
       pagination.pageSize = data.pageSize;
@@ -133,9 +138,9 @@
     canResize: props.reSize,
     handleSearchInfoFn(info) {
       console.log('handleSearchInfoFn', info);
-      if (info.status !== undefined) {
-        info.status = info.status === 1 ? '启用' : '停用';
-      }
+      // if (info.status !== undefined) {
+      //   info.status = info.status === 1 ? '启用' : '停用';
+      // }
       return info;
     },
     actionColumn: {

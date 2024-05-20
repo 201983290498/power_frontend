@@ -17,14 +17,15 @@ import {
 export interface getHistoryPageListParmas {
   page: string | number;
   pageSize: string | number;
-  sortBy?: string;
-  sortOrder?: string;
+  sortBy: string;
+  sortOrder: string;
   testId?: number | string;
-  equipId?: string | number;
-  stateTime?: string;
-  reliTime?: string;
-  ecoTime?: string;
-  decTime?: string;
+  equipId: string | number;
+  personCharge: string | number;
+  stateId: number | string;
+  reliabilityId: number | string;
+  economyId: number | string;
+  decisionId: number | string;
 }
 export interface HistoryaddParams {
   equipId: EvaluateId;

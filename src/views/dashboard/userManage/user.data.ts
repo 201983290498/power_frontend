@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { BasicColumn, FormSchema } from '/@/components/Table';
 // 注册的列名
 export const columns: BasicColumn[] = [
@@ -10,6 +11,7 @@ export const columns: BasicColumn[] = [
     title: '用户id',
     dataIndex: 'userId',
     width: 100,
+    sorter: (a, b) => a.userId - b.userId,
   },
   {
     title: '所属单位',
@@ -24,17 +26,28 @@ export const columns: BasicColumn[] = [
   {
     title: '用户类型',
     dataIndex: 'role',
-    width: 50,
+    width: 120,
+    customRender: ({ text }) => {
+      return text === 'ADMIN' ? '管理员' : '普通用户';
+    },
   },
   {
     title: '上次登录时间',
     dataIndex: 'lastLogin',
     width: 150,
+    customRender: ({ text }) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
+    ellipsis: true,
+    sorter: (a, b) => {
+      const dateA = moment(a.lastLogin);
+      const dateB = moment(b.lastLogin);
+      return dateA.isBefore(dateB) ? -1 : dateA.isAfter(dateB) ? 1 : 0;
+    },
   },
   {
     title: '权限等级',
     dataIndex: 'level',
     width: 50,
+    sorter: (a, b) => a.level - b.level,
   },
 ];
 // 顶部搜索框
@@ -60,7 +73,18 @@ export const searchFormSchema: FormSchema[] = [
   {
     field: 'role',
     label: '用户类型',
-    component: 'Input',
+    required: true,
+    component: 'Select',
+    componentProps: {
+      options: [
+        { label: '管理员', value: 'ADMIN' },
+        { label: '普通用户', value: 'USER' },
+      ],
+      onChange: (value) => {
+        console.log('Selected Status:', value);
+        // 可以在这里根据 value 的变化做进一步处理
+      },
+    },
     colProps: { span: 4 },
   },
 ];
@@ -102,7 +126,13 @@ export const formSchema: FormSchema[] = [
     field: 'role',
     label: '用户类型',
     required: true,
-    component: 'Input',
+    component: 'Select',
+    componentProps: {
+      options: [
+        { label: '管理员', value: 'ADMIN' },
+        { label: '普通用户', value: 'USER' },
+      ],
+    },
   },
   {
     field: 'organization',

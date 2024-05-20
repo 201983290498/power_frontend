@@ -10,6 +10,9 @@ export interface getDevicePageListParmas {
   equipNo?: number | string;
   type?: string;
   location?: string;
+  status?: string | number;
+  equipId?: number | string;
+  equipName?: string;
 }
 export interface DeviceupdateParams {
   fixedPwd: string;

@@ -52,8 +52,13 @@ export const columns: BasicColumn[] = [
   {
     title: '可靠性评估Id',
     dataIndex: 'reliabilityId',
-    width: 50,
+    width: 70,
     ellipsis: true,
+    customRender: ({ text }) => {
+      return text === -1
+        ? '<span style="background-color: blue; color: white;"></span>'
+        : `<span>${text}</span>`;
+    },
   },
   {
     title: '剩余可靠性寿命',

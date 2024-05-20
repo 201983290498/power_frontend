@@ -1,6 +1,6 @@
 <template>
   <Card>
-    <BasicTable @register="registerTable" :searchInfo="searchModel" :scroll="{ x: 2000, y: 3000 }">
+    <BasicTable :searchInfo="searchModel" @register="registerTable" :scroll="{ x: 2000, y: 3000 }">
       <template #toolbar>
         <!--a-button type="primary" @click="handleCreate"> 写入历史数据 </a-button-->
         <a-button @click="toggleSortOrder">切换排序</a-button>
@@ -37,7 +37,6 @@
     <HistoryModal @register="registerModal" @success="handleSuccess" />
   </Card>
 </template>
-
 <script lang="ts" setup>
   import { defineProps, reactive, ref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
@@ -80,42 +79,44 @@
       default: () => ({}),
     },
   });
-  type StateIdType = number | { $ne: number };
-  type numberType = undefined;
+
   //保存一组被选中的记录
-  type SearchModelType = {
-    equipNo: string;
-    personCharge: string;
-    equipId: numberType;
-    testId: numberType;
-    sortBy: string;
-    sortOrder: string;
-    page: number;
-    pageSize: number;
-    type: string;
-    stateId: StateIdType;
-    economyId: StateIdType;
-    reliabilityId: StateIdType;
-    decisionId: StateIdType;
-  };
   const selectedRows = ref(new Set());
   const routeParam = useRouteParams();
   const go = useGo();
+  //const searchModel = reactive({});
   const searchModel = reactive({
     equipNo: '',
     personCharge: '',
-    equipId: null,
-    testId: null,
+    equipId: 0, // 初始化为number类型
     sortBy: 'evaluateTime', // 默认排序字段
     sortOrder: 'desc', // 默认降序
     page: 1,
     pageSize: 10,
-    type: '',
-    reliabilityId: { $ne: 0 },
-    decisionId: { $ne: 0 },
-    economyId: { $ne: 0 },
-    stateId: { $ne: 0 },
+    decisionId: 0, // 初始化为空值
+    economyId: 0, // 初始化为空值
+    stateId: 0, // 初始化为空值
+    reliabilityId: 0, // 初始化为空值
   });
+  function prepareSearchModelForRequest(model) {
+    const preparedModel = { ...model };
+    if (preparedModel.decisionId === -1) {
+      preparedModel.decisionId = null;
+    }
+    if (preparedModel.economyId === -1) {
+      preparedModel.economyId = null;
+    }
+    if (preparedModel.stateId === -1) {
+      preparedModel.stateId = null;
+    }
+    if (preparedModel.reliabilityId === -1) {
+      preparedModel.reliabilityId = null;
+    }
+    return preparedModel;
+  }
+  prepareSearchModelForRequest(searchModel);
+  // 使用这个函数在发请求前准备数据
+
   const sortBy = ref('evaluateTime'); // 默认排序字段
   const sortOrder = ref('desc'); // 默认降序排序
   const [registerModal, { openModal }] = useModal();
@@ -132,7 +133,11 @@
   const tableConfig: Props = {
     title: '历史数据列表',
     api: (query) => getHistoryList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }),
+    beforeFetch: (data) => {
+      console.log('param', data);
+    },
     afterFetch: (data) => {
+      console.log('历史数据', data);
       pagination.total = data.rowCount;
       pagination.current = data.page;
       pagination.pageSize = data.pageSize;
@@ -147,7 +152,6 @@
       pageField: 'page',
       sizeField: 'pageSize',
     },
-
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
@@ -157,7 +161,6 @@
     handleSearchInfoFn(info) {
       console.log('handleSearchInfoFn', info);
       return info;
-      //return Object.entries(info).map(([key, value]) => ({ [key]: value }));
     },
     actionColumn: {
       width: 80,
@@ -264,35 +267,27 @@
       // 按照条件搜索展示表格
       if (newValue) {
         searchModel.equipId = newValue.equipId;
-        searchModel.type = newValue.type;
         console.log('log', newValue);
         // 设置筛选条件
-        if (searchModel.type === 'state') {
-          searchModel.stateId = { $ne: -1 };
-        } else if (searchModel.type === 'devops') {
-          searchModel.decisionId = { $ne: -1 };
-        } else if (searchModel.type === 'reliability') {
-          searchModel.reliabilityId = { $ne: -1 };
-        } else if (searchModel.type === 'economy') {
-          searchModel.economyId = { $ne: -1 };
-        } else {
-          searchModel.decisionId = { $ne: -1 };
-          searchModel.reliabilityId = { $ne: -1 };
-          searchModel.economyId = { $ne: -1 };
-          searchModel.stateId = { $ne: -1 };
+        if (newValue.type === 'state') {
+          searchModel.stateId = -2;
+        } else if (newValue.type === 'devops') {
+          searchModel.decisionId = -2;
+        } else if (newValue.type === 'reliability') {
+          searchModel.reliabilityId = -2;
+        } else if (newValue.type === 'economy') {
+          searchModel.economyId = -2;
+        } else if (newValue.type === 'all') {
+          searchModel.decisionId = -2;
+          searchModel.reliabilityId = -2;
+          searchModel.economyId = -2;
+          searchModel.stateId = -2;
         }
         reload();
       }
     },
-    { immediate: true },
   );
-  watch(
-    searchModel,
-    () => {
-      reload();
-    },
-    { deep: true },
-  );
+  console.log('demoTest');
 </script>
 
 <script lang="ts">

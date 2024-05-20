@@ -20,13 +20,27 @@ enum Api {
   SearchHistory = '/powergrid/sys/historicaldata',
 }
 
-const demoParam: getHistoryPageListParmas = {
-  page: 1,
-  pageSize: 10,
-};
-
-export const getHistoryList = (params: getHistoryPageListParmas = demoParam) =>
+export const getHistoryList = (params: getHistoryPageListParmas) =>
   defHttp.get<getHistoryPageListData>({ url: Api.GetPageList, params });
+/*export function getHistoryList(params: getHistoryPageListParmas = demoParam) {
+  console.log(demoParam);
+  return defHttp.get<getHistoryPageListData>({ url: Api.GetPageList, params });
+}*/
+
+/*export async function getHistoryList(
+  params: getHistoryPageListParmas,
+  mode: ErrorMessageMode = 'modal',
+) {
+  return defHttp.get<getHistoryPageListData>(
+    {
+      url: Api.GetPageList,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+}*/
 
 export async function addHistory(params: HistoryaddParams, mode: ErrorMessageMode = 'modal') {
   return defHttp.post<addHistoryResult>(
