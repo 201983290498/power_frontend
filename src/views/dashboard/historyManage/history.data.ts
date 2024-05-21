@@ -1,6 +1,7 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import moment from 'moment';
 import { exportHistory } from '/@/api/sys/history';
+import { ExportHistoryData } from '/@/api/sys/model/historyModal';
 
 // 注册的列名
 export const columns: BasicColumn[] = [
@@ -233,40 +234,81 @@ export const decisionSchema: FormSchema[] = [
 ];
 
 function objectToCSV(objects: Array<Object>): string {
+  console.log('objects', objects);
   // 将数组对象转换成csv.
-  const headers = Object.keys(objects[0]);
-  let csv = headers.join(',') + '\n'; // 将对象的键作为CSV的头部
-
-  for (const obj of objects) {
-    const values = headers.map((header) => {
-      return `"${obj[header].toString().replace(/"/g, '""')}"`; // 将每个属性值转换为CSV格式
-    });
-    csv += values.join(',') + '\n'; // 将每个对象的属性值拼接成一行
+  const headers = Object.keys(objects[0]['input']);
+  console.log('inputs', objects[0]['input']);
+  headers.push('divider');
+  headers.push(...Object.keys(objects[0]['output']));
+  if (objects.length > 1) {
+    //合并导出
+    let csv = headers.join(',') + '\n'; // 将对象的键作为CSV的头部
+    for (const obj of objects) {
+      const newObj = { ...obj['input'], ...obj['output'], divider: '输入输出分界线' };
+      const values = headers.map((header) => {
+        return `"${newObj[header].toString().replace(/"/g, '""')}"`; // 将每个属性值转换为CSV格式
+      });
+      csv += values.join(',') + '\n'; // 将每个对象的属性值拼接成一行
+    }
+    return csv;
+  } else {
+    // 单个导出
+    let csv = '数据字段,数据值\n';
+    const newObj = { ...objects[0]['input'], ...objects[0]['output'], divider: '输入输出分界线' };
+    for (const header of headers) {
+      csv += `${header},${newObj[header]}\n`;
+    }
+    return csv;
   }
-  return csv;
 }
 
 export async function downloadJsonRecord(testId: Array<string | number> | string | number) {
   try {
-    const params = {
-      testId,
-    };
-
-    // 调用 API 获取数据
-    const response = await exportHistory(params);
-    console.log(response);
-    if (response) {
-      const data = response.result;
+    if (!(testId instanceof Array)) {
+      testId = [testId];
+    }
+    const writeData: Array<ExportHistoryData> = [];
+    for (const tmpId of testId) {
+      const response: ExportHistoryData = await exportHistory({ testId: tmpId });
+      writeData.push(response);
+    }
+    if (writeData.length > 0) {
       // 创建 JSON 文件
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `history_${Date.now()}.json`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      const dataList = [[], [], [], []];
+      writeData.forEach((data) => {
+        if (data['stateEvaluate']['input'] !== null) {
+          dataList[0].push(data['stateEvaluate']);
+        }
+        if (data['reliabilityEvaluate']['input'] !== null) {
+          dataList[1].push(data['reliabilityEvaluate']);
+        }
+        if (data['economyEvaluate']['input'] !== null) {
+          dataList[2].push(data['economyEvaluate']);
+        }
+        if (data['decisionEvaluate']['input'] !== null) {
+          dataList[3].push(data['decisionEvaluate']);
+        }
+      });
+      dataList.forEach((data, idx) => {
+        if (data.length === 0) return;
+        const names = [
+          '状态评估历史记录',
+          '可靠性评估历史记录',
+          '经济性评估历史记录',
+          '运维决策历史记录',
+        ];
+        const csv = objectToCSV(data);
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${names[idx]}.csv`;
+        a.style.visibility = 'hidden';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
     } else {
       console.error('Failed to export data:');
     }

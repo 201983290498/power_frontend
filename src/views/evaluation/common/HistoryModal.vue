@@ -24,7 +24,6 @@
     name: 'HistoryModal',
   });
   const [registerModal] = useModalInner((data) => {
-    console.log('data', data);
     filter.value = data;
   });
 
