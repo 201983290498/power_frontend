@@ -100,7 +100,7 @@
   import { useRouteParams } from '/@/store/modules/route';
   import { closeTab } from '../../common/common';
   import { useEvaluateStore } from '/@/store/modules/evaluate';
-  import { reactive, ref } from 'vue';
+  import { reactive, ref, unref } from 'vue';
   import { downloadJsonRecord } from '/@/views/dashboard/historyManage/history.data';
 
   defineOptions({ name: 'StateEvaluatePage' });
@@ -187,7 +187,6 @@
     await closeTab(currentPage, router);
     go(PageEnum.State_Main_Page);
   }
-
   function analysisFile() {
     const inputRefDom = unref(inputRef);
     inputRefDom && inputRefDom.click();

@@ -34,7 +34,6 @@
         />
       </template>
     </BasicTable>
-    <HistoryModal @register="registerModal" @success="handleSuccess" />
   </Card>
 </template>
 <script lang="ts" setup>
@@ -43,7 +42,6 @@
   import { getHistoryList } from '/@/api/sys/history';
   import { columns, downloadJsonRecord, searchFormSchema } from './history.data';
   import { useModal } from '/@/components/Modal';
-  import HistoryModal from './HistoryModal.vue';
   import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
   import { useMessage } from '/@/hooks/web/useMessage';
@@ -119,7 +117,6 @@
 
   const sortBy = ref('evaluateTime'); // 默认排序字段
   const sortOrder = ref('desc'); // 默认降序排序
-  const [registerModal, { openModal }] = useModal();
   const pagination = reactive({
     total: 0,
     current: 1,
@@ -177,10 +174,6 @@
   function toggleSortOrder() {
     sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
     reload();
-  }
-
-  function handleCreate() {
-    openModal(true);
   }
 
   async function handleExport(record) {
@@ -241,9 +234,6 @@
     return selectedRows.value.has(record);
   }
 
-  function handleSuccess() {
-    reload();
-  }
   watch(
     () => props.maxHeight,
     (newValue) => {
@@ -252,7 +242,6 @@
       }
     },
   );
-
   watch(
     () => props.reSize,
     (newValue) => {

@@ -232,7 +232,21 @@ export const decisionSchema: FormSchema[] = [
   },
 ];
 
-export async function downloadJsonRecord(testId) {
+function objectToCSV(objects: Array<Object>): string {
+  // 将数组对象转换成csv.
+  const headers = Object.keys(objects[0]);
+  let csv = headers.join(',') + '\n'; // 将对象的键作为CSV的头部
+
+  for (const obj of objects) {
+    const values = headers.map((header) => {
+      return `"${obj[header].toString().replace(/"/g, '""')}"`; // 将每个属性值转换为CSV格式
+    });
+    csv += values.join(',') + '\n'; // 将每个对象的属性值拼接成一行
+  }
+  return csv;
+}
+
+export async function downloadJsonRecord(testId: Array<string | number> | string | number) {
   try {
     const params = {
       testId,
@@ -240,6 +254,7 @@ export async function downloadJsonRecord(testId) {
 
     // 调用 API 获取数据
     const response = await exportHistory(params);
+    console.log(response);
     if (response) {
       const data = response.result;
       // 创建 JSON 文件

@@ -661,6 +661,16 @@ export interface EconomyInput {
    * 第二次大修时间
    */
   secondOverhaulTime: number;
+
+  /**
+   * 运行成本
+   */
+  runningCost: number;
+
+  /**
+   * 投运时间
+   */
+  operationTime: string;
   [property: string]: any;
 }
 

@@ -7,7 +7,7 @@
     <Card :bordered="boardered" class="!mb-4">
       <Steps :current="current" class="step-form-form">
         <Steps.Step title="基本信息" />
-        <Steps.Step title="状态评估" />
+        <Steps.Step title="运维决策" />
         <Steps.Step title="评估结果" />
       </Steps>
     </Card>
