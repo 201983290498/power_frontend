@@ -278,10 +278,10 @@
         } else if (newValue.type === 'economy') {
           searchModel.economyId = -2;
         } else if (newValue.type === 'all') {
-          searchModel.decisionId = -2;
-          searchModel.reliabilityId = -2;
-          searchModel.economyId = -2;
-          searchModel.stateId = -2;
+          searchModel.decisionId = -1;
+          searchModel.reliabilityId = 0;
+          searchModel.economyId = 0;
+          searchModel.stateId = 0;
         }
         reload();
       }
