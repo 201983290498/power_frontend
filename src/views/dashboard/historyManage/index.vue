@@ -6,7 +6,8 @@
         <a-button @click="toggleSortOrder">切换排序</a-button>
       </template>
       <template #action="{ record }">
-        <TableAction
+        <TableAction :actions="getActions(record)" />
+        <!-- <TableAction
           :actions="[
             {
               icon: 'clarity:backup-line',
@@ -31,7 +32,7 @@
               onClick: handleView.bind(null, record),
             },
           ]"
-        />
+        /> -->
       </template>
     </BasicTable>
   </Card>
@@ -77,12 +78,10 @@
       default: () => ({}),
     },
   });
-
   //保存一组被选中的记录
   const selectedRows = ref(new Set());
   const routeParam = useRouteParams();
   const go = useGo();
-  //const searchModel = reactive({});
   const searchModel = reactive({
     equipNo: '',
     personCharge: '',
@@ -96,25 +95,6 @@
     stateId: 0, // 初始化为空值
     reliabilityId: 0, // 初始化为空值
   });
-  function prepareSearchModelForRequest(model) {
-    const preparedModel = { ...model };
-    if (preparedModel.decisionId === -1) {
-      preparedModel.decisionId = null;
-    }
-    if (preparedModel.economyId === -1) {
-      preparedModel.economyId = null;
-    }
-    if (preparedModel.stateId === -1) {
-      preparedModel.stateId = null;
-    }
-    if (preparedModel.reliabilityId === -1) {
-      preparedModel.reliabilityId = null;
-    }
-    return preparedModel;
-  }
-  prepareSearchModelForRequest(searchModel);
-  // 使用这个函数在发请求前准备数据
-
   const sortBy = ref('evaluateTime'); // 默认排序字段
   const sortOrder = ref('desc'); // 默认降序排序
   const pagination = reactive({
@@ -231,6 +211,35 @@
 
   function isSelected(record) {
     return selectedRows.value.has(record);
+  }
+  function getActions(record) {
+    const actions = [
+      {
+        icon: 'clarity:backup-line',
+        label: '导出',
+        divider: true,
+        ifShow: !props.chooseMode,
+        onClick: handleExport.bind(null, record),
+      },
+      {
+        icon: 'ant-design:search-outlined',
+        label: '查看',
+        divider: true,
+        ifShow: !props.chooseMode,
+        onClick: handleView.bind(null, record),
+      },
+    ];
+    if (props.chooseMode) {
+      actions.unshift({
+        icon: 'clarity:check-circle-solid',
+        label: '选中',
+        color: isSelected(record) ? 'success' : 'default',
+        divider: true,
+        ifShow: props.chooseMode,
+        onClick: handleSelect.bind(null, record),
+      });
+    }
+    return actions;
   }
 
   watch(

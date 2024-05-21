@@ -97,7 +97,7 @@
     equipNo: '',
     type: '',
     location: '',
-    status: undefined, // 初始化为 undefined，可以在后面设置为 1 或 0
+    status: undefined as number | undefined, // 初始化为 undefined，可以在后面设置为 1 或 0
     page: 1,
     pageSize: 10,
     sortBy: '',

@@ -42,6 +42,10 @@ export const columns: BasicColumn[] = [
     dataIndex: 'stateId',
     width: 50,
     ellipsis: true,
+    customRender: ({ text }) => {
+      const numericStatus = Number(text);
+      return numericStatus === -1 ? undefined : numericStatus;
+    },
   },
   {
     title: '状态评估得分',
@@ -55,23 +59,20 @@ export const columns: BasicColumn[] = [
     dataIndex: 'reliabilityId',
     width: 70,
     ellipsis: true,
-    // customRender: ({ text }) => {
-    //   if (text === -1) {
-    //     return {
-    //       children: undefined,
-    //       attrs: {
-    //         style: 'background-color: blue; color: blue;',
-    //       },
-    //     };
-    //   }
-    //   return text;
-    // },
+    customRender: ({ text }) => {
+      const numericStatus = Number(text);
+      return numericStatus === -1 ? undefined : numericStatus;
+    },
   },
   {
     title: '剩余可靠性寿命',
     dataIndex: 'resReliabilityLife',
     width: 50,
     ellipsis: true,
+    customRender: ({ text }) => {
+      const numericStatus = Number(text);
+      return numericStatus === -1 ? undefined : numericStatus;
+    },
     sorter: (a, b) => a.resReliabilityLife - b.resReliabilityLife,
   },
   {
@@ -79,6 +80,10 @@ export const columns: BasicColumn[] = [
     dataIndex: 'economyId',
     width: 50,
     ellipsis: true,
+    customRender: ({ text }) => {
+      const numericStatus = Number(text);
+      return numericStatus === -1 ? undefined : numericStatus;
+    },
   },
   {
     title: '年均成本',
@@ -92,6 +97,10 @@ export const columns: BasicColumn[] = [
     dataIndex: 'decisionId',
     width: 50,
     ellipsis: true,
+    customRender: ({ text }) => {
+      const numericStatus = Number(text);
+      return numericStatus === -1 ? undefined : numericStatus;
+    },
   },
   {
     title: '建议检修方式',

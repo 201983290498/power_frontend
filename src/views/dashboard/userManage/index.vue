@@ -9,41 +9,7 @@
         <a-button @click="toggleSortOrder">切换排序</a-button>
       </template>
       <template #action="{ record }">
-        <TableAction
-          :actions="[
-            {
-              icon: 'ant-design:folder-add-filled',
-              color: 'undefined',
-              onClick: handleCreate.bind(record),
-              label: '增加',
-              auth: 'ADMIN',
-            },
-            {
-              icon: 'ant-design:delete-outlined',
-              color: 'error',
-              popConfirm: {
-                title: '是否确认删除',
-                placement: 'left',
-                confirm: handleDelete.bind(null, record),
-              },
-              label: '删除',
-              auth: 'ADMIN',
-            },
-            {
-              icon: 'clarity:note-edit-line',
-              onClick: handleEdit.bind(null, record),
-              auth: 'ADMIN',
-              label: '编辑',
-              auth: 'ADMIN',
-            },
-            {
-              icon: 'ant-design:search-outlined',
-              color: 'success',
-              label: '查看',
-              onClick: handleView.bind(null, record),
-            },
-          ]"
-        />
+        <TableAction :actions="getActions(record)" />
       </template>
     </BasicTable>
     <UserModal @register="registerModal" @success="handleSuccess" />
@@ -166,6 +132,40 @@
   }
   function handleSuccess() {
     reload(); // 成功后重新加载数据
+  }
+  function getActions(record) {
+    return [
+      {
+        icon: 'ant-design:folder-add-filled',
+        color: 'undefined',
+        onClick: handleCreate.bind(record),
+        label: '增加',
+        auth: 'ADMIN',
+      },
+      {
+        icon: 'ant-design:delete-outlined',
+        color: 'error',
+        popConfirm: {
+          title: '是否确认删除',
+          placement: 'left',
+          confirm: handleDelete.bind(null, record),
+        },
+        label: '删除',
+        auth: 'ADMIN',
+      },
+      {
+        icon: 'clarity:note-edit-line',
+        onClick: handleEdit.bind(null, record),
+        label: '编辑',
+        auth: 'ADMIN',
+      },
+      {
+        icon: 'ant-design:search-outlined',
+        color: 'success',
+        label: '查看',
+        onClick: handleView.bind(null, record),
+      },
+    ];
   }
 </script>
 <script lang="ts">
