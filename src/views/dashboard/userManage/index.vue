@@ -1,19 +1,22 @@
 <template>
   <Card>
-    <BasicTable :searchModel="searchModel" @register="registerTable">
+    <BasicTable :searchInfo="searchModel" @register="registerTable" :scroll="{ x: 2000, y: 3000 }">
       <template #toolbar>
         <!-- 右上角的按钮 -->
         <!-- 搜索表单 -->
         <!-- BasicForm :schemas="searchFormSchema" :model="searchModel" @submit="handleSearch" /-->
-        <a-button type="primary" @click="handleCreate"> 新增用户 </a-button>
+        <!-- <a-button type="primary" @click="handleCreate"> 新增用户 </a-button> -->
         <a-button @click="toggleSortOrder">切换排序</a-button>
       </template>
       <template #action="{ record }">
         <TableAction
           :actions="[
             {
-              icon: 'clarity:note-edit-line',
-              onClick: handleEdit.bind(null, record),
+              icon: 'ant-design:folder-add-filled',
+              color: 'undefined',
+              onClick: handleCreate.bind(record),
+              label: '增加',
+              auth: 'ADMIN',
             },
             {
               icon: 'ant-design:delete-outlined',
@@ -23,10 +26,20 @@
                 placement: 'left',
                 confirm: handleDelete.bind(null, record),
               },
+              label: '删除',
+              auth: 'ADMIN',
+            },
+            {
+              icon: 'clarity:note-edit-line',
+              onClick: handleEdit.bind(null, record),
+              auth: 'ADMIN',
+              label: '编辑',
+              auth: 'ADMIN',
             },
             {
               icon: 'ant-design:search-outlined',
               color: 'success',
+              label: '查看',
               onClick: handleView.bind(null, record),
             },
           ]"

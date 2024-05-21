@@ -9,6 +9,13 @@
         <TableAction
           :actions="[
             {
+              icon: 'ant-design:folder-add-filled',
+              color: 'undefined',
+              onClick: handleCreate.bind(record),
+              label: '增加',
+              auth: 'ADMIN',
+            },
+            {
               icon: 'clarity:backup-line',
               label: '导出',
               divider: true,

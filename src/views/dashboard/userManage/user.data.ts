@@ -5,36 +5,41 @@ export const columns: BasicColumn[] = [
   {
     title: '用户名',
     dataIndex: 'userName',
-    width: 100,
+    width: 50,
+    ellipsis: true,
   },
   {
     title: '用户id',
     dataIndex: 'userId',
-    width: 100,
+    width: 50,
     sorter: (a, b) => a.userId - b.userId,
+    ellipsis: true,
   },
   {
     title: '所属单位',
     dataIndex: 'organization',
-    width: 100,
+    width: 50,
+    ellipsis: true,
   },
   {
     title: '责任人',
     dataIndex: 'personCharge',
-    width: 100,
+    width: 50,
+    ellipsis: true,
   },
   {
     title: '用户类型',
     dataIndex: 'role',
-    width: 120,
+    width: 50,
     customRender: ({ text }) => {
       return text === 'ADMIN' ? '管理员' : '普通用户';
     },
+    ellipsis: true,
   },
   {
     title: '上次登录时间',
     dataIndex: 'lastLogin',
-    width: 150,
+    width: 100,
     customRender: ({ text }) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     ellipsis: true,
     sorter: (a, b) => {
@@ -48,6 +53,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'level',
     width: 50,
     sorter: (a, b) => a.level - b.level,
+    ellipsis: true,
   },
 ];
 // 顶部搜索框
@@ -73,7 +79,6 @@ export const searchFormSchema: FormSchema[] = [
   {
     field: 'role',
     label: '用户类型',
-    required: true,
     component: 'Select',
     componentProps: {
       options: [

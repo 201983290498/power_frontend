@@ -55,9 +55,15 @@ export const columns: BasicColumn[] = [
     width: 70,
     ellipsis: true,
     // customRender: ({ text }) => {
-    //   return text === -1
-    //     ? '<span style="background-color:  blue; color: white;"></span>'
-    //     : `<span>${text}</span>`;
+    //   if (text === -1) {
+    //     return {
+    //       children: undefined,
+    //       attrs: {
+    //         style: 'background-color: blue; color: blue;',
+    //       },
+    //     };
+    //   }
+    //   return text;
     // },
   },
   {

@@ -15,11 +15,6 @@
         <TableAction
           :actions="[
             {
-              icon: 'clarity:note-edit-line',
-              label: '编辑',
-              onClick: handleEdit.bind(null, record),
-            },
-            {
               icon: 'ant-design:delete-outlined',
               label: '删除',
               color: 'error',
@@ -28,6 +23,13 @@
                 placement: 'left',
                 confirm: handleDelete.bind(null, record),
               },
+              auth: 'ADMIN',
+            },
+            {
+              icon: 'clarity:note-edit-line',
+              label: '编辑',
+              onClick: handleEdit.bind(null, record),
+              auth: 'ADMIN',
             },
             {
               icon: 'ant-design:search-outlined',
