@@ -1,11 +1,11 @@
 <template>
   <Card>
     <BasicTable
-      :searchModel="searchModel"
+      :searchInfo="searchModel"
       :columns="columns"
       @register="registerTable"
       @rowClick="itemonclick"
-      :scroll="{ x: 1500, y: 3000 }"
+      :scroll="{ x: 2000, y: 3000 }"
     >
       <template #toolbar>
         <a-button type="primary" @click="handleCreate">新增设备</a-button>
@@ -88,11 +88,12 @@
     equipNo: '',
     type: '',
     location: '',
-    status: undefined as number | undefined, // 初始化为 undefined，可以在后面设置为 1 或 0
+    status: undefined, // 初始化为 undefined，可以在后面设置为 1 或 0
     page: 1,
     pageSize: 10,
     sortBy: '',
     sortOrder: '',
+    equipName: '',
   });
 
   const sortBy = ref('');
@@ -110,7 +111,11 @@
   const tableConfig: Props = {
     title: '设备列表',
     api: (query) => getDeviceList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }),
+    beforeFetch: (data) => {
+      console.log('param', data);
+    },
     afterFetch: (data) => {
+      console.log('results', data);
       pagination.total = data.rowCount;
       pagination.current = data.page;
       pagination.pageSize = data.pageSize;
@@ -132,9 +137,10 @@
     pagination,
     canResize: props.reSize,
     handleSearchInfoFn(info) {
-      if (info.status !== undefined) {
-        info.status = info.status === 1 ? '启用' : '停用';
-      }
+      console.log('handleSearchInfoFn', info);
+      // if (info.status !== undefined) {
+      //   info.status = info.status === 1 ? '启用' : '停用';
+      // }
       return info;
     },
     actionColumn: {
@@ -147,14 +153,6 @@
   };
   props.maxHeight == -1 || (tableConfig['maxHeight'] = props.maxHeight);
   const [registerTable, { reload, setProps }] = useTable(tableConfig);
-  watch(
-    searchModel,
-    () => {
-      reload();
-    },
-    { deep: true },
-  );
-
   function toggleSortOrder() {
     sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
     reload();

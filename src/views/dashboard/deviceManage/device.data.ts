@@ -10,6 +10,12 @@ export const columns: BasicColumn[] = [
     sorter: (a, b) => a.equipId - b.equipId,
   },
   {
+    title: '设备名称',
+    dataIndex: 'equipName',
+    width: 120,
+    ellipsis: true,
+  },
+  {
     title: '设备编号',
     dataIndex: 'equipNo',
     width: 120,
@@ -72,6 +78,12 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 4 },
   },
   {
+    field: 'equipName',
+    label: '设备名称',
+    component: 'Input',
+    colProps: { span: 4 },
+  },
+  {
     field: 'type',
     label: '设备型号',
     component: 'Input',
@@ -83,7 +95,7 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Input',
     colProps: { span: 4 },
   },
-  /*{
+  {
     field: 'status',
     label: '状态',
     required: true,
@@ -99,7 +111,7 @@ export const searchFormSchema: FormSchema[] = [
       },
     },
     colProps: { span: 4 },
-  },*/
+  },
 ];
 // 新增页面的效果
 export const formSchema: FormSchema[] = [
@@ -115,6 +127,12 @@ export const formSchema: FormSchema[] = [
     component: 'InputNumber',
     required: false,
     componentProps: { disabled: true },
+  },
+  {
+    field: 'equipName',
+    label: '设备名称',
+    component: 'Input',
+    required: true,
   },
   {
     field: 'equipNo',
@@ -260,6 +278,13 @@ export const Viewform: FormSchema[] = [
     field: 'equipId',
     label: '设备Id',
     component: 'InputNumber',
+    required: true,
+    componentProps: { disabled: true },
+  },
+  {
+    field: 'equipName',
+    label: '设备名称',
+    component: 'Input',
     required: true,
     componentProps: { disabled: true },
   },

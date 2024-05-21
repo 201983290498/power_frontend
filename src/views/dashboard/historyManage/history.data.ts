@@ -14,14 +14,14 @@ export const columns: BasicColumn[] = [
   {
     title: '设备编号',
     dataIndex: 'equipNo',
-    width: 50,
+    width: 80,
     ellipsis: true,
     sorter: (a, b) => a.equipNo - b.equipNo,
   },
   {
     title: '评估时间',
     dataIndex: 'evaluateTime',
-    width: 60,
+    width: 100,
     customRender: ({ text }) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     ellipsis: true,
     sorter: (a, b) => {
@@ -52,8 +52,13 @@ export const columns: BasicColumn[] = [
   {
     title: '可靠性评估Id',
     dataIndex: 'reliabilityId',
-    width: 50,
+    width: 70,
     ellipsis: true,
+    // customRender: ({ text }) => {
+    //   return text === -1
+    //     ? '<span style="background-color:  blue; color: white;"></span>'
+    //     : `<span>${text}</span>`;
+    // },
   },
   {
     title: '剩余可靠性寿命',
