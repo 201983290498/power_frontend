@@ -86,7 +86,7 @@
     reliabilityId: '',
     economicId: '',
   });
-  const [registerModal, { openModal }] = useModal();
+  const [registerModal, { openModal, closeModal }] = useModal();
 
   const go = useGo();
   const btnTexts = ref<Array<string>>(['进入运维决策', '历史评估结果']);
@@ -133,6 +133,7 @@
     evaluateState.setEconomicId(selectID.economicId);
     evaluateState.setReliabilityId(selectID.reliabilityId);
     evaluateState.setStateId(selectID.stateId);
+    closeModal();
   }
 
   function devicePreProcess() {
@@ -149,22 +150,23 @@
       reliabilityId: '',
       economicId: '',
     };
+
     let usefulTi = 0;
     itemList.forEach((element) => {
-      if (element['economyId'] !== -1 && element['decisionId'] === 1) {
+      if (element['economyId'] !== -1 && element['decisionId'] === -1) {
         evaluateIds['economicId'] = element['economyId'];
-        usefulTi += 1;
+        usefulTi ^= 1;
       }
-      if (element['reliabilityId'] !== -1 && element['decisionId'] === 1) {
+      if (element['reliabilityId'] !== -1 && element['decisionId'] === -1) {
         evaluateIds['reliabilityId'] = element['reliabilityId'];
-        usefulTi += 1;
+        usefulTi ^= 2;
       }
-      if (element['stateId'] !== -1 && element['decisionId'] === 1) {
+      if (element['stateId'] !== -1 && element['decisionId'] === -1) {
         evaluateIds['stateId'] = element['stateId'];
-        usefulTi += 1;
+        usefulTi ^= 4;
       }
     });
-    if (usefulTi !== 3 || items.size !== 3) {
+    if (usefulTi !== 7 || items.size !== 3) {
       createMessage.error('请选择该设备的三种类型的评估各一条');
     } else {
       chooseSuccess(evaluateIds);

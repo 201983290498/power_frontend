@@ -227,7 +227,6 @@
       selectedRows.value.add(record);
     }
     emit('select', selectedRows.value);
-    console.log('Selected rows:', selectedRows.value);
   }
 
   function isSelected(record) {
@@ -256,7 +255,6 @@
       // 按照条件搜索展示表格
       if (newValue) {
         searchModel.equipId = newValue.equipId;
-        console.log('log', newValue);
         // 设置筛选条件
         if (newValue.type === 'state') {
           searchModel.stateId = -2;
@@ -276,7 +274,6 @@
       }
     },
   );
-  console.log('demoTest');
 </script>
 
 <script lang="ts">
