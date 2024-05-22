@@ -1,18 +1,42 @@
 <template>
   <div>
-    <Card title="运行环境" :bordered="props.bordered">
+    <Card
+      title="运行环境"
+      :bordered="props.bordered"
+      headStyle="font-weight: bold; font-size: 20px"
+    >
       <BasicForm @register="register1" />
     </Card>
-    <Card title="油色谱分析" :bordered="props.bordered" class="!mt-2">
+    <Card
+      title="油色谱分析"
+      :bordered="props.bordered"
+      class="!mt-2"
+      headStyle="font-weight: bold; font-size: 20px"
+    >
       <BasicForm @register="register2" />
     </Card>
-    <Card title="电气试验" :bordered="props.bordered" class="!mt-2">
+    <Card
+      title="电气试验"
+      :bordered="props.bordered"
+      class="!mt-2"
+      headStyle="font-weight: bold; font-size: 20px"
+    >
       <BasicForm @register="register3" />
     </Card>
-    <Card title="油化试验" :bordered="props.bordered" class="!mt-2">
+    <Card
+      title="油化试验"
+      :bordered="props.bordered"
+      class="!mt-2"
+      headStyle="font-weight: bold; font-size: 20px"
+    >
       <BasicForm @register="register4" />
     </Card>
-    <Card title="其他项目" :bordered="props.bordered" class="!mt-2">
+    <Card
+      title="其他项目"
+      :bordered="props.bordered"
+      class="!mt-2"
+      headStyle="font-weight: bold; font-size: 20px"
+    >
       <BasicForm @register="register5" />
     </Card>
   </div>

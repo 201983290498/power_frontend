@@ -72,7 +72,6 @@ export function useECharts(
           if (!chartInstance) return;
         }
         clear && chartInstance?.clear();
-
         chartInstance?.setOption(unref(getOptions));
       }, 30);
     });

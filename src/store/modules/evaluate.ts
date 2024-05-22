@@ -109,12 +109,13 @@ export const useEvaluateStore = defineStore({
           }
           break;
         case EvaluateStatusEnum.Devops:
-          if (ids[2] === -1 || ids[3] === -1 || ids[0] === -1) {
+          if (ids[2] === -1 || ids[1] === -1 || ids[0] === -1) {
             createConfirm({
               iconType: 'warning',
               title: '提示',
               content: '请选择本次测评依赖的状态评估测试、可靠性评估测评和经济型测评。',
             });
+            console.log(ids);
             return false;
           }
           break;

@@ -37,8 +37,8 @@ export function createDivider(name: string, restart = false): FormSchema {
     componentProps: {
       span: true,
       style: {
-        fontSize: '16px',
-        fontWeight: 'bold',
+        fontSize: '18px',
+        fontWeight: '500',
         marginTop: '10px',
         marginBottom: '10px',
         marginLeft: '-100px',
@@ -332,11 +332,11 @@ export const devopsInputFields: DecisionInput = {
   loadImportance: 1,
   systemRiskCorrectionFactor: -1,
   unitRiskValue: 10472.1,
-  repairCost: 10000,
+  repairCost: [10000],
   manufacturer: 1,
   faultRepairCostFactor: 1,
-  accidentCost: 20000,
-  personnelInjuryProbability: 0.01,
-  loadSheddingProbability: 0.01,
-  faultProbability: 0.642,
+  accidentCost: [20000],
+  personnelInjuryProbability: [0.01],
+  loadSheddingProbability: [0.01],
+  faultProbability: [0.642],
 };

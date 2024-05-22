@@ -1,6 +1,10 @@
 <template>
   <!-- 卡片 -->
-  <Card title="转化率" :loading="loading">
+  <Card
+    title="剩余可靠性寿命进程(剩余寿命/设计寿命)"
+    :loading="loading"
+    headStyle="font-weight: bold"
+  >
     <div ref="chartRef" :style="{ width, height }"></div>
   </Card>
 </template>
@@ -8,6 +12,12 @@
   import { Ref, ref, watch } from 'vue';
   import { Card } from 'ant-design-vue';
   import { useECharts } from '/@/hooks/web/useECharts';
+  import { EChartsOption } from 'echarts';
+
+  defineOptions({
+    name: 'VisitRadar',
+  });
+
   // 接受传递的参数
   const props = defineProps({
     loading: Boolean,
@@ -19,83 +29,72 @@
       type: String as PropType<string>,
       default: '300px',
     },
+    result: {
+      type: Object as PropType<any>,
+      default: () => ({}),
+    },
   });
-
   const chartRef = ref<HTMLDivElement | null>(null);
   const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
+  const options: EChartsOption = {
+    tooltip: {
+      trigger: 'item',
+    },
+    legend: {
+      bottom: '0',
+      left: 'center',
+    },
+    series: [
+      {
+        name: '寿命进程(剩余寿命/设计寿命)',
+        type: 'pie',
+        radius: '80%',
+        center: ['50%', '50%'],
+        color: ['#3BA272', '#EE6666'],
+        data: [
+          {
+            value: props.result.lifespanProcess / 100,
+            name:
+              '剩余寿命:' +
+              (Math.round(props.result.lifespanProcess * 10) / 10 < 0
+                ? 0
+                : Math.round(props.result.lifespanProcess * 10) / 10) +
+              '%',
+          },
+          {
+            value: 1 - props.result.lifespanProcess / 100,
+            name:
+              '已用寿命:' +
+              (Math.round((100 - props.result.lifespanProcess) * 10) / 10 > 100
+                ? 100
+                : Math.round((100 - props.result.lifespanProcess) * 10) / 10) +
+              '%',
+          },
+        ].sort(function (a, b) {
+          return a.value - b.value;
+        }),
+        roseType: 'radius',
+        animationType: 'scale',
+        animationEasing: 'exponentialInOut',
+        animationDelay: function () {
+          return Math.random() * 100;
+        },
+      },
+    ],
+  };
   watch(
     () => props.loading,
     () => {
       if (props.loading) {
         return;
       }
-      setOptions({
-        legend: {
-          bottom: 0,
-          data: ['访问', '购买'],
-        },
-        tooltip: {},
-        radar: {
-          radius: '80%',
-          splitNumber: 8,
-          indicator: [
-            {
-              text: '电脑',
-              max: 100,
-            },
-            {
-              text: '充电器',
-              max: 100,
-            },
-            {
-              text: '耳机',
-              max: 100,
-            },
-            {
-              text: '手机',
-              max: 100,
-            },
-            {
-              text: 'Ipad',
-              max: 100,
-            },
-            {
-              text: '耳机',
-              max: 100,
-            },
-          ],
-        },
-        series: [
-          {
-            type: 'radar',
-            symbolSize: 0,
-            areaStyle: {
-              shadowBlur: 0,
-              shadowColor: 'rgba(0,0,0,.2)',
-              shadowOffsetX: 0,
-              shadowOffsetY: 10,
-              opacity: 1,
-            },
-            data: [
-              {
-                value: [90, 50, 86, 40, 50, 20],
-                name: '访问',
-                itemStyle: {
-                  color: '#b6a2de',
-                },
-              },
-              {
-                value: [70, 75, 70, 76, 20, 85],
-                name: '购买',
-                itemStyle: {
-                  color: '#5ab1ef',
-                },
-              },
-            ],
-          },
-        ],
-      });
+      setOptions(options);
     },
     { immediate: true },
   );
+</script>
+<script lang="ts">
+  export default {
+    name: 'VisitRadar',
+  };
 </script>

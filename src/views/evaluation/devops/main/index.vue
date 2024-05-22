@@ -11,7 +11,7 @@
     </template>
     <DeviceManagement @chooseDevice="selectDevice" :re-size="!showDetail" :max-height="maxHeight" />
     <Card class="!mt-1" v-if="showDetail">
-      <template #title> 依赖测评 </template>
+      <template #title> 关联测评 </template>
       <template #extra>
         <a-button type="primary" @click="chooseEvaluationRecord"> 选择测评记录 </a-button>
       </template>

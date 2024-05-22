@@ -7,12 +7,12 @@ for (let i = 1; i <= 17; i++) {
 }
 const dirNames: string[] = ['高-中低及地', '中-高低及地', '低-高中及地'];
 const AmOm: string[] = ['AmOm', 'BmOm', 'CmOm'];
-const abc: string[] = ['ab', 'bc', 'ca'];
+const abc: string[] = ['AB', 'BC', 'CA'];
 const ABCD: string[] = ['A', 'B', 'C', 'D'];
 
 export function step1Schemas(showMode: boolean): FormSchema[] {
   return [
-    createFormSchema(showMode, 'temperature', '运行环境平均温度', '50%', 2, 12),
+    createFormSchema(showMode, 'temperature', '运行环境平均温度(℃)', '50%', 2, 12),
     createFormSchema(showMode, 'humidity', '湿度', '50%', 2, 12),
   ];
 }
@@ -34,18 +34,26 @@ export function step2Schemas(showMode: boolean): FormSchema[] {
 
 export function step3Schemas(showMode: boolean): FormSchema[] {
   return [
-    createFormSchema(showMode, 'oilTemperature', '油温', '60%', 2, 8),
-    createFormSchema(showMode, 'coreLeakage', '铁心泄露电流(mA)', '60%', 2, 8),
-    createFormSchema(showMode, 'partDischargeNum', '局部放电量', '60%', 2, 8),
-    ...createList(showMode, '绝缘电阻', 'insRes', dirNames, '60%', 8, 2),
+    createFormSchema(showMode, 'oilTemperature', '油温(℃)', '60%', 2, 8),
+    createFormSchema(showMode, 'coreLeakage', '铁心接地电流(mA)', '60%', 2, 8),
+    createFormSchema(showMode, 'partDischargeNum', '局部放电量(pC)', '60%', 2, 8),
+    ...createList(showMode, '绝缘电阻(MΩ)', 'insRes', dirNames, '60%', 8, 2),
     ...createList(showMode, '吸收比', 'absorptionRatio', dirNames, '60%', 8, 3),
     ...createList(showMode, '绕组介质损耗tanδ(%)', 'dielectricLoss', dirNames, '60%', 8, 3),
     ...createList(showMode, '绕组电容量Cx(pF)', 'capacitance', dirNames, '60%', 8, 2),
-    ...createList(showMode, '绕组直流电阻(高压侧)AO', 'windingDcResistanceHighAO', rankNames),
-    ...createList(showMode, '绕组直流电阻(高压侧)BO', 'windingDcResistanceHighBO', rankNames),
-    ...createList(showMode, '绕组直流电阻(高压侧)CO', 'windingDcResistanceHighCO', rankNames),
-    ...createList(showMode, '绕组直流电阻(中压侧)', 'windingDcResistanceMid', AmOm, '60%', 8, 3),
-    ...createList(showMode, '绕组直流电阻(低压侧)', 'windingDcResistanceLow', abc, '60%', 8, 3),
+    ...createList(showMode, '绕组直流电阻(高压侧)AO(MΩ)', 'windingDcResistanceHighAO', rankNames),
+    ...createList(showMode, '绕组直流电阻(高压侧)BO(MΩ)', 'windingDcResistanceHighBO', rankNames),
+    ...createList(showMode, '绕组直流电阻(高压侧)CO(MΩ)', 'windingDcResistanceHighCO', rankNames),
+    ...createList(
+      showMode,
+      '绕组直流电阻(中压侧)(MΩ)',
+      'windingDcResistanceMid',
+      AmOm,
+      '60%',
+      8,
+      3,
+    ),
+    ...createList(showMode, '绕组直流电阻(低压侧)(MΩ)', 'windingDcResistanceLow', abc, '60%', 8, 3),
     ...createList(showMode, '直流电阻不平衡系数高压侧', 'dcResistanceUnbalanceHigh', rankNames),
     createDivider('直流电阻不平衡系数中压侧'),
     createFormSchema(showMode, 'dcResistanceUnbalanceMid', '挡位值', '60%', 3, 6),
@@ -66,11 +74,11 @@ export function step3Schemas(showMode: boolean): FormSchema[] {
 
 export function step4Schemas(showMode: boolean): FormSchema[] {
   return [
-    createFormSchema(showMode, 'microWaterContent', '微水', '60%', 2, 8),
-    createFormSchema(showMode, 'breakdownVoltage', '击穿电压', '60%', 2, 8),
-    createFormSchema(showMode, 'oilDielectricLoss', '油介损', '60%', 2, 8),
-    createFormSchema(showMode, 'furfuralContent', '糠醛含量', '60%', 2, 8),
-    createFormSchema(showMode, 'acidValue', '酸值', '60%', 2, 8),
+    createFormSchema(showMode, 'microWaterContent', '微水(mg/L)', '60%', 2, 8),
+    createFormSchema(showMode, 'breakdownVoltage', '击穿电压(kV)', '60%', 2, 8),
+    createFormSchema(showMode, 'oilDielectricLoss', '油介损(%)', '60%', 2, 8),
+    createFormSchema(showMode, 'furfuralContent', '糠醛含量(mg/L)', '60%', 2, 8),
+    createFormSchema(showMode, 'acidValue', '酸值(mg(KOH)/g)', '60%', 2, 8),
   ];
 }
 

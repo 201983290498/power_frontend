@@ -100,7 +100,7 @@
   import { useRouteParams } from '/@/store/modules/route';
   import { closeTab } from '../../common/common';
   import { useEvaluateStore } from '/@/store/modules/evaluate';
-import { downloadJsonRecord } from '/@/views/dashboard/historyManage/history.data';
+  import { downloadJsonRecord } from '/@/views/dashboard/historyManage/history.data';
   defineOptions({ name: 'EconomyEvaluatePage' });
 
   const evaluateState = useEvaluateStore();
