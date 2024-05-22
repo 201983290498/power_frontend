@@ -77,6 +77,7 @@
         manufactureDate: values.manufactureDate,
         factoryNo: values.factoryNo,
         equipId: values.equipId, // 确保 equipId 被正确设置
+        equipName: values.equipName, // 确保 equipName 被正确设置
       };
 
       const params = {

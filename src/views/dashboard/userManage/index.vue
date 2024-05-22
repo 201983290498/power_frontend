@@ -58,6 +58,10 @@
     userName: '',
     organization: '',
     personCharge: '',
+    sortBy: 'user_id',
+    sortOrder: 'asc',
+    page: 1,
+    pageSize: 10,
     role: '',
   });
 
@@ -79,7 +83,10 @@
     title: '用户列表',
     api: (query) => getUserList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }), // 使用箭头函数包装原 API 调用
     afterFetch: (data) => {
-      return data.data;
+      pagination.total = data.rowCount;
+      pagination.current = data.page;
+      pagination.pageSize = data.pageSize;
+      return data;
     },
     columns,
     formConfig: {
@@ -101,7 +108,8 @@
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
-      fixed: undefined,
+      ellipsis: true,
+      fixed: 'right',
     },
     handleSearchInfoFn(info) {
       console.log('handleSearchInfoFn', info);

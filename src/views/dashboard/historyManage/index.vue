@@ -4,35 +4,12 @@
       <template #toolbar>
         <!--a-button type="primary" @click="handleCreate"> 写入历史数据 </a-button-->
         <a-button @click="toggleSortOrder">切换排序</a-button>
+        <a-button @click="handleExportSelected" type="primary" :disabled="selectedRows.size === 0"
+          >导出选中</a-button
+        >
       </template>
       <template #action="{ record }">
         <TableAction :actions="getActions(record)" />
-        <!-- <TableAction
-          :actions="[
-            {
-              icon: 'clarity:backup-line',
-              label: '导出',
-              divider: true,
-              ifShow: !props.chooseMode,
-              onClick: handleExport.bind(null, record),
-            },
-            {
-              icon: 'clarity:check-circle-solid',
-              label: '选中',
-              color: isSelected(record) ? 'success' : 'default',
-              divider: true,
-              ifShow: props.chooseMode,
-              onClick: handleSelect.bind(null, record),
-            },
-            {
-              icon: 'ant-design:search-outlined',
-              label: '查看',
-              divider: true,
-              ifShow: !props.chooseMode,
-              onClick: handleView.bind(null, record),
-            },
-          ]"
-        /> -->
       </template>
     </BasicTable>
   </Card>
@@ -42,7 +19,6 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getHistoryList } from '/@/api/sys/history';
   import { columns, downloadJsonRecord, searchFormSchema } from './history.data';
-  import { useModal } from '/@/components/Modal';
   import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
   import { useMessage } from '/@/hooks/web/useMessage';
@@ -144,7 +120,8 @@
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
-      fixed: undefined,
+      fixed: props.chooseMode ? 'left' : 'right',
+      ellipsis: true,
     },
   };
 
@@ -158,6 +135,11 @@
 
   async function handleExport(record) {
     downloadJsonRecord(record.testId);
+  }
+  async function handleExportSelected() {
+    for (const record of selectedRows.value) {
+      await downloadJsonRecord(record.testId);
+    }
   }
 
   async function handleView(record) {
@@ -216,29 +198,25 @@
     const actions = [
       {
         icon: 'clarity:backup-line',
-        label: '导出',
         divider: true,
         ifShow: !props.chooseMode,
         onClick: handleExport.bind(null, record),
       },
       {
         icon: 'ant-design:search-outlined',
-        label: '查看',
         divider: true,
         ifShow: !props.chooseMode,
         onClick: handleView.bind(null, record),
       },
-    ];
-    if (props.chooseMode) {
-      actions.unshift({
+      {
         icon: 'clarity:check-circle-solid',
         label: '选中',
         color: isSelected(record) ? 'success' : 'default',
         divider: true,
-        ifShow: props.chooseMode,
+        ifShow: !props.chooseMode,
         onClick: handleSelect.bind(null, record),
-      });
-    }
+      },
+    ];
     return actions;
   }
 

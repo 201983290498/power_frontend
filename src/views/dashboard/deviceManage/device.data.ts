@@ -12,61 +12,58 @@ export const columns: BasicColumn[] = [
   {
     title: '设备名称',
     dataIndex: 'equipName',
-    width: 120,
+    width: 60,
     ellipsis: true,
   },
   {
     title: '设备编号',
     dataIndex: 'equipNo',
-    width: 120,
+    width: 60,
     ellipsis: true,
     sorter: (a, b) => a.equipNo.length - b.equipNo.length,
   },
   {
+    title: '变电站名称',
+    dataIndex: 'substationName',
+    width: 60,
+    ellipsis: true,
+  },
+  {
+    title: '投运时间',
+    dataIndex: 'operationTime',
+    width: 80,
+    customRender: ({ text }) => moment(text).format('YYYY-MM-DD'),
+    ellipsis: true,
+    sorter: (a, b) => {
+      const dateA = moment(a.operationTime);
+      const dateB = moment(b.operationTime);
+      return dateA.isBefore(dateB) ? -1 : dateA.isAfter(dateB) ? 1 : 0;
+    },
+  },
+  {
     title: '评估人',
     dataIndex: 'personCharge',
-    width: 120,
+    width: 60,
     ellipsis: true,
   },
   {
     title: '设备型号',
     dataIndex: 'type',
-    width: 120,
+    width: 60,
     ellipsis: true,
   },
   {
     title: '综合得分',
     dataIndex: 'score',
-    width: 120,
+    width: 50,
     sorter: (a, b) => a.score - b.score,
     ellipsis: true,
   },
   {
-    title: '安装位置',
-    dataIndex: 'location',
-    width: 120,
-    ellipsis: true,
-  },
-  {
-    title: '评估时间',
-    dataIndex: 'evaluateTime',
-    width: 120,
-    customRender: ({ text }) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
-    ellipsis: true,
-    sorter: (a, b) => {
-      const dateA = moment(a.evaluateTime);
-      const dateB = moment(b.evaluateTime);
-      return dateA.isBefore(dateB) ? -1 : dateA.isAfter(dateB) ? 1 : 0;
-    },
-  },
-  {
-    title: '状态',
+    title: '最新运行状态',
     dataIndex: 'status',
-    width: 120,
-    customRender: ({ text }) => {
-      const numericStatus = Number(text);
-      return numericStatus === 1 ? '启用' : '停用';
-    },
+    width: 40,
+    ellipsis: true,
   },
 ];
 // 顶部搜索框
@@ -75,7 +72,7 @@ export const searchFormSchema: FormSchema[] = [
     field: 'equipNo',
     label: '设备编号',
     component: 'Input',
-    colProps: { span: 4 },
+    colProps: { span: 3 },
   },
   {
     field: 'equipName',
@@ -84,30 +81,38 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 4 },
   },
   {
-    field: 'type',
-    label: '设备型号',
-    component: 'Input',
+    field: 'operationTime',
+    label: '投运时间',
+    component: 'DatePicker',
+    componentProps: {
+      format: 'YYYY-MM-DD',
+      style: { width: '100%' },
+    },
     colProps: { span: 4 },
   },
   {
-    field: 'location',
-    label: '安装位置',
+    field: 'type',
+    label: '设备型号',
+    component: 'Input',
+    colProps: { span: 3 },
+  },
+  {
+    field: 'substationName',
+    label: '变电站名称',
     component: 'Input',
     colProps: { span: 4 },
   },
   {
     field: 'status',
-    label: '状态',
+    label: '最新运行状态',
     component: 'Select',
     componentProps: {
       options: [
-        { label: '启用', value: 1 },
-        { label: '停用', value: 0 },
+        { label: '严重', value: '严重' },
+        { label: '异常', value: '异常' },
+        { label: '注意', value: '注意' },
+        { label: '正常', value: '正常' },
       ],
-      onChange: (value) => {
-        console.log('Selected Status:', value);
-        // 可以在这里根据 value 的变化做进一步处理
-      },
     },
     colProps: { span: 4 },
   },
@@ -159,13 +164,15 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'status',
-    label: '状态',
+    label: '最新运行状态',
     required: true,
     component: 'Select',
     componentProps: {
       options: [
-        { label: '启用', value: 1 },
-        { label: '停用', value: 0 },
+        { label: '严重', value: '严重' },
+        { label: '异常', value: '异常' },
+        { label: '注意', value: '注意' },
+        { label: '正常', value: '正常' },
       ],
     },
   },
@@ -173,7 +180,7 @@ export const formSchema: FormSchema[] = [
     field: 'capacity',
     label: '容量',
     required: true,
-    component: 'Input',
+    component: 'InputNumber',
     componentProps: { step: 0.0001, precision: 4 },
   },
   {
@@ -217,14 +224,14 @@ export const formSchema: FormSchema[] = [
     label: '空载电流',
     required: true,
     componentProps: { step: 0.0001, precision: 4 },
-    component: 'Input',
+    component: 'InputNumber',
   },
   {
     field: 'noLoadLoss',
     label: '空载损耗',
     required: true,
     componentProps: { step: 0.0001, precision: 4 },
-    component: 'Input',
+    component: 'InputNumber',
   },
   {
     field: 'operationTime',
@@ -243,14 +250,14 @@ export const formSchema: FormSchema[] = [
     label: '相数',
     required: true,
     componentProps: { step: 0.0001, precision: 4 },
-    component: 'Input',
+    component: 'InputNumber',
   },
   {
     field: 'ratedVoltage',
     label: '额定电压',
     required: true,
     componentProps: { step: 0.0001, precision: 4 },
-    component: 'Input',
+    component: 'InputNumber',
   },
   {
     field: 'runNo',
@@ -269,7 +276,7 @@ export const formSchema: FormSchema[] = [
     label: '系统标称电压',
     required: true,
     componentProps: { step: 0.0001, precision: 4 },
-    component: 'Input',
+    component: 'InputNumber',
   },
 ];
 export const Viewform: FormSchema[] = [

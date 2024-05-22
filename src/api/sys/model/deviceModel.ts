@@ -13,6 +13,8 @@ export interface getDevicePageListParmas {
   status?: string | number;
   equipId?: number | string;
   equipName?: string;
+  operationTime?: string | number;
+  substationName?: string;
 }
 export interface DeviceupdateParams {
   fixedPwd: string;

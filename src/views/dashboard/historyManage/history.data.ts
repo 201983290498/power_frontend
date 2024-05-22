@@ -2,8 +2,6 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 import moment from 'moment';
 import { exportHistory } from '/@/api/sys/history';
 import { ExportHistoryData } from '/@/api/sys/model/historyModal';
-
-// 注册的列名
 export const columns: BasicColumn[] = [
   {
     title: '设备Id',
@@ -54,6 +52,12 @@ export const columns: BasicColumn[] = [
     width: 50,
     ellipsis: true,
   },
+  // {
+  //   title: '操作',
+  //   dataIndex: 'action',
+  //   width: 50,
+  //   slots: { customRender: 'action' },
+  // },
   {
     title: '可靠性评估Id',
     dataIndex: 'reliabilityId',
