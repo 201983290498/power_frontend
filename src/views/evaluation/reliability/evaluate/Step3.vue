@@ -16,11 +16,11 @@
       </CardGrid>
       <CardGrid class="grid mr-4" :style="{ backgroundColor: textColor.danger }">
         <span class="text-3xl">{{ props.result.hotSpotTemper }}</span> <br />
-        <span>热点温度</span>
+        <span>热点温度(°C)</span>
       </CardGrid>
       <CardGrid class="grid" :style="{ backgroundColor: textColor.warning }">
         <span class="text-3xl">{{ props.result.resReliabilityLife }}</span> <br />
-        <span>剩余可靠性寿命</span>
+        <span>剩余可靠性寿命(年)</span>
       </CardGrid>
     </Card>
     <div class="flex enter-y w-9/10 !m-auto" :style="{ padding: '0px 15px' }">
@@ -109,7 +109,9 @@
               {
                 value: 1 - props.result.thermalLifeLossRate / 100,
                 name:
-                  '已损失率:' + Math.round((1 - props.result.thermalLifeLossRate) * 10) / 10 + '%',
+                  '已损失率:' +
+                  Math.round((100 - props.result.thermalLifeLossRate) * 10) / 10 +
+                  '%',
               },
             ].sort(function (a, b) {
               return a.value - b.value;
@@ -140,11 +142,19 @@
             data: [
               {
                 value: props.result.lifespanProcess / 100,
-                name: '剩余寿命:' + Math.round(props.result.lifespanProcess * 10) / 10 + '%',
+                name:
+                  '剩余寿命:' + (Math.round(props.result.lifespanProcess * 10) / 10 < 0
+                    ? 0
+                    : Math.round(props.result.lifespanProcess * 10) / 10) + '%',
               },
               {
                 value: 1 - props.result.lifespanProcess / 100,
-                name: '已用寿命:' + Math.round((1 - props.result.lifespanProcess) * 10) / 10 + '%',
+                name:
+                  '已用寿命:' +
+                  (Math.round((100 - props.result.lifespanProcess) * 10) / 10 > 100
+                    ? 100
+                    : Math.round((100 - props.result.lifespanProcess) * 10) / 10) +
+                  '%',
               },
             ].sort(function (a, b) {
               return a.value - b.value;
@@ -161,7 +171,6 @@
     },
     { immediate: true },
   );
-  console.log(props.result);
 </script>
 <style scoped>
   .grid {

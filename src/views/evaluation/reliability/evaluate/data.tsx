@@ -66,22 +66,22 @@ export function step1Schemas(showMode: boolean): FormSchema[] {
 
 export function step2Schemas(showMode: boolean): FormSchema[] {
   return [
-    createFormSchema(showMode, 'avgmonthHotspotTemper', '每月平均温度', '60%', 2, 6),
+    createFormSchema(showMode, 'avgmonthHotspotTemper', '每月平均温度(°C)', '60%', 2, 6),
     createOptionSchema(showMode, 'thermalModification', '热改性/非热改性', demoOption1, '60%', 6),
     createFormSchema(showMode, 'oilFurfuralindex', '油中糠醛指数', '60%', 2, 6),
-    createFormSchema(showMode, 'temperature', '环境温度', '60%', 2, 6),
-    createFormSchema(showMode, 'phaseAChange', 'A相短路阻抗变化量', '60%', 3, 6),
-    createFormSchema(showMode, 'phaseBChange', 'B相短路阻抗变化量', '60%', 3, 6),
-    createFormSchema(showMode, 'phaseCChange', 'C相短路阻抗变化量', '60%', 3, 6),
+    createFormSchema(showMode, 'temperature', '环境温度(°C)', '60%', 2, 6),
+    createFormSchema(showMode, 'phaseAChange', 'A相短路阻抗变化率(0.xx)', '60%', 3, 6),
+    createFormSchema(showMode, 'phaseBChange', 'B相短路阻抗变化率(0.xx)', '60%', 3, 6),
+    createFormSchema(showMode, 'phaseCChange', 'C相短路阻抗变化率(0.xx)', '60%', 3, 6),
     createFormSchema(showMode, 'threePhaseRactanceMaxDiff', '三相电抗最大差值', '60%', 3, 6),
-    createFormSchema(showMode, 'loadLossChange', '空载损耗变化量', '60%', 2, 6),
-    createFormSchema(showMode, 'noLoadLossChange', '负载损耗变化量', '60%', 3, 6),
-    createFormSchema(showMode, 'ratedCurrent', '额定电流', '60%', 2, 6),
-    createFormSchema(showMode, 'loadCurrent', '负载电流', '60%', 2, 6),
-    createFormSchema(showMode, 'noLoadCurrent', '空载电流', '60%', 2, 6),
-    createFormSchema(showMode, 'noLoadLossKey', '空载损耗', '60%', 2, 6),
-    createFormSchema(showMode, 'loadLoss', '负载损耗', '60%', 2, 6),
-    createFormSchema(showMode, 'designLife', '设计寿命', '60%', 2, 6),
+    createFormSchema(showMode, 'loadLossChange', '空载损耗变化率(0.xx)', '60%', 2, 6),
+    createFormSchema(showMode, 'noLoadLossChange', '负载损耗变化率(0.xx)', '60%', 3, 6),
+    createFormSchema(showMode, 'ratedCurrent', '额定电流(A)', '60%', 2, 6),
+    createFormSchema(showMode, 'loadCurrent', '负载电流(A)', '60%', 2, 6),
+    createFormSchema(showMode, 'noLoadCurrent', '空载电流(A)', '60%', 2, 6),
+    createFormSchema(showMode, 'noLoadLossKey', '空载损耗(W)', '60%', 2, 6),
+    createFormSchema(showMode, 'loadLoss', '负载损耗(W)', '60%', 2, 6),
+    createFormSchema(showMode, 'designLife', '设计寿命(年)', '60%', 2, 6),
   ];
 }
 

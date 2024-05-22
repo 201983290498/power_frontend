@@ -1,4 +1,5 @@
 import * as echarts from 'echarts/core';
+import { GaugeChart } from 'echarts/charts';
 
 import {
   BarChart,
@@ -50,6 +51,7 @@ echarts.use([
   TimelineComponent,
   CalendarComponent,
   GraphicComponent,
+  GaugeChart,
 ]);
 
 export default echarts;

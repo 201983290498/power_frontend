@@ -704,7 +704,7 @@ export interface DecisionInput {
   /**
    * 不同故障下事故成本
    */
-  accidentCost: number;
+  accidentCost: number | Array<number>;
   /**
    * 平均功率因素
    */
@@ -717,7 +717,7 @@ export interface DecisionInput {
   /**
    * 故障概率
    */
-  faultProbability: number;
+  faultProbability: number | Array<number>;
   /**
    * 变电站检修环境-故障修复成本修正系数
    */
@@ -733,7 +733,7 @@ export interface DecisionInput {
   /**
    * 不同故障下切除负荷的几率
    */
-  loadSheddingProbability: number;
+  loadSheddingProbability: number | Array<number>;
   /**
    * 生产厂家
    */
@@ -741,11 +741,11 @@ export interface DecisionInput {
   /**
    * 人员伤亡概率
    */
-  personnelInjuryProbability: number;
+  personnelInjuryProbability: number | Array<number>;
   /**
    * 不同故障下的修复成本
    */
-  repairCost: number;
+  repairCost: number | Array<number>;
   /**
    * 变电站重要性
    */

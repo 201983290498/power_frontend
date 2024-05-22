@@ -247,10 +247,8 @@ export const decisionSchema: FormSchema[] = [
 ];
 
 function objectToCSV(objects: Array<Object>): string {
-  console.log('objects', objects);
   // 将数组对象转换成csv.
   const headers = Object.keys(objects[0]['input']);
-  console.log('inputs', objects[0]['input']);
   headers.push('divider');
   headers.push(...Object.keys(objects[0]['output']));
   if (objects.length > 1) {
@@ -290,6 +288,13 @@ export async function downloadJsonRecord(testId: Array<string | number> | string
       const dataList = [[], [], [], []];
       writeData.forEach((data) => {
         if (data['stateEvaluate']['input'] !== null) {
+          const outputData = data['stateEvaluate']['output'];
+          const device = outputData['equipment'];
+          delete outputData['equipment'];
+          Object.keys(device).forEach((key) => {
+            outputData['equipment_' + key] = device[key];
+          });
+          data['stateEvaluate']['output'] = outputData;
           dataList[0].push(data['stateEvaluate']);
         }
         if (data['reliabilityEvaluate']['input'] !== null) {

@@ -92,34 +92,53 @@ const faultOptions2 = [
 
 export function step1Schemas(showMode: boolean): FormSchema[] {
   return [
-    createOptionSchema(showMode, 'equipmentValue', '设备价值', valueOptions, '60%', 6),
-    createOptionSchema(showMode, 'substationStatus', '变电站地位', statusOptions, '60%', 6),
-    createOptionSchema(showMode, 'loadLevel', '负荷等级', loadOptions, '60%', 6),
-    createFormSchema(showMode, 'transformerLoadRate', '变压器负载率', '60%', 2, 6),
-    createFormSchema(showMode, 'transformerCapacity', '变压器容量', '60%', 2, 6),
-    createFormSchema(showMode, 'averagePowerFactor', '平均功率因素', '60%', 2, 6),
-    createOptionSchema(showMode, 'substationImportance', '变电站重要性', impOptions, '60%', 6),
-    createOptionSchema(showMode, 'loadImportance', '负荷重要性', loadImpOptions1, '60%', 6),
+    createFormSchema(showMode, 'transformerLoadRate', '变压器负载率', '60%', 2, 8),
+    createFormSchema(showMode, 'transformerCapacity', '变压器容量', '60%', 2, 8),
+    createFormSchema(showMode, 'averagePowerFactor', '平均功率因素', '60%', 2, 8),
+    createOptionSchema(showMode, 'equipmentValue', '设备价值', valueOptions, '60%', 8),
+    createOptionSchema(showMode, 'substationStatus', '变电站地位', statusOptions, '60%', 8),
+    createOptionSchema(showMode, 'manufacturer', '生产厂家', manufacturerOptions, '60%', 8),
+    createOptionSchema(showMode, 'loadImportance', '负荷重要性', loadImpOptions1, '60%', 8),
+    createOptionSchema(showMode, 'substationImportance', '变电站重要性', impOptions, '60%', 8),
+    createOptionSchema(showMode, 'loadLevel', '负荷等级', loadOptions, '60%', 8),
+    {
+      field: 'faultRepairCostFactor',
+      label: '变压器检修环境-故障修复成本修正系数',
+      labelWidth: 300,
+      component: 'Select',
+      componentProps: {
+        style: { width: '80%' }, // 设置输入框宽度为100%，可根据需要调整
+        faultOptions,
+        disabled: showMode,
+      },
+      required: true,
+      colProps: {
+        span: 12, // 根据需要调整每个字段占据的栅格数
+      },
+    },
+    {
+      field: 'systemRiskCorrectionFactor',
+      label: '变压器检修环境-系统风险修正系数',
+      labelWidth: 300,
+      component: 'Select',
+      componentProps: {
+        style: { width: '80%' }, // 设置输入框宽度为100%，可根据需要调整
+        factorOptions,
+        disabled: showMode,
+      },
+      required: true,
+      colProps: {
+        span: 12, // 根据需要调整每个字段占据的栅格数
+      },
+    },
     createOptionSchema(
       showMode,
-      'systemRiskCorrectionFactor',
-      '变电站检修环境',
-      factorOptions,
+      'faultProbability',
+      '故障概率',
+      faultOptions2,
       '60%',
-      6,
-    ),
-    createFormSchema(showMode, 'unitRiskValue', '单位风险值', '60%', 2, 6),
-    createOptionSchema(showMode, 'repairCost', '不同故障下的修复成本', repairOptions, '60%', 6),
-    createOptionSchema(showMode, 'manufacturer', '生产厂家', manufacturerOptions, '60%', 6),
-    createOptionSchema(showMode, 'faultRepairCostFactor', '变电站检修环境', faultOptions, '60%', 6),
-    createOptionSchema(showMode, 'accidentCost', '不同故障下事故成本', accidentOptions, '60%', 6),
-    createOptionSchema(
-      showMode,
-      'personnelInjuryProbability',
-      '人员事故伤亡概率',
-      personOptions,
-      '60%',
-      6,
+      8,
+      'multiple',
     ),
     createOptionSchema(
       showMode,
@@ -127,8 +146,36 @@ export function step1Schemas(showMode: boolean): FormSchema[] {
       '不同故障下切除负荷的几率',
       valueOptions1,
       '60%',
-      6,
+      8,
+      'multiple',
     ),
-    createOptionSchema(showMode, 'faultProbability', '故障概率', faultOptions2, '60%', 6),
+    createOptionSchema(
+      showMode,
+      'personnelInjuryProbability',
+      '人员事故伤亡概率',
+      personOptions,
+      '60%',
+      8,
+      'multiple',
+    ),
+    createOptionSchema(
+      showMode,
+      'repairCost',
+      '不同故障下的修复成本',
+      repairOptions,
+      '60%',
+      8,
+      'multiple',
+    ),
+    createOptionSchema(
+      showMode,
+      'accidentCost',
+      '不同故障下事故成本',
+      accidentOptions,
+      '60%',
+      8,
+      'multiple',
+    ),
+    createFormSchema(showMode, 'unitRiskValue', '单位风险值', '60%', 2, 8),
   ];
 }
