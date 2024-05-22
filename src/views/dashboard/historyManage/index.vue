@@ -7,8 +7,11 @@
         <a-button @click="handleExportSelected" type="primary" :innerText="loadText" />
         <a-button v-if="isLoadOut" type="primary" :innerText="`取消导出`" @click="quitLoadout" />
       </template>
-      <template #customRender="{ record }">
-        <a-button @click="console.log('click')">1111</a-button>
+      <template #stateId="{ record }">
+        <!-- <div style="width: 100%; height: 100%" @click="console.log(111)">
+          {{ record.stateId }}
+        </div> -->
+        <a-button @click="console.log(111111)">{{ record.stateId }}</a-button>
       </template>
       <template #action="{ record }">
         <TableAction :actions="getActions(record)" />

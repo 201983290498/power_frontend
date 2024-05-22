@@ -39,12 +39,12 @@ export const columns: BasicColumn[] = [
     title: '状态评估Id',
     dataIndex: 'stateId',
     width: 50,
-    ellipsis: true,
+    // ellipsis: true,
     // customRender: ({ text }) => {
     //   const numericStatus = Number(text);
     //   return numericStatus === -1 ? undefined : numericStatus;
     // },
-    scopedSlots: { customRender: 'customRender' },
+    slots: { customRender: 'stateId' },
   },
   {
     title: '状态评估得分',
