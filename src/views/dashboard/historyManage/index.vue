@@ -4,9 +4,11 @@
       <template #toolbar>
         <!--a-button type="primary" @click="handleCreate"> 写入历史数据 </a-button-->
         <a-button @click="toggleSortOrder">切换排序</a-button>
-        <a-button @click="handleExportSelected" type="primary" :disabled="selectedRows.size === 0"
-          >导出选中</a-button
-        >
+        <a-button @click="handleExportSelected" type="primary" :innerText="loadText" />
+        <a-button v-if="isLoadOut" type="primary" :innerText="`取消导出`" @click="quitLoadout" />
+      </template>
+      <template #customRender="{ record }">
+        <a-button @click="console.log('click')">1111</a-button>
       </template>
       <template #action="{ record }">
         <TableAction :actions="getActions(record)" />
@@ -35,7 +37,7 @@
   const { createMessage } = useMessage();
   const { warning } = createMessage;
   const emit = defineEmits(['select']);
-
+  const loadText = ref('导出数据');
   const props = defineProps({
     reSize: {
       type: Boolean,
@@ -73,6 +75,7 @@
   });
   const sortBy = ref('evaluateTime'); // 默认排序字段
   const sortOrder = ref('desc'); // 默认降序排序
+  const isLoadOut = ref(false);
   const pagination = reactive({
     total: 0,
     current: 1,
@@ -137,8 +140,15 @@
     downloadJsonRecord(record.testId);
   }
   async function handleExportSelected() {
-    for (const record of selectedRows.value) {
-      await downloadJsonRecord(record.testId);
+    if (loadText.value === '导出数据') {
+      loadText.value = '确认导出';
+      isLoadOut.value = true;
+    } else {
+      const testList = [];
+      for (const record of selectedRows.value) {
+        testList.push(record.testId);
+      }
+      await downloadJsonRecord(testList);
     }
   }
 
@@ -199,13 +209,13 @@
       {
         icon: 'clarity:backup-line',
         divider: true,
-        ifShow: !props.chooseMode,
+        ifShow: !props.chooseMode && !isLoadOut.value,
         onClick: handleExport.bind(null, record),
       },
       {
         icon: 'ant-design:search-outlined',
         divider: true,
-        ifShow: !props.chooseMode,
+        ifShow: !props.chooseMode && !isLoadOut.value,
         onClick: handleView.bind(null, record),
       },
       {
@@ -213,7 +223,7 @@
         label: '选中',
         color: isSelected(record) ? 'success' : 'default',
         divider: true,
-        ifShow: !props.chooseMode,
+        ifShow: props.chooseMode || isLoadOut.value,
         onClick: handleSelect.bind(null, record),
       },
     ];
@@ -261,6 +271,11 @@
       }
     },
   );
+  function quitLoadout() {
+    loadText.value = '导出数据';
+    isLoadOut.value = false;
+    selectedRows.value.clear();
+  }
 </script>
 
 <script lang="ts">

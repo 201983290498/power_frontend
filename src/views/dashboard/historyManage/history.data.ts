@@ -40,10 +40,11 @@ export const columns: BasicColumn[] = [
     dataIndex: 'stateId',
     width: 50,
     ellipsis: true,
-    customRender: ({ text }) => {
-      const numericStatus = Number(text);
-      return numericStatus === -1 ? undefined : numericStatus;
-    },
+    // customRender: ({ text }) => {
+    //   const numericStatus = Number(text);
+    //   return numericStatus === -1 ? undefined : numericStatus;
+    // },
+    scopedSlots: { customRender: 'customRender' },
   },
   {
     title: '状态评估得分',
