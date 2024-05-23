@@ -6,12 +6,33 @@
         <a-button @click="toggleSortOrder">切换排序</a-button>
         <a-button @click="handleExportSelected" type="primary" :innerText="loadText" />
         <a-button v-if="isLoadOut" type="primary" :innerText="`取消导出`" @click="quitLoadout" />
+        <!-- <a-button v-if="isLoadOut" type="primary" @click="toggleSelectAll">{{
+          selectAllText
+        }}</a-button> -->
       </template>
       <template #stateId="{ record }">
         <!-- <div style="width: 100%; height: 100%" @click="console.log(111)">
           {{ record.stateId }}
         </div> -->
-        <a-button @click="console.log(111111)">{{ record.stateId }}</a-button>
+        <a-button v-if="record.stateId !== -1" @click="handleWatch(record, type1)">{{
+          record.stateId
+        }}</a-button>
+      </template>
+      <template #reliabilityId="{ record }">
+        <!-- <div style="width: 100%; height: 100%" @click="console.log(111)">
+          {{ record.stateId }}
+        </div> -->
+        <a-button v-if="record.reliabilityId !== -1" @click="handleWatch(record, type2)">{{
+          record.reliabilityId
+        }}</a-button>
+      </template>
+      <template #economyId="{ record }">
+        <!-- <div style="width: 100%; height: 100%" @click="console.log(111)">
+          {{ record.stateId }}
+        </div> -->
+        <a-button v-if="record.economyId !== -1" @click="handleWatch(record, type3)">{{
+          record.economyId
+        }}</a-button>
       </template>
       <template #action="{ record }">
         <TableAction :actions="getActions(record)" />
@@ -41,6 +62,7 @@
   const { warning } = createMessage;
   const emit = defineEmits(['select']);
   const loadText = ref('导出数据');
+  const selectAllText = ref('全选');
   const props = defineProps({
     reSize: {
       type: Boolean,
@@ -63,6 +85,9 @@
   const selectedRows = ref(new Set());
   const routeParam = useRouteParams();
   const go = useGo();
+  const type1 = 'state';
+  const type2 = 'reliability';
+  const type3 = 'economy';
   const searchModel = reactive({
     equipNo: '',
     personCharge: '',
@@ -278,6 +303,39 @@
     loadText.value = '导出数据';
     isLoadOut.value = false;
     selectedRows.value.clear();
+  }
+  async function handleWatch(record, type) {
+    warning('正在进行页面跳转...');
+    const params = {
+      device: {},
+      src: logo,
+      hasAnalysis: true,
+      results: {},
+      formData: {},
+      showHistory: true,
+      testId: record.testId,
+    };
+    params['device'] = await viewDevice({ id: record.equipId });
+
+    if (type === 'state' && record['stateId'] !== -1) {
+      // 跳转到状态评估页面
+      params['formData'] = await getStateRecordInput({ evaluateId: record['stateId'] });
+      params['results'] = await getStateRecordOutput({ evaluateId: record['stateId'] });
+      routeParam.setParams(params);
+      go(PageEnum.State_Evaluate_Page);
+    } else if (type === 'reliability' && record['reliabilityId'] !== -1) {
+      // 跳转到可靠性评估页面
+      params['formData'] = await getReliableRecordInput({ evaluateId: record['reliabilityId'] });
+      params['results'] = await getReliableRecordOutput({ evaluateId: record['reliabilityId'] });
+      routeParam.setParams(params);
+      go(PageEnum.Reliability_Evaluate_Page);
+    } else if (type === 'economy' && record['economyId'] !== -1) {
+      // 跳转到经济性评估页面
+      params['formData'] = await getEconomyRecordInput({ evaluateId: record['economyId'] });
+      params['results'] = await getEconomyRecordOutput({ evaluateId: record['economyId'] });
+      routeParam.setParams(params);
+      go(PageEnum.Economy_Evaluate_Page);
+    }
   }
 </script>
 

@@ -64,10 +64,11 @@ export const columns: BasicColumn[] = [
     dataIndex: 'reliabilityId',
     width: 70,
     ellipsis: true,
-    customRender: ({ text }) => {
-      const numericStatus = Number(text);
-      return numericStatus === -1 ? undefined : numericStatus;
-    },
+    // customRender: ({ text }) => {
+    //   const numericStatus = Number(text);
+    //   return numericStatus === -1 ? undefined : numericStatus;
+    // },
+    slots: { customRender: 'reliabilityId' },
   },
   {
     title: '剩余可靠性寿命',
@@ -85,10 +86,11 @@ export const columns: BasicColumn[] = [
     dataIndex: 'economyId',
     width: 50,
     ellipsis: true,
-    customRender: ({ text }) => {
-      const numericStatus = Number(text);
-      return numericStatus === -1 ? undefined : numericStatus;
-    },
+    // customRender: ({ text }) => {
+    //   const numericStatus = Number(text);
+    //   return numericStatus === -1 ? undefined : numericStatus;
+    // },
+    slots: { customRender: 'economyId' },
   },
   {
     title: '年均成本',
