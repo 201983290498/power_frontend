@@ -6,6 +6,9 @@
         <a-button @click="toggleSortOrder">切换排序</a-button>
         <a-button @click="handleExportSelected" type="primary" :innerText="loadText" />
         <a-button v-if="isLoadOut" type="primary" :innerText="`取消导出`" @click="quitLoadout" />
+        <a-button v-if="isLoadOut" type="primary" @click="toggleSelectAll">{{
+          selectAllText
+        }}</a-button>
         <!-- <a-button v-if="isLoadOut" type="primary" @click="toggleSelectAll">{{
           selectAllText
         }}</a-button> -->
@@ -41,7 +44,7 @@
   </Card>
 </template>
 <script lang="ts" setup>
-  import { defineProps, reactive, ref, watch } from 'vue';
+  import { defineProps, reactive, ref, unref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getHistoryList } from '/@/api/sys/history';
   import { columns, downloadJsonRecord, searchFormSchema } from './history.data';
@@ -57,6 +60,8 @@
   import { useRouteParams } from '/@/store/modules/route';
   import { useGo } from '/@/hooks/web/usePage';
   import { PageEnum } from '/@/enums/pageEnum';
+import { registerCoordinateSystem } from 'echarts';
+import { get } from 'http';
 
   const { createMessage } = useMessage();
   const { warning } = createMessage;
@@ -157,8 +162,7 @@
   };
 
   props.maxHeight == -1 || (tableConfig['maxHeight'] = props.maxHeight);
-  const [registerTable, { reload, setProps }] = useTable(tableConfig);
-
+  const [registerTable, { reload, setProps, getDataSource }] = useTable(tableConfig);
   function toggleSortOrder() {
     sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
     reload();
@@ -303,6 +307,24 @@
     loadText.value = '导出数据';
     isLoadOut.value = false;
     selectedRows.value.clear();
+  }
+  function toggleSelectAll() {
+    const tableData = getDataSource();
+    console.log('记录', tableData);
+    if (!tableData || tableData.length === 0) return;
+
+    if (selectAllText.value === '全选') {
+      // 全选所有行
+      tableData.forEach((record) => {
+        selectedRows.value.add(record);
+      });
+      selectAllText.value = '取消全选';
+    } else {
+      // 取消全选
+      selectedRows.value.clear();
+      selectAllText.value = '全选';
+    }
+    emit('select', selectedRows.value);
   }
   async function handleWatch(record, type) {
     warning('正在进行页面跳转...');
