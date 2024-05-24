@@ -104,10 +104,11 @@ export const columns: BasicColumn[] = [
     dataIndex: 'decisionId',
     width: 50,
     ellipsis: true,
-    customRender: ({ text }) => {
-      const numericStatus = Number(text);
-      return numericStatus === -1 ? undefined : numericStatus;
-    },
+    slots: { customRender: 'decisionId' },
+    // customRender: ({ text }) => {
+    //   const numericStatus = Number(text);
+    //   return numericStatus === -1 ? undefined : numericStatus;
+    // },
   },
   {
     title: '建议检修方式',

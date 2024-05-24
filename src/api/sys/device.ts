@@ -6,6 +6,8 @@ import {
   DeviceViewParams,
   DeviceupdateParams,
   DevicedeleteParams,
+  RecentEvalResults,
+  HealthStatusResults,
 } from './model/deviceModel';
 import { ErrorMessageMode } from '/#/axios';
 import { defHttp } from '/@/utils/http/axios';
@@ -17,6 +19,8 @@ enum Api {
   UpdateDevice = '/powergrid/sys/equipment/update',
   SearchDevice = '/powergrid/sys/equipment',
   ViewDevice = '/powergrid/sys/equipment/retrieve',
+  RecentStatus = '/powergrid/sys/equipment/retrieve/evaluate',
+  HealthStatus = '/powergrid/sys/equipment/retrieve/statusevaluate',
 }
 
 const demoParam: getDevicePageListParmas = {};
@@ -53,7 +57,6 @@ export function deleteDevice(params: DevicedeleteParams, mode: ErrorMessageMode 
 }
 // 更新设备
 export function updateDevice(params: DeviceupdateParams, mode: ErrorMessageMode = 'modal') {
-  console.log(params);
   return defHttp.put(
     {
       url: Api.UpdateDevice,
@@ -98,3 +101,27 @@ export const viewDevice = async (params: DeviceViewParams, mode: ErrorMessageMod
     url: Api.SearchDevice,
     params,
   });*/
+
+export function getRecentStatus(params: DeviceViewParams, mode: ErrorMessageMode = 'modal') {
+  return defHttp.get<RecentEvalResults>(
+    {
+      url: Api.RecentStatus,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+}
+
+export function getHealthStatus(params: DeviceViewParams, mode: ErrorMessageMode = 'modal') {
+  return defHttp.get<HealthStatusResults>(
+    {
+      url: Api.HealthStatus,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+}

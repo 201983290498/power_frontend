@@ -123,11 +123,7 @@
   const tableConfig: Props = {
     title: '设备列表',
     api: (query) => getDeviceList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }),
-    beforeFetch: (data) => {
-      console.log('param', data);
-    },
     afterFetch: (data) => {
-      console.log('results', data);
       pagination.total = data.rowCount;
       pagination.current = data.page;
       pagination.pageSize = data.pageSize;
@@ -152,7 +148,6 @@
       if (info.operationTime) {
         info.operationTime = moment(info.operationTime).format('YYYY-MM-DD');
       }
-      console.log('handleSearchInfoFn', info);
       return info;
     },
     actionColumn: {

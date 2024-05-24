@@ -1,4 +1,10 @@
-import { Device } from '/#/baseClass';
+import {
+  DecisionOutput,
+  Device,
+  EconomyOutput,
+  ReliabilityOutput,
+  StateOutput,
+} from '/#/baseClass';
 /**
  * @description: get device pagelist interface parameters
  */
@@ -43,5 +49,17 @@ export interface getDevicePageListData {
   items: Device[]; // 设备总数
 }
 export interface DeviceViewParams {
-  id: number | string;
+  id?: number | string;
+  equipId?: number | string;
+}
+
+export interface HealthStatusResults {
+  status: Array<number>;
+}
+
+export interface RecentEvalResults {
+  stateOutput: StateOutput;
+  reliability: ReliabilityOutput;
+  economyOutput: EconomyOutput;
+  decisionOutput: DecisionOutput;
 }

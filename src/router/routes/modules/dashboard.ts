@@ -24,14 +24,6 @@ const dashboard: AppRouteModule = {
       },
     },
     {
-      path: 'workbench',
-      name: 'Workbench',
-      component: () => import('/@/views/dashboard/workbench/index.vue'),
-      meta: {
-        title: t('routes.dashboard.workbench'),
-      },
-    },
-    {
       path: 'userManage',
       name: 'UserManage',
       component: () => import('/@/views/dashboard/userManage/index.vue'),
@@ -53,22 +45,6 @@ const dashboard: AppRouteModule = {
       component: () => import('/@/views/dashboard/historyManage/index.vue'),
       meta: {
         title: t('routes.dashboard.historyManage'),
-      },
-    },
-    {
-      path: 'databaseManage',
-      name: 'databaseManage',
-      component: () => import('/@/views/dashboard/databaseManage/index.vue'),
-      meta: {
-        title: t('routes.dashboard.databaseManage'),
-      },
-    },
-    {
-      path: 'deviceInfoManage',
-      name: 'deviceInfoManage',
-      component: () => import('/@/views/dashboard/deviceInfoManage/index.vue'),
-      meta: {
-        title: t('routes.dashboard.deviceInfoManage'),
       },
     },
   ],

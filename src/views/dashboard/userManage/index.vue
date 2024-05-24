@@ -24,7 +24,6 @@
   import UserModal from './UserModel.vue';
   import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
-  console.log('data');
   const props = defineProps({
     reSize: {
       type: Boolean,
@@ -112,7 +111,6 @@
       fixed: 'right',
     },
     handleSearchInfoFn(info) {
-      console.log('handleSearchInfoFn', info);
       return info;
     },
   };

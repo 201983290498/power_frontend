@@ -10,9 +10,10 @@
   import { BasicForm, useForm } from '/@/components/Form';
   import { formSchema } from './history.data';
   import { addHistory } from '/@/api/sys/history';
-
+  import { useMessage } from '/@/hooks/web/useMessage';
   const emit = defineEmits(['success', 'register']);
 
+  const { createMessage } = useMessage();
   const isUpdate = ref(true);
   const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
     labelWidth: 100,
@@ -49,13 +50,12 @@
         reliabilityId: values.reliabilityId,
       };
       //写入历史数据
-      const result = await addHistory(params);
-      console.log('Device updated:', result);
+      await addHistory(params);
 
       closeModal();
       emit('success');
     } catch (error) {
-      console.error('Failed to submit device data:', error);
+      createMessage.error('Failed to submit device data:' + error);
     } finally {
       setModalProps({ confirmLoading: false });
     }

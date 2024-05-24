@@ -8,6 +8,10 @@
   import { Card } from 'ant-design-vue';
   import { useECharts } from '/@/hooks/web/useECharts';
 
+  defineOptions({
+    name: 'SalesProductPie',
+  });
+
   const props = defineProps({
     loading: Boolean,
     width: {
@@ -60,4 +64,9 @@
     },
     { immediate: true },
   );
+</script>
+<script lang="ts">
+  export default {
+    name: 'SalesProductPie',
+  };
 </script>

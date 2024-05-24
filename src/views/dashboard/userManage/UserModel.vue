@@ -73,12 +73,10 @@
 
       if (isUpdate.value) {
         // 如果 isUpdate 为 true，更新用户
-        const result = await updateUser(params);
-        console.log('Device updated:', result);
+        await updateUser(params);
       } else {
         // 否则，添加新用户
-        const result = await addUser(params);
-        console.log('New device added:', result);
+        await addUser(params);
       }
 
       closeModal();
