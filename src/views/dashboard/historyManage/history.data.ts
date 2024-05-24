@@ -13,14 +13,14 @@ export const columns: BasicColumn[] = [
   {
     title: '设备编号',
     dataIndex: 'equipNo',
-    width: 80,
+    width: 50,
     ellipsis: true,
     sorter: (a, b) => a.equipNo - b.equipNo,
   },
   {
     title: '评估时间',
     dataIndex: 'evaluateTime',
-    width: 100,
+    width: 70,
     customRender: ({ text }) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     ellipsis: true,
     sorter: (a, b) => {
@@ -32,24 +32,23 @@ export const columns: BasicColumn[] = [
   {
     title: '评估人',
     dataIndex: 'personCharge',
-    width: 50,
+    width: 40,
     ellipsis: true,
   },
   {
     title: '状态评估Id',
     dataIndex: 'stateId',
-    width: 50,
-    // ellipsis: true,
-    // customRender: ({ text }) => {
-    //   const numericStatus = Number(text);
-    //   return numericStatus === -1 ? undefined : numericStatus;
-    // },
+    width: 40,
+    customRender: ({ text }) => (text === -1 ? '—' : text),
     slots: { customRender: 'stateId' },
   },
   {
     title: '状态评估得分',
     dataIndex: 'lastResult',
     sorter: (a, b) => a.lastResult - b.lastResult,
+    customRender: ({ text }) => {
+      return text === 0 || text === '' || text === null ? '—' : text;
+    },
     width: 50,
     ellipsis: true,
   },
@@ -62,11 +61,12 @@ export const columns: BasicColumn[] = [
   {
     title: '可靠性评估Id',
     dataIndex: 'reliabilityId',
-    width: 70,
+    width: 50,
     ellipsis: true,
     // customRender: ({ text }) => {
     //   const numericStatus = Number(text);
     //   return numericStatus === -1 ? undefined : numericStatus;
+    customRender: ({ text }) => (text === -1 ? '—' : text),
     // },
     slots: { customRender: 'reliabilityId' },
   },
@@ -76,8 +76,7 @@ export const columns: BasicColumn[] = [
     width: 50,
     ellipsis: true,
     customRender: ({ text }) => {
-      const numericStatus = Number(text);
-      return numericStatus === -1 ? undefined : numericStatus;
+      return text === 0 || text === '' || text === null ? '—' : text;
     },
     sorter: (a, b) => a.resReliabilityLife - b.resReliabilityLife,
   },
@@ -90,6 +89,7 @@ export const columns: BasicColumn[] = [
     //   const numericStatus = Number(text);
     //   return numericStatus === -1 ? undefined : numericStatus;
     // },
+    customRender: ({ text }) => (text === -1 ? '—' : text),
     slots: { customRender: 'economyId' },
   },
   {
@@ -98,6 +98,9 @@ export const columns: BasicColumn[] = [
     sorter: (a, b) => a.avgAnnualCost - b.avgAnnualCost,
     width: 50,
     ellipsis: true,
+    customRender: ({ text }) => {
+      return text === 0 || text === '' || text === null ? '—' : text;
+    },
   },
   {
     title: '运维决策Id',
@@ -105,6 +108,7 @@ export const columns: BasicColumn[] = [
     width: 50,
     ellipsis: true,
     slots: { customRender: 'decisionId' },
+    customRender: ({ text }) => (text === -1 ? '—' : text),
     // customRender: ({ text }) => {
     //   const numericStatus = Number(text);
     //   return numericStatus === -1 ? undefined : numericStatus;
@@ -115,6 +119,9 @@ export const columns: BasicColumn[] = [
     dataIndex: 'suggestedMaintenanceMethod',
     width: 50,
     ellipsis: true,
+    customRender: ({ text }) => {
+      return text === 0 || text === '' || text === null ? '—' : text;
+    },
   },
 ];
 

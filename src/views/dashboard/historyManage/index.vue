@@ -49,7 +49,7 @@
   </Card>
 </template>
 <script lang="ts" setup>
-  import { defineProps, reactive, ref, unref, watch } from 'vue';
+  import { defineProps, reactive, ref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getHistoryList } from '/@/api/sys/history';
   import { columns, downloadJsonRecord, searchFormSchema } from './history.data';
@@ -70,7 +70,8 @@
   const { warning } = createMessage;
   const emit = defineEmits(['select']);
   const loadText = ref('导出数据');
-  const selectAllText = ref('全选');
+  const selectAllText = ref('全选'); //
+  const selectedRowKeys = ref(new Set());
   const props = defineProps({
     reSize: {
       type: Boolean,
@@ -144,14 +145,16 @@
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
+    clearSelectOnPageChange: false,
     showIndexColumn: false,
     pagination,
+    loading: true,
     canResize: props.reSize,
     handleSearchInfoFn(info) {
       return info;
     },
     actionColumn: {
-      width: 80,
+      width: 40,
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
@@ -159,6 +162,7 @@
       ellipsis: true,
     },
   };
+  // 监听分页变化
 
   props.maxHeight == -1 || (tableConfig['maxHeight'] = props.maxHeight);
   const [registerTable, { reload, setProps, getDataSource }] = useTable(tableConfig);
@@ -166,7 +170,6 @@
     sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
     reload();
   }
-
   async function handleExport(record) {
     downloadJsonRecord(record.testId);
   }
@@ -225,16 +228,18 @@
   //handleSelect函数切换行的选定状态并记录选定的行。
   function handleSelect(record) {
     if (selectedRows.value.has(record)) {
-      selectedRows.value.delete(record);
+      selectedRows.value.delete(record);  
+      selectedRowKeys.value.delete(record.testId);
     } else {
       selectedRows.value.add(record);
+      selectedRowKeys.value.add(record.testId);
     }
     emit('select', selectedRows.value);
   }
-
   function isSelected(record) {
-    return selectedRows.value.has(record);
+    return selectedRowKeys.value.has(record.testId);
   }
+
   function getActions(record) {
     const actions = [
       {
@@ -306,7 +311,10 @@
     loadText.value = '导出数据';
     isLoadOut.value = false;
     selectedRows.value.clear();
+    selectedRowKeys.value.clear();
+    selectAllText.value = '全选';
   }
+
   function toggleSelectAll() {
     const tableData = getDataSource();
     if (!tableData || tableData.length === 0) return;
@@ -315,11 +323,13 @@
       // 全选所有行
       tableData.forEach((record) => {
         selectedRows.value.add(record);
+        selectedRowKeys.value.add(record.testId);
       });
       selectAllText.value = '取消全选';
     } else {
       // 取消全选
       selectedRows.value.clear();
+      selectedRowKeys.value.clear();
       selectAllText.value = '全选';
     }
     emit('select', selectedRows.value);
