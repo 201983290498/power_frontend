@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Card title="运维决策" :bordered="props.bordered">
+    <Card
+      title="运维决策"
+      :bordered="props.bordered"
+      headStyle="font-weight: bold; font-size: 20px"
+    >
       <BasicForm @register="register1" />
     </Card>
   </div>
@@ -9,6 +13,7 @@
   import { BasicForm, useForm } from '/@/components/Form';
   import { step1Schemas } from './data';
   import { Card } from 'ant-design-vue';
+import { transformDataToField } from '/@/utils/listToFiled';
 
   const props = defineProps({
     bordered: {
@@ -37,6 +42,7 @@
 
   async function submitData() {
     try {
+      console.log(getFieldsValue1());
       await validate();
       return getFieldsValue1();
     } catch (error) {
@@ -45,7 +51,8 @@
   }
 
   function setFormFields(data) {
-    setFieldsValue1(data);
+    const fileds: Record<string, any> = transformDataToField(data);
+    setFieldsValue1(fileds);
   }
 
   defineExpose({

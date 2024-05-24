@@ -11,7 +11,7 @@
       </template>
       <template #stateId="{ record }">
         <template v-if="record.stateId !== -1">
-          <a-button @click="handleWatch(record, type2)" title="查看测评记录">{{
+          <a-button @click="handleWatch(record, type1)" title="查看测评记录">{{
             record.stateId
           }}</a-button>
         </template>
@@ -27,7 +27,7 @@
       </template>
       <template #economyId="{ record }">
         <template v-if="record.economyId !== -1">
-          <a-button @click="handleWatch(record, type2)" title="查看测评记录">{{
+          <a-button @click="handleWatch(record, type3)" title="查看测评记录">{{
             record.economyId
           }}</a-button>
         </template>
@@ -35,7 +35,7 @@
       </template>
       <template #decisionId="{ record }">
         <template v-if="record.decisionId !== -1">
-          <a-button @click="handleWatch(record, type2)" title="查看测评记录">{{
+          <a-button @click="handleWatch(record, type4)" title="查看测评记录">{{
             record.decisionId
           }}</a-button>
         </template>
@@ -52,8 +52,9 @@
             :style="{
               backgroundColor: record.lastResult < 75 ? 'orange' : 'transparent',
               color: record.lastResult < 75 ? 'white' : 'inherit',
-              border: record.lastResult < 75 ? '1px solid black' : 'none',
+              // border: record.lastResult < 75 ? '1px solid black' : 'none',
             }"
+            class="select_one"
           >
             {{ record.lastResult }}
           </div>
@@ -129,7 +130,11 @@
     stateId: 0, // 初始化为空值
     reliabilityId: 0, // 初始化为空值
   });
-  const sortBy = ref('evaluateTime'); // 默认排序字段
+  if (routeParam.getParams?.equipId !== null) {
+    searchModel.equipId = routeParam.getParams?.equipId;
+    setSearchForm(routeParam.getParams?.type);
+  }
+  console.log('param', searchModel, routeParam.getParams);
   const sortOrder = ref('desc'); // 默认降序排序
   const isLoadOut = ref(false);
   const pagination = reactive({
@@ -144,7 +149,7 @@
 
   const tableConfig: Props = {
     title: '历史数据列表',
-    api: (query) => getHistoryList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }),
+    api: (query) => getHistoryList({ ...query, ...searchModel }),
     afterFetch: (data) => {
       pagination.total = data.rowCount;
       pagination.current = data.page;
@@ -166,9 +171,12 @@
     clearSelectOnPageChange: false,
     showIndexColumn: false,
     pagination,
-    loading: true,
+    inset: true,
     canResize: props.reSize,
     handleSearchInfoFn(info) {
+      searchModel.equipId = '';
+      // 设置筛选条件
+      setSearchForm(info.type);
       return info;
     },
     actionColumn: {
@@ -248,7 +256,7 @@
   //handleSelect函数切换行的选定状态并记录选定的行。
   function handleSelect(record) {
     if (selectedRows.value.has(record)) {
-      selectedRows.value.delete(record);  
+      selectedRows.value.delete(record);
       selectedRowKeys.value.delete(record.testId);
     } else {
       selectedRows.value.add(record);
@@ -309,20 +317,7 @@
       if (newValue) {
         searchModel.equipId = newValue.equipId;
         // 设置筛选条件
-        if (newValue.type === 'state') {
-          searchModel.stateId = -2;
-        } else if (newValue.type === 'devops') {
-          searchModel.decisionId = -2;
-        } else if (newValue.type === 'reliability') {
-          searchModel.reliabilityId = -2;
-        } else if (newValue.type === 'economy') {
-          searchModel.economyId = -2;
-        } else if (newValue.type === 'all') {
-          searchModel.decisionId = -1;
-          searchModel.reliabilityId = 0;
-          searchModel.economyId = 0;
-          searchModel.stateId = 0;
-        }
+        setSearchForm(newValue.type);
         reload();
       }
     },
@@ -392,8 +387,23 @@
       go(PageEnum.Devops_Evaluate_Page);
     }
   }
+  function setSearchForm(type: String) {
+    if (type === 'state') {
+      searchModel.stateId = -2;
+    } else if (type === 'devops') {
+      searchModel.decisionId = -2;
+    } else if (type === 'reliability') {
+      searchModel.reliabilityId = -2;
+    } else if (type === 'economy') {
+      searchModel.economyId = -2;
+    } else if (type === 'all') {
+      searchModel.decisionId = -1;
+      searchModel.reliabilityId = 0;
+      searchModel.economyId = 0;
+      searchModel.stateId = 0;
+    }
+  }
 </script>
-
 <script lang="ts">
   export default {
     name: 'HistoryManagement',

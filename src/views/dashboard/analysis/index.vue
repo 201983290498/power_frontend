@@ -1,7 +1,7 @@
 <template>
   <div class="p-4">
     <!-- 卡片显示 -->
-    <GrowCard :loading="loading" class="enter-y" />
+    <GrowCard :loading="loading1" class="enter-y" />
     <Card
       title="设备列表"
       style="margin-top: 0.5rem; margin-bottom: 0.5rem"
@@ -52,6 +52,7 @@
   import VisitAnalysis from './components/VisitAnalysis.vue';
 
   const loading = ref(true);
+  const loading1 = ref(true);
   const maxHeight: Ref<number | string> = ref(-1);
   const showDetail = ref(false);
   const evaluateState = useEvaluateStore();
@@ -86,6 +87,9 @@
       loading.value = false;
     }, 500);
   }
+  setTimeout(() => {
+    loading1.value = false;
+  }, 500);
 </script>
 <style scoped>
   .text {

@@ -283,6 +283,7 @@
   }
 
   function selectCheck(items) {
+    console.log(items);
     const itemList = [...items];
     if (items.size > 1 || itemList[0]['stateId'] === -1) {
       warning('请选择一条该设备的历史状态评估数据作为导入！');

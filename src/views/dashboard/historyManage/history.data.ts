@@ -137,6 +137,32 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Input',
     colProps: { span: 4 },
   },
+  {
+    field: 'type',
+    label: '评估类型',
+    component: 'Select',
+    colProps: { span: 6 },
+    componentProps: {
+      options: [
+        {
+          label: '状态评估',
+          value: 'state',
+        },
+        {
+          label: '可靠性评估',
+          value: 'reliability',
+        },
+        {
+          label: '经济性评估',
+          value: 'economy',
+        },
+        {
+          label: '运维决策',
+          value: 'devops',
+        },
+      ],
+    },
+  },
 ];
 
 // 新增页面的效果

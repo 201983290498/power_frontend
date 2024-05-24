@@ -20,6 +20,7 @@
       :rowClassName="getRowClassName"
       v-show="getEmptyDataIsShowTable"
       @change="handleTableChange"
+      rowClassName="class1"
     >
       <template #[item]="data" v-for="item in Object.keys($slots)" :key="item">
         <slot :name="item" v-bind="data || {}"></slot>
@@ -347,6 +348,10 @@
     }
   }
 
+  // .ant-table-tbody > tr > td {
+  //   // font-size: 20px !important;
+  // }
+
   .@{prefix-cls} {
     max-width: 100%;
 
@@ -424,7 +429,8 @@
       }
 
       td {
-        padding: 12px 8px;
+        // padding: 12px 8px;
+        padding: 0px 0px;
       }
     }
 

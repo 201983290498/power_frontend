@@ -1,5 +1,10 @@
 import { FormSchema } from '/@/components/Form/src/types/form';
-import { createOptionSchema, createFormSchema } from '/@/utils/listToFiled';
+import {
+  createOptionSchema,
+  createFormSchema,
+  createDivider,
+  createList,
+} from '/@/utils/listToFiled';
 import { OptionPair } from '../../common/data';
 const valueOptions = [
   new OptionPair('10万以下', 1).getConstantValue(),
@@ -43,18 +48,6 @@ const factorOptions = [
   new OptionPair('室内变电站', -1.16).getConstantValue(),
 ];
 
-const repairOptions = [
-  new OptionPair('一般性故障110Kv', 10000).getConstantValue(),
-  new OptionPair('一般性故障220Kv', 20000).getConstantValue(),
-  new OptionPair('一般性故障500Kv', 30000).getConstantValue(),
-  new OptionPair('严重性故障110Kv', 100000).getConstantValue(),
-  new OptionPair('严重性故障220Kv', 200000).getConstantValue(),
-  new OptionPair('严重性故障500Kv', 280000).getConstantValue(),
-  new OptionPair('灾难性故障110Kv', 1800000).getConstantValue(),
-  new OptionPair('灾难性故障220Kv', 5000000).getConstantValue(),
-  new OptionPair('灾难性故障500Kv', 8000000).getConstantValue(),
-];
-
 const manufacturerOptions = [
   new OptionPair('本地生产', 0.9).getConstantValue(),
   new OptionPair('国内生产', 1).getConstantValue(),
@@ -66,32 +59,9 @@ const faultOptions = [
   new OptionPair('室内变电站', 1.16).getConstantValue(),
 ];
 
-const accidentOptions = [
-  new OptionPair('轻伤', 20000).getConstantValue(),
-  new OptionPair('重伤', 5000000).getConstantValue(),
-  new OptionPair('人员伤亡', 50000000).getConstantValue(),
-];
-
-const personOptions = [
-  new OptionPair('轻伤', 0.01).getConstantValue(),
-  new OptionPair('重伤', 0.005).getConstantValue(),
-  new OptionPair('人员伤亡', 0.001).getConstantValue(),
-];
-
-const valueOptions1 = [
-  new OptionPair('0.01', 0.01).getConstantValue(),
-  new OptionPair('0.05', 0.05).getConstantValue(),
-  new OptionPair('0.005', 0.005).getConstantValue(),
-];
-
-const faultOptions2 = [
-  new OptionPair('一般性故障', 0.642).getConstantValue(),
-  new OptionPair('严重性故障', 0.321).getConstantValue(),
-  new OptionPair('灾难性故障', 0.037).getConstantValue(),
-];
-
 export function step1Schemas(showMode: boolean): FormSchema[] {
   return [
+    createDivider('基础信息'),
     createFormSchema(showMode, 'transformerLoadRate', '变压器负载率', '60%', 2, 8),
     createFormSchema(showMode, 'transformerCapacity', '变压器容量', '60%', 2, 8),
     createFormSchema(showMode, 'averagePowerFactor', '平均功率因素', '60%', 2, 8),
@@ -113,7 +83,7 @@ export function step1Schemas(showMode: boolean): FormSchema[] {
       },
       required: true,
       colProps: {
-        span: 12, // 根据需要调整每个字段占据的栅格数
+        span: 8, // 根据需要调整每个字段占据的栅格数
       },
     },
     {
@@ -128,54 +98,54 @@ export function step1Schemas(showMode: boolean): FormSchema[] {
       },
       required: true,
       colProps: {
-        span: 12, // 根据需要调整每个字段占据的栅格数
+        span: 8, // 根据需要调整每个字段占据的栅格数
       },
     },
-    createOptionSchema(
-      showMode,
-      'faultProbability',
-      '故障概率',
-      faultOptions2,
-      '60%',
-      8,
-      'multiple',
-    ),
-    createOptionSchema(
-      showMode,
-      'loadSheddingProbability',
-      '不同故障下切除负荷的几率',
-      valueOptions1,
-      '60%',
-      8,
-      'multiple',
-    ),
-    createOptionSchema(
-      showMode,
-      'personnelInjuryProbability',
-      '人员事故伤亡概率',
-      personOptions,
-      '60%',
-      8,
-      'multiple',
-    ),
-    createOptionSchema(
-      showMode,
-      'repairCost',
-      '不同故障下的修复成本',
-      repairOptions,
-      '60%',
-      8,
-      'multiple',
-    ),
-    createOptionSchema(
-      showMode,
-      'accidentCost',
-      '不同故障下事故成本',
-      accidentOptions,
-      '60%',
-      8,
-      'multiple',
-    ),
     createFormSchema(showMode, 'unitRiskValue', '单位风险值', '60%', 2, 8),
+    ...createList(
+      showMode,
+      '故障概率',
+      'faultProbability',
+      ['一般性故障概率', '严重性故障概率', '灾难性故障概率'],
+      '60%',
+      8,
+      4,
+    ),
+    ...createList(
+      showMode,
+      '不同故障下切除负荷的几率',
+      'loadSheddingProbability',
+      ['一般性切除负荷概率', '严重性切除负荷概率', '灾难性切除负荷概率'],
+      '60%',
+      8,
+      4,
+    ),
+    ...createList(
+      showMode,
+      '人员事故伤亡概率',
+      'personnelInjuryProbability',
+      ['发生轻伤的概率', '发生重伤的概率', '发生人员伤亡的概率'],
+      '60%',
+      8,
+      4,
+    ),
+    ...createList(
+      showMode,
+      '不同故障下事故成本',
+      'accidentCost',
+      ['轻伤的事故成本', '重伤的事故成本', '人员伤亡的事故成本'],
+      '60%',
+      8,
+      4,
+    ),
+    ...createList(
+      showMode,
+      '不同故障下的修复成本',
+      'repairCost',
+      ['一般性故障的修复成本', '严重性故障的修复成本', '灾难性故障的修复成本'],
+      '60%',
+      8,
+      4,
+    ),
   ];
 }

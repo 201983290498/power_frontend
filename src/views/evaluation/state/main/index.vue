@@ -57,6 +57,12 @@
   }
 
   async function goHistory() {
+    routeParam.setParams({
+      equipId: deviceInfo.value?.equipId, // 设备Id
+      sortField: 'evaluateTime', // 按照时间
+      decending: true, // 降序
+      type: 'state', // 状态评估
+    });
     go(PageEnum.HistoryManage_Page);
   }
 
