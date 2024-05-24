@@ -5,7 +5,9 @@
   import { onMounted, ref, Ref } from 'vue';
   import { useECharts } from '/@/hooks/web/useECharts';
   import { basicProps } from './props';
-
+  defineOptions({
+    name: 'VisitAnalysisBar',
+  });
   defineProps({
     ...basicProps,
   });
@@ -55,4 +57,9 @@
       ],
     });
   });
+</script>
+<script lang="ts">
+  export default {
+    name: 'VisitAnalysisBar',
+  };
 </script>

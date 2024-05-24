@@ -20,6 +20,10 @@
   import VisitAnalysis from './VisitAnalysis.vue';
   import VisitAnalysisBar from './VisitAnalysisBar.vue';
 
+  defineOptions({
+    name: 'SiteAnalysis',
+  });
+
   const activeKey = ref('tab1');
 
   const tabListTitle = [
@@ -36,4 +40,9 @@
   function onTabChange(key) {
     activeKey.value = key;
   }
+</script>
+<script lang="ts">
+  export default {
+    name: 'SiteAnalysis',
+  };
 </script>

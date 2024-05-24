@@ -51,7 +51,6 @@
       };
       //写入历史数据
       await addHistory(params);
-
       closeModal();
       emit('success');
     } catch (error) {

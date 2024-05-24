@@ -15,18 +15,31 @@
         :max-height="maxHeight"
       />
     </Card>
-    <!-- 访问流量
-    <SiteAnalysis class="!my-4 enter-y" :loading="loading" /> -->
+    <!-- 访问流量 -->
+    <VisitAnalysis
+      class="!my-4 enter-y"
+      :loading="loading"
+      :result="evaluteStatus.healthStatus"
+      v-if="showDetail"
+    />
     <!-- 三张卡片 -->
     <div class="md:flex enter-y" v-if="showDetail">
-      <VisitRadar class="md:w-1/3 w-full" :loading="loading" />
-      <VisitSource class="md:w-1/3 !md:mx-4 !md:my-0 !my-4 w-full" :loading="loading"/>
-      <SalesProductPie class="md:w-1/3 w-full" :loading="loading" />
+      <VisitRadar class="md:w-1/3 w-full" :loading="loading" :result="evaluteStatus.reliability" />
+      <VisitSource
+        class="md:w-1/3 !md:mx-4 !md:my-0 !my-4 w-full"
+        :loading="loading"
+        :result="evaluteStatus.economyOutput"
+      />
+      <SalesProductPie
+        class="md:w-1/3 w-full"
+        :loading="loading"
+        :result="evaluteStatus.decisionOutput"
+      />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-  import { Ref, ref } from 'vue';
+  import { reactive, Ref, ref } from 'vue';
   import GrowCard from './components/GrowCard.vue';
   import VisitSource from './components/VisitSource.vue';
   import VisitRadar from './components/VisitRadar.vue';
@@ -35,26 +48,43 @@
   import { useEvaluateStore } from '/@/store/modules/evaluate';
   import DeviceManagement from '/@/views/dashboard/deviceManage/index.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { getHealthStatus, getRecentStatus } from '/@/api/sys/device';
+  import VisitAnalysis from './components/VisitAnalysis.vue';
 
   const loading = ref(true);
   const maxHeight: Ref<number | string> = ref(-1);
   const showDetail = ref(false);
-  const deviceInfo = ref<Partial<any> | null>(null); // 设备信息
   const evaluateState = useEvaluateStore();
   const { createMessage } = useMessage();
-  evaluateState.getDeviceInfo !== null && devicePreProcess();
+  const evaluteStatus = reactive({
+    reliability: {},
+    economyOutput: {},
+    decisionOutput: {},
+    healthStatus: {},
+  });
 
   async function selectDevice(device) {
     evaluateState.setDeviceInfo(device);
-  }
-  setTimeout(() => {
-    loading.value = false;
-  }, 1500);
-
-  function devicePreProcess() {
-    createMessage.info('默认选择上次测评的设备');
-    deviceInfo.value = evaluateState.getDeviceInfo;
+    let tmp = await getHealthStatus({ equipId: device.equipId });
+    tmp.status.unshift(0);
+    evaluteStatus.healthStatus = tmp;
+    const result = await getRecentStatus({ equipId: device.equipId });
+    if (
+      result.reliabilityOutput.evaluateId === null ||
+      result.economyOutput.evaluateId === null ||
+      result.decisionOutput.evaluateId === null ||
+      tmp.status.length === 1
+    ) {
+      createMessage.error('该设备暂无评估结果');
+      return;
+    }
+    evaluteStatus.reliability = result.reliabilityOutput;
+    evaluteStatus.economyOutput = result.economyOutput;
+    evaluteStatus.decisionOutput = result.decisionOutput;
     showDetail.value = true;
+    setTimeout(() => {
+      loading.value = false;
+    }, 500);
   }
 </script>
 <style scoped>

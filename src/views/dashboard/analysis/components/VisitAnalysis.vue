@@ -1,106 +1,120 @@
 <template>
-  <div ref="chartRef" :style="{ height, width }"></div>
+  <Card title="设备状态健康指数(%)" :loading="props.loading" headStyle="font-weight: bold">
+    <div ref="chartRef" :style="{ height, width }"></div>
+  </Card>
 </template>
 <script lang="ts" setup>
-  import { onMounted, ref, Ref } from 'vue';
+  import { ref, Ref, watch } from 'vue';
   import { useECharts } from '/@/hooks/web/useECharts';
   import { basicProps } from './props';
+  import { Card } from 'ant-design-vue';
 
-  defineProps({
-    ...basicProps,
+  defineOptions({
+    name: 'VisitAnalysis',
   });
-  const chartRef = ref<HTMLDivElement | null>(null);
-  const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
-
-  onMounted(() => {
-    setOptions({
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          lineStyle: {
-            width: 1,
-            color: '#019680',
-          },
+  const props = defineProps({
+    ...basicProps,
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+  });
+  const options = {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        lineStyle: {
+          width: 1,
+          color: '#019680',
         },
       },
-      xAxis: {
-        type: 'category',
-        boundaryGap: false,
-        data: [
-          '6:00',
-          '7:00',
-          '8:00',
-          '9:00',
-          '10:00',
-          '11:00',
-          '12:00',
-          '13:00',
-          '14:00',
-          '15:00',
-          '16:00',
-          '17:00',
-          '18:00',
-          '19:00',
-          '20:00',
-          '21:00',
-          '22:00',
-          '23:00',
-        ],
-        splitLine: {
-          show: true,
-          lineStyle: {
-            width: 1,
-            type: 'solid',
-            color: 'rgba(226,226,226,0.5)',
-          },
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: [],
+      splitLine: {
+        show: true,
+        lineStyle: {
+          width: 1,
+          type: 'solid',
+          color: 'rgba(226,226,226,0.5)',
         },
+      },
+      axisTick: {
+        show: false,
+      },
+    },
+    yAxis: [
+      {
+        type: 'value',
+        max: 100,
+        splitNumber: 4,
         axisTick: {
           show: false,
         },
+        splitArea: {
+          show: true,
+          areaStyle: {
+            color: ['rgba(255,255,255,0.2)', 'rgba(226,226,226,0.2)'],
+          },
+        },
       },
-      yAxis: [
-        {
-          type: 'value',
-          max: 80000,
-          splitNumber: 4,
-          axisTick: {
-            show: false,
-          },
-          splitArea: {
-            show: true,
-            areaStyle: {
-              color: ['rgba(255,255,255,0.2)', 'rgba(226,226,226,0.2)'],
-            },
-          },
+    ],
+    grid: { left: '2%', right: '2%', top: '2%', bottom: 0, containLabel: true },
+    series: [
+      {
+        smooth: true,
+        data: [],
+        type: 'line',
+        areaStyle: {},
+        itemStyle: {
+          color: '#5ab1ef',
         },
-      ],
-      grid: { left: '1%', right: '1%', top: '2  %', bottom: 0, containLabel: true },
-      series: [
-        {
-          smooth: true,
-          data: [
-            111, 222, 4000, 18000, 33333, 55555, 66666, 33333, 14000, 36000, 66666, 44444, 22222,
-            11111, 4000, 2000, 500, 333, 222, 111,
-          ],
-          type: 'line',
-          areaStyle: {},
-          itemStyle: {
-            color: '#5ab1ef',
-          },
+      },
+      {
+        smooth: true,
+        data: [],
+        type: 'line',
+        areaStyle: {},
+        itemStyle: {
+          color: '#ff00002f',
         },
-        {
-          smooth: true,
-          data: [
-            33, 66, 88, 333, 3333, 5000, 18000, 3000, 1200, 13000, 22000, 11000, 2221, 1201, 390,
-            198, 60, 30, 22, 11,
-          ],
-          type: 'line',
-          areaStyle: {},
-          itemStyle: {
-            color: '#019680',
-          },
-        },
-      ],
-    });
-  });
+      },
+    ],
+  };
+  const chartRef = ref<HTMLDivElement | null>(null);
+  const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
+  watch(
+    () => props.loading,
+    () => {
+      if (props.loading) return;
+      options.xAxis.data = [];
+      for (let i = 0; i <= props.result.status.length; i++) {
+        options.xAxis.data.push(''+i);
+      }
+      options.series[0].data = props.result.status;
+      setOptions(options);
+    },
+  );
+  watch(
+    () => props.result,
+    () => {
+      if (props.loading) return;
+      options.xAxis.data = [];
+      options.series[1].data = [];
+      for (let i = 1; i <= props.result.status.length; i++) {
+        options.xAxis.data.push(''+i);
+        options.series[1].data.push(60);
+      }
+      options.series[0].data = props.result.status;
+      console.log(options.series[1].data);
+      setOptions(options);
+    },
+  );
+</script>
+<script lang="ts">
+  export default {
+    name: 'VisitAnalysis',
+  };
 </script>

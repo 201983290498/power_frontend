@@ -227,6 +227,9 @@
         items: receiveData.formData,
         userId: receiveData.userId,
         equipId: receiveData.equipId,
+        stateId: evaluateState.getStateId,
+        reliabilityId: evaluateState.getReliabilityId,
+        economyId: evaluateState.getEconomicId,
       });
       receiveData.results = evaluateResult;
       receiveData.hasAnalysis = true;
