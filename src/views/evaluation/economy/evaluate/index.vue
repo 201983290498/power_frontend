@@ -245,6 +245,13 @@
   }
 
   async function goHistory() {
+    const routeParam = useRouteParams();
+    routeParam.setParams({
+      equipId: receiveData.devInfo?.equipId, // 设备Id
+      sortField: 'evaluateTime', // 按照时间
+      decending: true, // 降序
+      type: 'economy', // 状态评估
+    });
     go(PageEnum.HistoryManage_Page);
   }
 

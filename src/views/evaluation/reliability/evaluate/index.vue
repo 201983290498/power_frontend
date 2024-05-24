@@ -245,6 +245,13 @@
   }
 
   function goHistory(): void {
+    const routeParam = useRouteParams();
+    routeParam.setParams({
+      equipId: receiveData.devInfo?.equipId, // 设备Id
+      sortField: 'evaluateTime', // 按照时间
+      decending: true, // 降序
+      type: 'reliability',
+    });
     go(PageEnum.HistoryManage_Page);
   }
 

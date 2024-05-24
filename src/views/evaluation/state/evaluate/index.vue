@@ -107,6 +107,7 @@
 
   // 没有传递设备信息, 直接返回主页
   const params = useRouteParams().getParams;
+  const routeParam = useRouteParams();
   const go = useGo();
   const router = useRouter();
   const { createMessage, createConfirm } = useMessage();
@@ -240,6 +241,12 @@
   }
 
   async function goHistory() {
+    routeParam.setParams({
+      equipId: receiveData.devInfo?.equipId, // 设备Id
+      sortField: 'evaluateTime', // 按照时间
+      decending: true, // 降序
+      type: 'state', // 状态评估
+    });
     go(PageEnum.HistoryManage_Page);
   }
 
