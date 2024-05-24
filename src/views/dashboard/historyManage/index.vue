@@ -2,45 +2,62 @@
   <Card>
     <BasicTable :searchInfo="searchModel" @register="registerTable" :scroll="{ x: 2000, y: 3000 }">
       <template #toolbar>
-        <!--a-button type="primary" @click="handleCreate"> 写入历史数据 </a-button-->
         <a-button @click="toggleSortOrder">切换排序</a-button>
-        <a-button @click="handleExportSelected" type="primary" :innerText="loadText" />
-        <a-button v-if="isLoadOut" type="primary" :innerText="`取消导出`" @click="quitLoadout" />
+        <a-button @click="handleExportSelected" type="primary">{{ loadText }}</a-button>
+        <a-button v-if="isLoadOut" type="primary" @click="quitLoadout">取消导出</a-button>
         <a-button v-if="isLoadOut" type="primary" @click="toggleSelectAll">{{
           selectAllText
         }}</a-button>
       </template>
       <template #stateId="{ record }">
-        <a-button
-          v-if="record.stateId !== -1"
-          @click="handleWatch(record, type1)"
-          title="查看测评记录"
-          >{{ record.stateId }}</a-button
-        >
+        <template v-if="record.stateId !== -1">
+          <a-button @click="handleWatch(record, type2)" title="查看测评记录">{{
+            record.stateId
+          }}</a-button>
+        </template>
+        <template v-else> —— </template>
       </template>
       <template #reliabilityId="{ record }">
-        <a-button
-          v-if="record.reliabilityId !== -1"
-          @click="handleWatch(record, type2)"
-          title="查看测评记录"
-          >{{ record.reliabilityId }}</a-button
-        >
+        <template v-if="record.reliabilityId !== -1">
+          <a-button @click="handleWatch(record, type2)" title="查看测评记录">{{
+            record.reliabilityId
+          }}</a-button>
+        </template>
+        <template v-else> —— </template>
       </template>
       <template #economyId="{ record }">
-        <a-button
-          v-if="record.economyId !== -1"
-          @click="handleWatch(record, type3)"
-          title="查看测评记录"
-          >{{ record.economyId }}</a-button
-        >
+        <template v-if="record.economyId !== -1">
+          <a-button @click="handleWatch(record, type2)" title="查看测评记录">{{
+            record.economyId
+          }}</a-button>
+        </template>
+        <template v-else> —— </template>
       </template>
       <template #decisionId="{ record }">
-        <a-button
-          v-if="record.decisionId !== -1"
-          @click="handleWatch(record, type4)"
-          title="查看测评记录"
-          >{{ record.decisionId }}</a-button
+        <template v-if="record.decisionId !== -1">
+          <a-button @click="handleWatch(record, type2)" title="查看测评记录">{{
+            record.decisionId
+          }}</a-button>
+        </template>
+        <template v-else> —— </template>
+      </template>
+      <template #lastResult="{ record }">
+        <template
+          v-if="record.lastResult === 0 || record.lastResult === '' || record.lastResult === null"
         >
+          ——</template
+        >
+        <template v-else>
+          <div
+            :style="{
+              backgroundColor: record.lastResult < 75 ? 'orange' : 'transparent',
+              color: record.lastResult < 75 ? 'white' : 'inherit',
+              border: record.lastResult < 75 ? '1px solid black' : 'none',
+            }"
+          >
+            {{ record.lastResult }}
+          </div>
+        </template>
       </template>
       <template #action="{ record }">
         <TableAction :actions="getActions(record)" />
@@ -48,6 +65,7 @@
     </BasicTable>
   </Card>
 </template>
+
 <script lang="ts" setup>
   import { defineProps, reactive, ref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
@@ -183,6 +201,8 @@
         testList.push(record.testId);
       }
       await downloadJsonRecord(testList);
+      isLoadOut.value = false;
+      loadText.value = '导出数据';
     }
   }
 

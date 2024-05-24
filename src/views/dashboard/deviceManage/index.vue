@@ -8,7 +8,7 @@
       :scroll="{ x: 2000, y: 3000 }"
     >
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增设备</a-button>
+        <!-- <a-button type="primary" @click="handleCreate">新增设备</a-button> -->
         <a-button @click="toggleSortOrder">切换排序</a-button>
       </template>
       <template #action="{ record }">

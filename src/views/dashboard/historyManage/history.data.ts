@@ -39,16 +39,14 @@ export const columns: BasicColumn[] = [
     title: '状态评估Id',
     dataIndex: 'stateId',
     width: 40,
-    customRender: ({ text }) => (text === -1 ? '—' : text),
+    // customRender: ({ text }) => (text === -1 ? '—' : text),
     slots: { customRender: 'stateId' },
   },
   {
     title: '状态评估得分',
     dataIndex: 'lastResult',
     sorter: (a, b) => a.lastResult - b.lastResult,
-    customRender: ({ text }) => {
-      return text === 0 || text === '' || text === null ? '—' : text;
-    },
+    slots: { customRender: 'lastResult' },
     width: 50,
     ellipsis: true,
   },
@@ -66,7 +64,7 @@ export const columns: BasicColumn[] = [
     // customRender: ({ text }) => {
     //   const numericStatus = Number(text);
     //   return numericStatus === -1 ? undefined : numericStatus;
-    customRender: ({ text }) => (text === -1 ? '—' : text),
+    // customRender: ({ text }) => (text === -1 ? '—' : text),
     // },
     slots: { customRender: 'reliabilityId' },
   },
@@ -76,7 +74,7 @@ export const columns: BasicColumn[] = [
     width: 50,
     ellipsis: true,
     customRender: ({ text }) => {
-      return text === 0 || text === '' || text === null ? '—' : text;
+      return text === 0 || text === '' || text === null ? '——' : text;
     },
     sorter: (a, b) => a.resReliabilityLife - b.resReliabilityLife,
   },
@@ -89,7 +87,7 @@ export const columns: BasicColumn[] = [
     //   const numericStatus = Number(text);
     //   return numericStatus === -1 ? undefined : numericStatus;
     // },
-    customRender: ({ text }) => (text === -1 ? '—' : text),
+    // customRender: ({ text }) => (text === -1 ? '——' : text),
     slots: { customRender: 'economyId' },
   },
   {
@@ -99,7 +97,7 @@ export const columns: BasicColumn[] = [
     width: 50,
     ellipsis: true,
     customRender: ({ text }) => {
-      return text === 0 || text === '' || text === null ? '—' : text;
+      return text === 0 || text === '' || text === null ? '——' : text;
     },
   },
   {
@@ -108,7 +106,7 @@ export const columns: BasicColumn[] = [
     width: 50,
     ellipsis: true,
     slots: { customRender: 'decisionId' },
-    customRender: ({ text }) => (text === -1 ? '—' : text),
+    // customRender: ({ text }) => (text === -1 ? '—' : text),
     // customRender: ({ text }) => {
     //   const numericStatus = Number(text);
     //   return numericStatus === -1 ? undefined : numericStatus;
