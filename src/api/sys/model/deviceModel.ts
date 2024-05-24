@@ -59,7 +59,7 @@ export interface HealthStatusResults {
 
 export interface RecentEvalResults {
   stateOutput: StateOutput;
-  reliability: ReliabilityOutput;
+  reliabilityOutput: ReliabilityOutput;
   economyOutput: EconomyOutput;
   decisionOutput: DecisionOutput;
 }

@@ -13,4 +13,8 @@ export const basicProps = {
     type: String as PropType<string>,
     default: '280px',
   },
+  result: {
+    type: Object as PropType<any>,
+    default: () => {},
+  },
 };

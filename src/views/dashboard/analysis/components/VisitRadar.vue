@@ -13,7 +13,9 @@
   import { Card } from 'ant-design-vue';
   import { useECharts } from '/@/hooks/web/useECharts';
   import { EChartsOption } from 'echarts';
+  import { useMessage } from '/@/hooks/web/useMessage';
 
+  const { createMessage } = useMessage();
   defineOptions({
     name: 'VisitRadar',
   });
@@ -88,7 +90,11 @@
       if (props.loading) {
         return;
       }
-      setOptions(options);
+      if (props.result.evaluateId === null) {
+        createMessage.warning('该测评没有任何可靠性评估相关的测评');
+      } else {
+        setOptions(options);
+      }
     },
     { immediate: true },
   );
