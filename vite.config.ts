@@ -59,7 +59,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       // proxy: createProxy(VITE_PROXY),
       proxy: {
         '/basic-api': {
-          target: 'http://10.242.7.24:8080',
+          target: 'http://10.242.7.23:8080',
           changeOrigin: true,
           ws: true,
           rewrite: (path) => path.replace(new RegExp(`^/basic-api`), ''),

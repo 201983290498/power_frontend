@@ -2,11 +2,11 @@
   <Card>
     <BasicTable :searchInfo="searchModel" @register="registerTable" :scroll="{ x: 2000, y: 3000 }">
       <template #toolbar>
+        <a-button @click="toggleSortOrder">切换排序</a-button>
         <!-- 右上角的按钮 -->
         <!-- 搜索表单 -->
         <!-- BasicForm :schemas="searchFormSchema" :model="searchModel" @submit="handleSearch" /-->
-        <!-- <a-button type="primary" @click="handleCreate"> 新增用户 </a-button> -->
-        <a-button @click="toggleSortOrder">切换排序</a-button>
+        <!-- <a-button v-if="record.role === 'ADMIN'" type="primary" @click="handleCreate">新增用户</a-button> -->
       </template>
       <template #action="{ record }">
         <TableAction :actions="getActions(record)" />
@@ -60,13 +60,10 @@
     sortBy: 'user_id',
     sortOrder: 'asc',
     page: 1,
-    pageSize: 10,
+    pageSize: 100,
     role: '',
   });
-
-  const sortBy = ref('user_id'); // 默认排序字段
   const sortOrder = ref('asc'); // 排序方向
-
   const [registerModal, { openModal }] = useModal();
   const pagination = reactive({
     total: 0,
@@ -80,11 +77,11 @@
 
   const tableConfig: Props = {
     title: '用户列表',
-    api: (query) => getUserList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }), // 使用箭头函数包装原 API 调用
+    api: (query) => getUserList({ ...query, ...searchModel }),
+    beforeFetch: (params) => console.log('请求参数', params),
     afterFetch: (data) => {
       pagination.total = data.rowCount;
-      pagination.current = data.page;
-      pagination.pageSize = data.pageSize;
+      pagination.current = data.pageCount;
       return data;
     },
     columns,

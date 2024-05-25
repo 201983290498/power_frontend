@@ -15,13 +15,9 @@ enum Api {
   UpdateUser = '/powergrid/sys/user/update',
   SearchUser = '/powergrid/sys/user',
 }
-const demoParam: getUserPageListParmas = {
-  page: 1,
-  pageSize: 10,
-};
 
 // 获取用户列表
-export const getUserList = (params: getUserPageListParmas = demoParam) =>
+export const getUserList = (params: getUserPageListParmas) =>
   defHttp.get<getUserPageListData>({ url: Api.GetUserPageList, params });
 //获取用户列表
 export function addUser(params: UseraddParams, mode: ErrorMessageMode = 'modal') {
