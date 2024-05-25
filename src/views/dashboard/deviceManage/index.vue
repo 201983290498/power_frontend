@@ -145,9 +145,6 @@
     pagination,
     canResize: props.reSize,
     handleSearchInfoFn(info) {
-      if (info.operationTime) {
-        info.operationTime = moment(info.operationTime).format('YYYY-MM-DD');
-      }
       return info;
     },
     actionColumn: {
