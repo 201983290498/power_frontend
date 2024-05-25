@@ -48,14 +48,7 @@
           ——</template
         >
         <template v-else>
-          <div
-            :style="{
-              backgroundColor: record.lastResult < 75 ? 'orange' : 'transparent',
-              color: record.lastResult < 75 ? 'white' : 'inherit',
-              // border: record.lastResult < 75 ? '1px solid black' : 'none',
-            }"
-            class="select_one"
-          >
+          <div class="select_one">
             {{ record.lastResult }}
           </div>
         </template>
@@ -68,7 +61,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { defineProps, reactive, ref, watch } from 'vue';
+  import { defineProps, onBeforeMount, onMounted, onUpdated, reactive, ref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getHistoryList } from '/@/api/sys/history';
   import { columns, downloadJsonRecord, searchFormSchema } from './history.data';
@@ -403,9 +396,27 @@
       searchModel.stateId = 0;
     }
   }
+  onMounted(() => {
+    setTimeout(() => {
+      Array.prototype.forEach.call(document.getElementsByClassName('select_one'), (element) => {
+        if (parseFloat(element.textContent) < 75) {
+          console.log(element.textContent);
+          element.parentNode.classList.add('select_two');
+        }
+      });
+    }, 100);
+  });
 </script>
 <script lang="ts">
   export default {
     name: 'HistoryManagement',
   };
 </script>
+
+<style>
+  .select_two {
+    padding: 0 0 !important;
+    background: orange !important;
+    color: #fff !important;
+  }
+</style>
