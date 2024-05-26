@@ -18,7 +18,8 @@
 <script lang="ts" setup>
   import { defineProps, reactive, ref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getUserList } from '/@/api/sys/Euser';
+  import { getUserList, deleteUser } from '/@/api/sys/Euser';
+  import { UserdeleteParams } from '@/api/sys/model/userModel';
   import { columns, searchFormSchema } from './user.data';
   import { useModal } from '/@/components/Modal';
   import UserModal from './UserModel.vue';
@@ -125,9 +126,15 @@
   function handleEdit(record) {
     openModal(true, { record, isUpdate: true });
   }
-
   function handleDelete(record) {
-    console.log('Delete', record);
+    const params: UserdeleteParams = {
+      adminPwd: '123456', // Assuming this is hardcoded, you might want to get it from a modal or form.
+      adminName: 'zhanghua',
+      userId: record.userId,
+    };
+    deleteUser(params).then(() => {
+      reload();
+    });
   }
   function handleView(record) {
     // Assuming `viewDevice` is a function that fetches device details from the API
@@ -137,23 +144,12 @@
     reload(); // 成功后重新加载数据
   }
   function getActions(record) {
-    return [
+    const actions = [
       {
         icon: 'ant-design:folder-add-filled',
         color: 'undefined',
         onClick: handleCreate.bind(record),
         label: '增加',
-        auth: 'ADMIN',
-      },
-      {
-        icon: 'ant-design:delete-outlined',
-        color: 'error',
-        popConfirm: {
-          title: '是否确认删除',
-          placement: 'left',
-          confirm: handleDelete.bind(null, record),
-        },
-        label: '删除',
         auth: 'ADMIN',
       },
       {
@@ -169,6 +165,23 @@
         onClick: handleView.bind(null, record),
       },
     ];
+
+    // 检查用户角色是否为 "ADMIN"，如果是则显示删除按钮
+    if (record.role !== 'ADMIN') {
+      actions.push({
+        icon: 'ant-design:delete-outlined',
+        label: '删除',
+        color: 'error',
+        popConfirm: {
+          title: '是否确认删除',
+          placement: 'left',
+          confirm: handleDelete.bind(null, record),
+        },
+        auth: 'ADMIN',
+      });
+    }
+
+    return actions;
   }
 </script>
 <script lang="ts">
