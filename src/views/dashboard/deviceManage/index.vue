@@ -100,7 +100,7 @@
     location: '',
     status: '', // 初始化为 undefined，可以在后面设置为 1 或 0
     page: 1,
-    pageSize: 10,
+    pageSize: 1000,
     sortBy: '',
     operationTime: '',
     sortOrder: '',
@@ -125,7 +125,7 @@
     api: (query) => getDeviceList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }),
     afterFetch: (data) => {
       pagination.total = data.rowCount;
-      pagination.current = data.page;
+      pagination.current = data.pageCount;
       pagination.pageSize = data.pageSize;
       return data.data;
     },
@@ -145,9 +145,6 @@
     pagination,
     canResize: props.reSize,
     handleSearchInfoFn(info) {
-      if (info.operationTime) {
-        info.operationTime = moment(info.operationTime).format('YYYY-MM-DD');
-      }
       return info;
     },
     actionColumn: {

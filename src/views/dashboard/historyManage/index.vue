@@ -117,7 +117,7 @@
     sortBy: 'evaluateTime', // 默认排序字段
     sortOrder: 'desc', // 默认降序
     page: 1,
-    pageSize: 10,
+    pageSize: 20,
     decisionId: 0, // 初始化为空值
     economyId: 0, // 初始化为空值
     stateId: 0, // 初始化为空值
@@ -145,8 +145,7 @@
     api: (query) => getHistoryList({ ...query, ...searchModel }),
     afterFetch: (data) => {
       pagination.total = data.rowCount;
-      pagination.current = data.page;
-      pagination.pageSize = data.pageSize;
+      pagination.current = data.pageCount;
       return data;
     },
     columns,

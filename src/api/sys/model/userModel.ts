@@ -55,8 +55,8 @@ export interface PowGetUserInfoModel {
 }
 
 export interface getUserPageListParmas {
-  page: string | number;
-  pageSize: string | number;
+  page?: string | number;
+  pageSize?: string | number;
   // 上次登录时间
   sortBy?: string;
   sortOrder?: string;

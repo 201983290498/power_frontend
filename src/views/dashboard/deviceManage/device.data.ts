@@ -83,12 +83,9 @@ export const searchFormSchema: FormSchema[] = [
   {
     field: 'operationTime',
     label: '投运时间',
-    component: 'DatePicker',
-    componentProps: {
-      format: 'YYYY-MM-DD',
-      style: { width: '100%' },
-    },
+    component: 'Input',
     colProps: { span: 4 },
+    helpMessage: '请输入年份即可,例如2024',
   },
   {
     field: 'type',
@@ -160,7 +157,12 @@ export const formSchema: FormSchema[] = [
     field: 'evaluateTime',
     label: '评估日期',
     required: true,
-    component: 'Input',
+    component: 'DatePicker',
+    componentProps: {
+      showTime: true, // 显示时间选择器
+      format: 'YYYY-MM-DD HH:mm:ss', // 设置日期时间格式
+      style: { width: '100%' },
+    },
   },
   {
     field: 'status',
@@ -205,7 +207,11 @@ export const formSchema: FormSchema[] = [
     field: 'manufactureDate',
     label: '制造日期',
     required: true,
-    component: 'Input',
+    component: 'DatePicker',
+    componentProps: {
+      format: 'YYYY-MM-DD',
+      style: { width: '100%' },
+    },
   },
   {
     field: 'manufacturer',
@@ -237,7 +243,11 @@ export const formSchema: FormSchema[] = [
     field: 'operationTime',
     label: '投运时间',
     required: true,
-    component: 'Input',
+    component: 'DatePicker',
+    componentProps: {
+      format: 'YYYY-MM-DD',
+      style: { width: '100%' },
+    },
   },
   {
     field: 'organization',
