@@ -50,7 +50,7 @@
       {
         name: '寿命进程(剩余寿命/设计寿命)',
         type: 'pie',
-        radius: '80%',
+        radius: '73%',
         center: ['50%', '50%'],
         color: ['#3BA272', '#EE6666'],
         data: [

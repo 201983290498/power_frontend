@@ -6,7 +6,10 @@
 <script lang="ts" setup>
   import { Ref, ref, watch } from 'vue';
   import { Card } from 'ant-design-vue';
+  import { EChartsOption } from 'echarts';
   import { useECharts } from '/@/hooks/web/useECharts';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  const { createMessage } = useMessage();
 
   defineOptions({
     name: 'SalesProductPie',
@@ -22,8 +25,45 @@
       type: String as PropType<string>,
       default: '300px',
     },
+    result: {
+      type: Object as PropType<any>,
+      default: () => ({}),
+    },
   });
-
+  const options: EChartsOption = {
+    tooltip: {
+      trigger: 'item',
+    },
+    legend: {
+      bottom: '0',
+      left: 'center',
+    },
+    series: [
+      {
+        name: '建议检修方式的风险收益成本比',
+        type: 'pie',
+        radius: '73%',
+        center: ['50%', '50%'],
+        color: ['#5ab1ef', '#67e0e3'],
+        data: [
+          {
+            value: props.result.riskRewardCostRatio,
+            name: '不维修的风险系数:' + props.result.riskRewardCostRatio,
+          },
+          {
+            value: 1,
+            name: '维修收益系数:' + 1,
+          },
+        ],
+        roseType: 'radius',
+        animationType: 'scale',
+        animationEasing: 'exponentialInOut',
+        animationDelay: function () {
+          return Math.random() * 100;
+        },
+      },
+    ],
+  };
   const chartRef = ref<HTMLDivElement | null>(null);
   const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
   watch(
@@ -32,35 +72,11 @@
       if (props.loading) {
         return;
       }
-      setOptions({
-        tooltip: {
-          trigger: 'item',
-        },
-
-        series: [
-          {
-            name: '访问来源',
-            type: 'pie',
-            radius: '80%',
-            center: ['50%', '50%'],
-            color: ['#5ab1ef', '#b6a2de', '#67e0e3', '#2ec7c9'],
-            data: [
-              { value: 500, name: '电子产品' },
-              { value: 310, name: '服装' },
-              { value: 274, name: '化妆品' },
-              { value: 400, name: '家居' },
-            ].sort(function (a, b) {
-              return a.value - b.value;
-            }),
-            roseType: 'radius',
-            animationType: 'scale',
-            animationEasing: 'exponentialInOut',
-            animationDelay: function () {
-              return Math.random() * 400;
-            },
-          },
-        ],
-      });
+      if (props.result.evaluateId === null) {
+        createMessage.warning('该设备没有任何运维评估相关的测评');
+      } else {
+        setOptions(options);
+      }
     },
     { immediate: true },
   );

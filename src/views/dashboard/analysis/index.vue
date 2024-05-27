@@ -82,6 +82,7 @@
     evaluteStatus.reliability = result.reliabilityOutput;
     evaluteStatus.economyOutput = result.economyOutput;
     evaluteStatus.decisionOutput = result.decisionOutput;
+    console.log("result", evaluteStatus.decisionOutput);
     showDetail.value = true;
     setTimeout(() => {
       loading.value = false;
