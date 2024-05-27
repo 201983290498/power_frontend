@@ -48,11 +48,11 @@
         data: [
           {
             value: props.result.riskRewardCostRatio,
-            name: '不维修的风险系数:' + props.result.riskRewardCostRatio,
+            name: '风险成本系数: ' + props.result.riskRewardCostRatio,
           },
           {
             value: 1,
-            name: '维修收益系数:' + 1,
+            name: '经济性成本系数: ' + 1,
           },
         ],
         roseType: 'radius',
