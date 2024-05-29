@@ -199,9 +199,15 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'location',
-    label: '安置地点',
+    label: '安装位置',
     required: true,
-    component: 'Input',
+    component: 'Select',
+    componentProps: {
+      options: [
+        { label: '室内', value: 'indoor' },
+        { label: '室外', value: 'outdoor' },
+      ],
+    },
   },
   {
     field: 'manufactureDate',
@@ -362,10 +368,17 @@ export const Viewform: FormSchema[] = [
   },
   {
     field: 'location',
-    label: '安置地点',
+    label: '安装位置',
     required: true,
-    component: 'Input',
-    componentProps: { disabled: true },
+    component: 'Select',
+    componentProps: {
+      options: [
+        { label: '室外', value: 'indoor' }, // 将indoor的label改为室外
+        { label: '室外', value: 'outdoor' }, // 保持outdoor的label为室外
+      ],
+      disabled: true,
+    },
+    // 确保组件不可修改
   },
   {
     field: 'manufactureDate',

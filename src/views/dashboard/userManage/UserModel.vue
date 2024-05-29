@@ -1,10 +1,10 @@
 <template>
   <BasicModal v-bind="$attrs" @register="registerModal" :title="getTitle" @ok="handleSubmit">
     <template v-if="!isView">
-      <BasicForm @register="registerForm" />
+      <BasicForm :model="formData" :schemas="formSchema" @register="registerForm" />
     </template>
     <template v-else>
-      <BasicForm :schemas="Viewform" :model="formData" />
+      <BasicForm :model="formData" :schemas="Viewform" />
     </template>
   </BasicModal>
 </template>
@@ -19,34 +19,34 @@
 
   const isUpdate = ref(true);
   const isView = ref(false);
+  const formData = ref({}); // Shared data object
   const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
     labelWidth: 100,
     baseColProps: { span: 24 },
     schemas: formSchema,
     showActionButtonGroup: false,
   });
-  const formData = ref({}); // Shared data object
   const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
     resetFields();
     setModalProps({ confirmLoading: false });
     isUpdate.value = !!data?.isUpdate;
+    isUpdate.value = !!data?.isUpdate;
+    isView.value = !!data?.isView;
+
+    // 根据模式初始化表单数据
     if (data) {
       formData.value = { ...data.record };
-      isView.value = !!data.isView;
-      if (data.isUpdate) {
-        setFieldsValue({
-          ...data.record,
-        });
+      if (isUpdate.value) {
+        setFieldsValue({ ...data.record });
       }
     }
-    isView.value = !!data?.isView;
   });
 
   const getTitle = computed(() => {
     return unref(isView) ? '查看用户' : isUpdate.value ? '编辑用户' : '新增用户';
   });
   async function handleSubmit() {
-    if (unref(isView)) {
+    if (isView.value) {
       closeModal();
       return;
     }
