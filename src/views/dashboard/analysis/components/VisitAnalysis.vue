@@ -90,8 +90,10 @@
     () => {
       if (props.loading) return;
       options.xAxis.data = [];
+      options.series[1].data = [];
       for (let i = 0; i <= props.result.status.length; i++) {
         options.xAxis.data.push(''+i);
+        options.series[1].data.push(60);
       }
       options.series[0].data = props.result.status;
       setOptions(options);

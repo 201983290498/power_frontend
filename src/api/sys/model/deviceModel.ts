@@ -63,3 +63,10 @@ export interface RecentEvalResults {
   economyOutput: EconomyOutput;
   decisionOutput: DecisionOutput;
 }
+
+export interface DeviceViewData {
+  equip: number;
+  evaluate: number;
+  abnormal: number;
+  user: number;
+}

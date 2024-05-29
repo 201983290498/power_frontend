@@ -395,6 +395,7 @@
       searchModel.stateId = 0;
     }
   }
+
   onMounted(() => {
     setTimeout(() => {
       Array.prototype.forEach.call(document.getElementsByClassName('select_one'), (element) => {
@@ -403,7 +404,7 @@
           element.parentNode.classList.add('select_two');
         }
       });
-    }, 100);
+    }, 500);
   });
 </script>
 <script lang="ts">

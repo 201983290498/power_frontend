@@ -35,7 +35,7 @@
   import { Icon } from '/@/components/Icon';
   import { growCardList } from '../data';
   import { ref } from 'vue';
-  import { getDeviceList } from '/@/api/sys/device';
+  import { getDeviceList, getEvaluateAnalysis } from '/@/api/sys/device';
   import { getHistoryList } from '/@/api/sys/history';
   import { getUserList } from '/@/api/sys/Euser';
 
@@ -45,21 +45,15 @@
   const gridList = ref(growCardList);
   getTotalInfo();
   async function getTotalInfo() {
-    const results1 = await getDeviceList({ page: 1, pageSize: 10 });
-    gridList.value[0].total = results1.rowCount;
-    gridList.value[0].value = results1.rowCount;
-    const results2 = await getHistoryList({ page: 1, pageSize: 10 });
-    gridList.value[1].total = results2.rowCount;
-    gridList.value[1].value = results2.rowCount;
-    const results3 = await getDeviceList({ page: 1, pageSize: 10, status: '异常' });
-    gridList.value[2].total = results3.rowCount;
-    gridList.value[2].value = results3.rowCount;
-    const results0 = await getDeviceList({ page: 1, pageSize: 10, status: '严重' });
-    gridList.value[2].total += results0.rowCount;
-    gridList.value[2].value += results0.rowCount;
-    const results = await getUserList({ page: 1, pageSize: 10 });
-    gridList.value[3].total = results.rowCount;
-    gridList.value[3].value = results.rowCount;
+    const result = await getEvaluateAnalysis({});
+    gridList.value[0].total = result.equip;
+    gridList.value[0].value = result.equip;
+    gridList.value[1].total = result.evaluate;
+    gridList.value[1].value = result.evaluate;
+    gridList.value[2].total = result.abnormal;
+    gridList.value[2].value = result.abnormal;
+    gridList.value[3].total = result.user;
+    gridList.value[3].value = result.user;
   }
   defineProps({
     loading: {

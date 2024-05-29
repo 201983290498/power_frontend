@@ -34,7 +34,7 @@
 
       const { prefixCls } = toRefs(props);
 
-      // Inject variables into the global
+      // Inject variables into the lobal
       createAppProviderContext({ prefixCls, isMobile });
 
       /**
