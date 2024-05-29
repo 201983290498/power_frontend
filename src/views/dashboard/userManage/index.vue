@@ -19,7 +19,7 @@
   import { defineProps, reactive, ref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getUserList, deleteUser } from '/@/api/sys/Euser';
-  import { UserdeleteParams } from '@/api/sys/model/userModel';
+  import { UserdeleteParams } from '/@/api/sys/model/userModel';
   import { columns, searchFormSchema } from './user.data';
   import { useModal } from '/@/components/Modal';
   import UserModal from './UserModel.vue';

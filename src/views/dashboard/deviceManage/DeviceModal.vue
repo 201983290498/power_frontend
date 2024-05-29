@@ -1,10 +1,10 @@
 <template>
   <BasicModal v-bind="$attrs" @register="registerModal" :title="getTitle" @ok="handleSubmit">
     <template v-if="!isView">
-      <BasicForm @register="registerForm" />
+      <BasicForm :model="formData" :schemas="formSchema" @register="registerForm" />
     </template>
     <template v-else>
-      <BasicForm :schemas="Viewform" :model="formData" />
+      <BasicForm :model="formData" :schemas="Viewform" />
     </template>
   </BasicModal>
 </template>
@@ -19,34 +19,34 @@
 
   const isUpdate = ref(true);
   const isView = ref(false);
+  const formData = ref({}); // 用于存储表单数据的响应式引用
   const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
     labelWidth: 100,
     baseColProps: { span: 24 },
     schemas: formSchema,
     showActionButtonGroup: false,
   });
-  const formData = ref({}); // Shared data object
   const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
     resetFields();
     setModalProps({ confirmLoading: false });
     isUpdate.value = !!data?.isUpdate;
+    isUpdate.value = !!data?.isUpdate;
+    isView.value = !!data?.isView;
+
+    // 根据模式初始化表单数据
     if (data) {
       formData.value = { ...data.record };
-      isView.value = !!data.isView;
-      if (data.isUpdate) {
-        setFieldsValue({
-          ...data.record,
-        });
+      if (isUpdate.value) {
+        setFieldsValue({ ...data.record });
       }
     }
-    isView.value = !!data?.isView;
   });
 
   const getTitle = computed(() => {
     return unref(isView) ? '查看设备' : isUpdate.value ? '编辑设备' : '新增设备';
   });
   async function handleSubmit() {
-    if (unref(isView)) {
+    if (isView.value) {
       closeModal();
       return;
     }
