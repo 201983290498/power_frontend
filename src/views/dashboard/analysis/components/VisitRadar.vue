@@ -3,7 +3,7 @@
   <Card
     title="剩余可靠性寿命进程(剩余寿命/设计寿命)"
     :loading="loading"
-    headStyle="font-weight: bold"
+    style="background-color: #007bfff0;"
   >
     <div ref="chartRef" :style="{ width, height }"></div>
   </Card>
@@ -29,7 +29,7 @@
     },
     height: {
       type: String as PropType<string>,
-      default: '300px',
+      default: '350px',
     },
     result: {
       type: Object as PropType<any>,
@@ -45,14 +45,22 @@
     legend: {
       bottom: '0',
       left: 'center',
+      textStyle: {
+        color: '#fff',
+        fontSize: 18,
+      },
     },
     series: [
       {
         name: '寿命进程(剩余寿命/设计寿命)',
         type: 'pie',
-        radius: '73%',
+        radius: '80%',
         center: ['50%', '50%'],
         color: ['#3BA272', '#EE6666'],
+        label: {
+          color: '#fff',
+          fontSize: 18,
+        },
         data: [
           {
             value: props.result.lifespanProcess / 100,

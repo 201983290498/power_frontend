@@ -1,6 +1,7 @@
 <template>
   <div>
-    <Card title="经济性寿命" :bordered="bordered">
+    <Card title="经济性寿命" :bordered="bordered" 
+    headStyle="font-weight: bold; font-size: 20px">
       <BasicForm @register="register1" />
     </Card>
   </div>
@@ -25,7 +26,7 @@
     register1,
     { getFieldsValue: getFieldsValue1, setFieldsValue: setFieldsValue1, validate },
   ] = useForm({
-    labelWidth: 200,
+    layout: 'vertical',
     schemas: step1Schemas(props.showMode),
     actionColOptions: {
       span: 24,
@@ -33,6 +34,10 @@
     showResetButton: false,
     showAdvancedButton: false,
     showSubmitButton: false,
+    baseRowStyle: {
+      fontSize: '20px',
+      fontWeight: 600,
+    },
   });
 
   async function submitData() {

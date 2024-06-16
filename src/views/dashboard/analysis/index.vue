@@ -3,7 +3,7 @@
     <!-- 卡片显示 -->
     <GrowCard :loading="loading1" class="enter-y" />
     <Card
-      title="设备列表"
+      title="设备管理"
       style="margin-top: 0.5rem; margin-bottom: 0.5rem"
       bodyStyle="padding:0.5rem"
       headStyle="font-size: 1.3rem; font-weight: bold;"
@@ -17,23 +17,27 @@
     </Card>
     <!-- 访问流量 -->
     <VisitAnalysis
+      headStyle="font-size: 1.3rem; font-weight: bold;"
       class="!my-4 enter-y"
       :loading="loading"
       :result="evaluteStatus.healthStatus"
       v-if="showDetail"
     />
     <!-- 三张卡片 -->
-    <div class="md:flex enter-y" v-if="showDetail">
-      <VisitRadar class="md:w-1/3 w-full" :loading="loading" :result="evaluteStatus.reliability" />
+    <div class="flex-atuo xl:flex enter-y" v-if="showDetail">
+      <VisitRadar class="w-full" :loading="loading" :result="evaluteStatus.reliability" 
+      headStyle="font-size: 1.3rem; font-weight: bold; color: #fff" />
       <VisitSource
-        class="md:w-1/3 !md:mx-4 !md:my-0 !my-4 w-full"
+        class="w-full !xl:ml-2 !<xl:mt-4"
         :loading="loading"
-        :result="evaluteStatus.economyOutput"
+        :result="evaluteStatus.economyOutput"    
+        headStyle="font-size: 1.3rem; font-weight: bold; color: #fff"
       />
       <SalesProductPie
-        class="md:w-1/3 w-full"
+        class="w-full !xl:ml-2 !<xl:mt-4"
         :loading="loading"
         :result="evaluteStatus.decisionOutput"
+        headStyle="font-size: 1.3rem; font-weight: bold; color: #fff"
       />
     </div>
   </div>
@@ -92,7 +96,7 @@
     loading1.value = false;
   }, 500);
 </script>
-<style scoped>
+<style scoped lang="less">
   .text {
     font-size: 1rem;
     color: #D81E06;

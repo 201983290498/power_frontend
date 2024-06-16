@@ -1,15 +1,16 @@
 <template>
-  <div class="md:flex">
+  <div class="flex-auto xl:flex">
     <!-- 卡片 -->
     <template v-for="(item, index) in gridList" :key="item.title">
       <Card
         size="small"
         :loading="loading"
         :title="item.title"
-        class="md:w-1/4 w-full !md:mt-0 !mt-4"
+        class="w-full !<xl:mt-2 !xl:mt-4"
         :class="[index + 1 < 4 && '!md:mr-4']"
         :canExpan="false"
-        headStyle="font-size: 20px"
+        headStyle="font-size: 24px; font-weight: 700; color: #fff; bodder: 0px;"
+        :style="{ background: item.bgcolor + 'f0', color: '#fff'}"
       >
         <template #extra>
           <Tag :color="item.color">{{ item.action }}</Tag>
@@ -17,11 +18,11 @@
 
         <!-- 金钱和图片 -->
         <div class="py-4 px-4 flex justify-between">
-          <CountTo prefix="" :startVal="1" :endVal="item.value" class="text-2xl" />
-          <Icon :icon="item.icon" :size="40" />
+          <CountTo prefix="" :startVal="1" :endVal="item.value" class="text-6xl font-bold mt-2 mb-2 ml-2" />
+          <Icon :icon="item.icon" :size="60" />
         </div>
         <!-- 总共多少 -->
-        <div class="p-2 px-4 flex justify-between">
+        <div class="px-4 flex justify-between text-lg font-bold">
           <span>总{{ item.title }}数</span>
           <CountTo prefix="" :startVal="1" :endVal="item.total" />
         </div>
@@ -35,9 +36,7 @@
   import { Icon } from '/@/components/Icon';
   import { growCardList } from '../data';
   import { ref } from 'vue';
-  import { getDeviceList, getEvaluateAnalysis } from '/@/api/sys/device';
-  import { getHistoryList } from '/@/api/sys/history';
-  import { getUserList } from '/@/api/sys/Euser';
+  import { getEvaluateAnalysis } from '/@/api/sys/device';
 
   defineOptions({
     name: 'GrowGrid',

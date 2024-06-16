@@ -6,7 +6,7 @@
     :headStyle="headStyle"
     :body-style="{ padding: '5px' }"
   >
-    <Card style="width: 100%" title="变压器信息">
+    <Card style="width: 100%">
       <DeviceDetail :src="src" :device="device" />
     </Card>
     <Card
@@ -14,6 +14,7 @@
       :body-style="{ padding: '15px' }"
       class="!mt-4 !mb-15"
       title="详细信息"
+      head-style="font-weight: 700; font-size: 20px"
     >
       <CardGrid class="grid" :style="{ backgroundColor: bkcolor }">
         <span class="text-3xl">{{ props.result.personCharge }}</span> <br />
