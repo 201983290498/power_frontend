@@ -1,5 +1,8 @@
 <template>
   <Card>
+    <div class="custom-table-title" style="position: absolute; top: 90px; left: 40px">
+      历史数据列表
+    </div>
     <BasicTable :searchInfo="searchModel" @register="registerTable" :scroll="{ x: 2000, y: 3000 }">
       <template #toolbar>
         <a-button @click="toggleSortOrder">切换排序</a-button>
@@ -11,33 +14,33 @@
       </template>
       <template #stateId="{ record }">
         <template v-if="record.stateId !== -1">
-          <a-button @click="handleWatch(record, type1)" title="查看测评记录">{{
+          <a @click="handleWatch(record, type1)" class="state-id-link" title="查看测评记录">{{
             record.stateId
-          }}</a-button>
+          }}</a>
         </template>
         <template v-else> —— </template>
       </template>
       <template #reliabilityId="{ record }">
         <template v-if="record.reliabilityId !== -1">
-          <a-button @click="handleWatch(record, type2)" title="查看测评记录">{{
+          <a @click="handleWatch(record, type1)" class="state-id-link" title="查看测评记录">{{
             record.reliabilityId
-          }}</a-button>
+          }}</a>
         </template>
         <template v-else> —— </template>
       </template>
       <template #economyId="{ record }">
         <template v-if="record.economyId !== -1">
-          <a-button @click="handleWatch(record, type3)" title="查看测评记录">{{
+          <a @click="handleWatch(record, type1)" class="state-id-link" title="查看测评记录">{{
             record.economyId
-          }}</a-button>
+          }}</a>
         </template>
         <template v-else> —— </template>
       </template>
       <template #decisionId="{ record }">
         <template v-if="record.decisionId !== -1">
-          <a-button @click="handleWatch(record, type4)" title="查看测评记录">{{
+          <a @click="handleWatch(record, type1)" class="state-id-link" title="查看测评记录">{{
             record.decisionId
-          }}</a-button>
+          }}</a>
         </template>
         <template v-else> —— </template>
       </template>
@@ -59,7 +62,6 @@
     </BasicTable>
   </Card>
 </template>
-
 <script lang="ts" setup>
   import { defineProps, onMounted, reactive, ref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
@@ -141,7 +143,7 @@
   });
 
   const tableConfig: Props = {
-    title: '历史数据列表',
+    //title: '历史数据列表',
     api: (query) => getHistoryList({ ...query, ...searchModel }),
     afterFetch: (data) => {
       pagination.total = data.rowCount;
@@ -152,6 +154,9 @@
     formConfig: {
       labelWidth: 120,
       schemas: searchFormSchema,
+      layout: 'horizontal',
+      gutter: [16, 16],
+      style: { marginBottom: '20px' }, // Added margin-bottom to move the form up
     },
     fetchSetting: {
       pageField: 'page',
@@ -178,6 +183,13 @@
       slots: { customRender: 'action' },
       fixed: props.chooseMode ? 'left' : 'right',
       ellipsis: true,
+      customHeaderCell: () => {
+        return {
+          style: {
+            fontWeight: 'bold',
+          },
+        };
+      },
     },
   };
   // 监听分页变化
@@ -407,13 +419,27 @@
     }, 500);
   });
 </script>
+
 <script lang="ts">
   export default {
     name: 'HistoryManagement',
   };
 </script>
-
-<style>
+<style scoped>
+  .state-id-link {
+    color: #007bff; /* Blue color */
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  .state-id-link:hover {
+    text-decoration: underline;
+  }
+  .custom-table-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
   .select_two {
     padding: 0 0 !important;
     background: orange !important;

@@ -9,6 +9,13 @@ export const columns: BasicColumn[] = [
     width: 50,
     ellipsis: true,
     sorter: (a, b) => a.equipId - b.equipId,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '设备编号',
@@ -16,6 +23,13 @@ export const columns: BasicColumn[] = [
     width: 50,
     ellipsis: true,
     sorter: (a, b) => a.equipNo - b.equipNo,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '评估时间',
@@ -28,12 +42,26 @@ export const columns: BasicColumn[] = [
       const dateB = moment(b.evaluateTime);
       return dateA.isBefore(dateB) ? -1 : dateA.isAfter(dateB) ? 1 : 0;
     },
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '评估人',
     dataIndex: 'personCharge',
     width: 40,
     ellipsis: true,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '状态评估Id',
@@ -41,6 +69,13 @@ export const columns: BasicColumn[] = [
     width: 40,
     // customRender: ({ text }) => (text === -1 ? '—' : text),
     slots: { customRender: 'stateId' },
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '状态评估得分',
@@ -49,6 +84,13 @@ export const columns: BasicColumn[] = [
     slots: { customRender: 'lastResult' },
     width: 50,
     ellipsis: true,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   // {
   //   title: '操作',
@@ -67,6 +109,13 @@ export const columns: BasicColumn[] = [
     // customRender: ({ text }) => (text === -1 ? '—' : text),
     // },
     slots: { customRender: 'reliabilityId' },
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '剩余可靠性寿命',
@@ -77,6 +126,13 @@ export const columns: BasicColumn[] = [
       return text === 0 || text === '' || text === null ? '——' : text;
     },
     sorter: (a, b) => a.resReliabilityLife - b.resReliabilityLife,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '经济性评估Id',
@@ -99,6 +155,13 @@ export const columns: BasicColumn[] = [
     customRender: ({ text }) => {
       return text === 0 || text === '' || text === null ? '——' : text;
     },
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '运维决策Id',
@@ -111,6 +174,13 @@ export const columns: BasicColumn[] = [
     //   const numericStatus = Number(text);
     //   return numericStatus === -1 ? undefined : numericStatus;
     // },
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '建议检修方式',
@@ -119,6 +189,13 @@ export const columns: BasicColumn[] = [
     ellipsis: true,
     customRender: ({ text }) => {
       return text === 0 || text === '' || text === null ? '—' : text;
+    },
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
     },
   },
 ];

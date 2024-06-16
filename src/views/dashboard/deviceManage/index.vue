@@ -1,5 +1,8 @@
 <template>
   <Card>
+    <div class="custom-table-title" style="position: absolute; top: 133px; left: 50px">
+      设备列表
+    </div>
     <BasicTable
       :searchInfo="searchModel"
       :columns="columns"
@@ -62,7 +65,6 @@
   import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
   import { DevicedeleteParams } from '/@/api/sys/model/deviceModel';
-  import moment from 'moment';
 
   const emit = defineEmits(['chooseDevice']);
   const props = defineProps({
@@ -121,7 +123,6 @@
   });
 
   const tableConfig: Props = {
-    title: '设备列表',
     api: (query) => getDeviceList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }),
     afterFetch: (data) => {
       pagination.total = data.rowCount;
@@ -154,6 +155,13 @@
       ellipsis: true,
       slots: { customRender: 'action' },
       fixed: 'right',
+      customHeaderCell: () => {
+        return {
+          style: {
+            fontWeight: 'bold',
+          },
+        };
+      },
     },
   };
   props.maxHeight == -1 || (tableConfig['maxHeight'] = props.maxHeight);
@@ -199,3 +207,49 @@
     name: 'DeviceManagement',
   };
 </script>
+<style scoped>
+  .custom-table-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+  .custom-search-label {
+    font-family: Arial, sans-serif; /* Change to desired font */
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .custom-search-input {
+    border-radius: 10px; /* Rounded corners */
+    border: 2px solid #000; /* Darker border */
+    padding: 5px 10px;
+  }
+
+  .table-container {
+    width: 100%;
+    margin: 20px 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  th.table-header-bold {
+    font-weight: bold;
+    background-color: #f4f4f4;
+    padding: 10px;
+  }
+
+  td {
+    color: #6c757d;
+    padding: 10px;
+  }
+
+  th,
+  td {
+    border: 1px solid #dee2e6;
+    text-align: left;
+  }
+</style>

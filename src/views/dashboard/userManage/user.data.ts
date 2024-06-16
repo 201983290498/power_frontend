@@ -7,6 +7,13 @@ export const columns: BasicColumn[] = [
     dataIndex: 'userName',
     width: 50,
     ellipsis: true,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '用户id',
@@ -14,18 +21,39 @@ export const columns: BasicColumn[] = [
     width: 50,
     sorter: (a, b) => a.userId - b.userId,
     ellipsis: true,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '所属单位',
     dataIndex: 'organization',
     width: 50,
     ellipsis: true,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '责任人',
     dataIndex: 'personCharge',
     width: 50,
     ellipsis: true,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '用户类型',
@@ -35,6 +63,13 @@ export const columns: BasicColumn[] = [
       return text === 'ADMIN' ? '管理员' : '普通用户';
     },
     ellipsis: true,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '上次登录时间',
@@ -47,6 +82,13 @@ export const columns: BasicColumn[] = [
       const dateB = moment(b.lastLogin);
       return dateA.isBefore(dateB) ? -1 : dateA.isAfter(dateB) ? 1 : 0;
     },
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '权限等级',
@@ -54,6 +96,13 @@ export const columns: BasicColumn[] = [
     width: 50,
     sorter: (a, b) => a.level - b.level,
     ellipsis: true,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
 ];
 // 顶部搜索框

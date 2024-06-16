@@ -79,7 +79,7 @@
   const tableConfig: Props = {
     title: '用户列表',
     api: (query) => getUserList({ ...query, ...searchModel }),
-    beforeFetch: (params) => console.log('请求参数', params),
+    //beforeFetch: (params) => console.log('请求参数', params),
     afterFetch: (data) => {
       pagination.total = data.rowCount;
       pagination.current = data.pageCount;
@@ -107,6 +107,13 @@
       slots: { customRender: 'action' },
       ellipsis: true,
       fixed: 'right',
+      customHeaderCell: () => {
+        return {
+          style: {
+            fontWeight: 'bold',
+          },
+        };
+      },
     },
     handleSearchInfoFn(info) {
       return info;
