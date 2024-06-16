@@ -1,8 +1,11 @@
 <template>
   <Card>
+    <div class="custom-table-title" style="position: absolute; top: 120px; left: 50px">
+      用户列表
+    </div>
     <BasicTable :searchInfo="searchModel" @register="registerTable" :scroll="{ x: 2000, y: 3000 }">
       <template #toolbar>
-        <a-button @click="toggleSortOrder">切换排序</a-button>
+        <a-button @click="toggleSortOrder" class="button-link">切换排序</a-button>
         <!-- 右上角的按钮 -->
         <!-- 搜索表单 -->
         <!-- BasicForm :schemas="searchFormSchema" :model="searchModel" @submit="handleSearch" /-->
@@ -61,7 +64,7 @@
     sortBy: 'user_id',
     sortOrder: 'asc',
     page: 1,
-    pageSize: 100,
+    pageSize: 1000,
     role: '',
   });
   const sortOrder = ref('asc'); // 排序方向
@@ -77,8 +80,9 @@
   });
 
   const tableConfig: Props = {
-    title: '用户列表',
-    api: (query) => getUserList({ ...query, ...searchModel }),
+    //title: '用户列表',
+    api: (query) => getUserList({ ...query, sortBy: 'user_id', sortOrder: sortOrder.value }),
+    //api: (query) => getUserList({ ...query, ...searchModel }),
     //beforeFetch: (params) => console.log('请求参数', params),
     afterFetch: (data) => {
       pagination.total = data.rowCount;
@@ -89,6 +93,7 @@
     formConfig: {
       labelWidth: 120,
       schemas: searchFormSchema,
+      baseRowStyle: { height: '80px' },
     },
     fetchSetting: {
       pageField: 'page',
@@ -196,3 +201,32 @@
     name: 'UserManagement',
   };
 </script>
+<style scoped>
+  .state-id-link {
+    color: #007bff; /* Blue color */
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  .button-link {
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  .state-id-link:hover {
+    text-decoration: underline;
+  }
+  .custom-table-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+  .select_two {
+    padding: 0 0 !important;
+    background: orange !important;
+    color: #fff !important;
+  }
+  .form-container {
+    margin-bottom: 20px; /* 调整搜索表单的位置 */
+  }
+</style>

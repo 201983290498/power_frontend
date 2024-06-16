@@ -5,10 +5,12 @@
     </div>
     <BasicTable :searchInfo="searchModel" @register="registerTable" :scroll="{ x: 2000, y: 3000 }">
       <template #toolbar>
-        <a-button @click="toggleSortOrder">切换排序</a-button>
-        <a-button @click="handleExportSelected" type="primary">{{ loadText }}</a-button>
-        <a-button v-if="isLoadOut" type="primary" @click="quitLoadout">取消导出</a-button>
-        <a-button v-if="isLoadOut" type="primary" @click="toggleSelectAll">{{
+        <a-button @click="toggleSortOrder" class="button-link">切换排序</a-button>
+        <a-button @click="handleExportSelected" class="button-link" type="primary">{{
+          loadText
+        }}</a-button>
+        <a-button v-if="isLoadOut" type="primary" @click="quitLoadout" class="button-link">取消导出</a-button>
+        <a-button v-if="isLoadOut" type="primary" @click="toggleSelectAll" class="button-link">{{
           selectAllText
         }}</a-button>
       </template>
@@ -439,6 +441,11 @@
     font-weight: bold;
     font-size: 18px;
     margin-bottom: 16px;
+  }
+  .button-link {
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
   }
   .select_two {
     padding: 0 0 !important;
