@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { BasicColumn, FormSchema } from '/@/components/Table';
-// 注册的列名
+
 export const columns: BasicColumn[] = [
   {
     title: '设备ID',
@@ -8,12 +8,26 @@ export const columns: BasicColumn[] = [
     width: 60,
     ellipsis: true,
     sorter: (a, b) => a.equipId - b.equipId,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '设备名称',
     dataIndex: 'equipName',
     width: 60,
     ellipsis: true,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '设备编号',
@@ -21,12 +35,26 @@ export const columns: BasicColumn[] = [
     width: 60,
     ellipsis: true,
     sorter: (a, b) => a.equipNo.length - b.equipNo.length,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '变电站名称',
     dataIndex: 'substationName',
     width: 60,
     ellipsis: true,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '投运时间',
@@ -39,18 +67,39 @@ export const columns: BasicColumn[] = [
       const dateB = moment(b.operationTime);
       return dateA.isBefore(dateB) ? -1 : dateA.isAfter(dateB) ? 1 : 0;
     },
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '评估人',
     dataIndex: 'personCharge',
     width: 60,
     ellipsis: true,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '设备型号',
     dataIndex: 'type',
     width: 60,
     ellipsis: true,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '综合得分',
@@ -58,14 +107,29 @@ export const columns: BasicColumn[] = [
     width: 50,
     sorter: (a, b) => a.score - b.score,
     ellipsis: true,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '最新运行状态',
     dataIndex: 'status',
     width: 40,
     ellipsis: true,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
 ];
+
 // 顶部搜索框
 export const searchFormSchema: FormSchema[] = [
   {
@@ -73,12 +137,18 @@ export const searchFormSchema: FormSchema[] = [
     label: '设备编号',
     component: 'Input',
     colProps: { span: 3 },
+    componentProps: {
+      class: 'custom-search-input',
+    },
   },
   {
     field: 'equipName',
     label: '设备名称',
     component: 'Input',
     colProps: { span: 4 },
+    componentProps: {
+      class: 'custom-search-input',
+    },
   },
   {
     field: 'operationTime',
@@ -86,18 +156,27 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Input',
     colProps: { span: 4 },
     helpMessage: '请输入年份即可,例如2024',
+    componentProps: {
+      class: 'custom-search-input',
+    },
   },
   {
     field: 'type',
     label: '设备型号',
     component: 'Input',
     colProps: { span: 3 },
+    componentProps: {
+      class: 'custom-search-input',
+    },
   },
   {
     field: 'substationName',
     label: '变电站名称',
     component: 'Input',
     colProps: { span: 4 },
+    componentProps: {
+      class: 'custom-search-input',
+    },
   },
   {
     field: 'status',
@@ -110,10 +189,12 @@ export const searchFormSchema: FormSchema[] = [
         { label: '注意', value: '注意' },
         { label: '正常', value: '正常' },
       ],
+      class: 'custom-search-input',
     },
     colProps: { span: 4 },
   },
 ];
+
 // 新增页面的效果
 export const formSchema: FormSchema[] = [
   {
