@@ -134,7 +134,7 @@
     testId: '',
   });
   if (!params.hasOwnProperty('device')) {
-    warning('为选择任何设备, 即将返回主页');
+    warning('未选择任何设备, 即将返回主页');
     backHome();
   } else {
     // 需要传递device,src, hasAnalysis, results, showHistory

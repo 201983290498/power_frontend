@@ -78,12 +78,12 @@ export function step1Schemas(showMode: boolean): FormSchema[] {
       component: 'Select',
       componentProps: {
         style: { width: '80%' }, // 设置输入框宽度为100%，可根据需要调整
-        faultOptions,
+        options: faultOptions,
         disabled: showMode,
       },
       required: true,
       colProps: {
-        span: 8, // 根据需要调整每个字段占据的栅格数
+        span: 12, // 根据需要调整每个字段占据的栅格数
       },
     },
     {
@@ -93,12 +93,12 @@ export function step1Schemas(showMode: boolean): FormSchema[] {
       component: 'Select',
       componentProps: {
         style: { width: '80%' }, // 设置输入框宽度为100%，可根据需要调整
-        factorOptions,
+        options: factorOptions,
         disabled: showMode,
       },
       required: true,
       colProps: {
-        span: 8, // 根据需要调整每个字段占据的栅格数
+        span: 12, // 根据需要调整每个字段占据的栅格数
       },
     },
     createFormSchema(showMode, 'unitRiskValue', '单位风险值', '60%', 2, 8),

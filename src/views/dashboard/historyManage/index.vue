@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { defineProps, onBeforeMount, onMounted, onUpdated, reactive, ref, watch } from 'vue';
+  import { defineProps, onMounted, reactive, ref, watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getHistoryList } from '/@/api/sys/history';
   import { columns, downloadJsonRecord, searchFormSchema } from './history.data';
