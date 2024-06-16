@@ -12,7 +12,7 @@
     >
       <template #toolbar>
         <!-- <a-button type="primary" @click="handleCreate">新增设备</a-button> -->
-        <a-button @click="toggleSortOrder">切换排序</a-button>
+        <a-button @click="toggleSortOrder" class="button-link">切换排序</a-button>
       </template>
       <template #action="{ record }">
         <TableAction
@@ -123,6 +123,7 @@
   });
 
   const tableConfig: Props = {
+    //title: '设备列表',
     api: (query) => getDeviceList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }),
     afterFetch: (data) => {
       pagination.total = data.rowCount;
@@ -239,6 +240,11 @@
     font-weight: bold;
     background-color: #f4f4f4;
     padding: 10px;
+  }
+  .button-link {
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
   }
 
   td {
