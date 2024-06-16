@@ -22,11 +22,13 @@
               class="w-1/2 -mt-16 -enter-x"
             />
             <div class="mt-10 font-medium text-white -enter-x">
-              <span class="inline-block mt-4 text-3xl"> {{ t('sys.login.signInTitle') }}</span>
+              <span class="inline-block mt-4 text-3xl">
+                {{ t('云南电网有限责任公司红河供电局') }}</span
+              >
             </div>
-            <div class="mt-5 font-normal text-white text-md dark:text-gray-500 -enter-x">
+            <!-- <div class="mt-5 font-normal text-white text-md dark:text-gray-500 -enter-x">
               {{ t('sys.login.signInDesc') }}
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="flex w-full h-full py-5 xl:h-auto xl:py-0 xl:my-0 xl:w-6/12">

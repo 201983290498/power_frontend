@@ -145,6 +145,13 @@ export const columns: BasicColumn[] = [
     // },
     // customRender: ({ text }) => (text === -1 ? '——' : text),
     slots: { customRender: 'economyId' },
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
   {
     title: '年均成本',
@@ -207,18 +214,30 @@ export const searchFormSchema: FormSchema[] = [
     label: '设备编号',
     component: 'Input',
     colProps: { span: 4 },
+    componentProps: {
+      style: {
+        borderRadius: '20px', // 调整圆角半径
+        border: '2px solid #ccc', // 边框颜色改为灰色
+      },
+    },
   },
   {
     field: 'personCharge',
     label: '评估人',
     component: 'Input',
     colProps: { span: 4 },
+    componentProps: {
+      style: {
+        borderRadius: '20px', // 调整圆角半径
+        border: '2px solid #ccc', // 边框颜色改为灰色
+      },
+    },
   },
   {
     field: 'type',
     label: '评估类型',
     component: 'Select',
-    colProps: { span: 6 },
+    colProps: { span: 4 },
     componentProps: {
       options: [
         {
@@ -238,6 +257,11 @@ export const searchFormSchema: FormSchema[] = [
           value: 'devops',
         },
       ],
+      style: {
+        border: '2px solid #ccc', // 边框颜色改为灰色
+        // 增加内边距以确保样式应用
+        boxSizing: 'border-box',
+      },
     },
   },
 ];

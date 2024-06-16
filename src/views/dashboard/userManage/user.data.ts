@@ -62,6 +62,7 @@ export const columns: BasicColumn[] = [
     customRender: ({ text }) => {
       return text === 'ADMIN' ? '管理员' : '普通用户';
     },
+    sorter: (a, b) => a.role.length - b.role.length,
     ellipsis: true,
     customHeaderCell: () => {
       return {
@@ -112,18 +113,36 @@ export const searchFormSchema: FormSchema[] = [
     label: '用户名',
     component: 'Input',
     colProps: { span: 4 },
+    componentProps: {
+      style: {
+        borderRadius: '20px', // 调整圆角半径
+        border: '2px solid #ccc', // 边框颜色改为灰色
+      },
+    },
   },
   {
     field: 'organization',
     label: '所属单位',
     component: 'Input',
     colProps: { span: 4 },
+    componentProps: {
+      style: {
+        borderRadius: '20px', // 调整圆角半径
+        border: '2px solid #ccc', // 边框颜色改为灰色
+      },
+    },
   },
   {
     field: 'personCharge',
     label: '责任人',
     component: 'Input',
     colProps: { span: 4 },
+    componentProps: {
+      style: {
+        borderRadius: '20px', // 调整圆角半径
+        border: '2px solid #ccc', // 边框颜色改为灰色
+      },
+    },
   },
   {
     field: 'role',
@@ -138,6 +157,11 @@ export const searchFormSchema: FormSchema[] = [
         console.log('Selected Status:', value);
         // 可以在这里根据 value 的变化做进一步处理
       },
+      style: {
+        border: '2px solid #ccc', // 边框颜色改为灰色
+        // 增加内边距以确保样式应用
+        boxSizing: 'border-box',
+      },
     },
     colProps: { span: 4 },
   },
@@ -149,32 +173,46 @@ export const formSchema: FormSchema[] = [
     label: '管理员',
     required: true,
     component: 'Input',
+    componentProps: {
+      style: { width: '80%' },
+    },
   },
   {
     field: 'adminPwd',
     label: '管理员密码',
     required: true,
     component: 'InputPassword',
+    componentProps: {
+      style: { width: '80%' },
+    },
   },
-
   {
     field: 'userName',
     required: true,
     label: '用户名',
     component: 'Input',
+    componentProps: {
+      style: { width: '80%' },
+    },
   },
   {
     field: 'userId',
     label: '用户ID',
     required: false,
-    componentProps: { disabled: true },
     component: 'InputNumber',
+    componentProps: {
+      disabled: true,
+      style: { width: '80%' },
+    },
   },
   {
     field: 'password',
     label: '密码',
     required: true,
     component: 'InputPassword',
+    componentProps: {
+      style: { width: '80%' },
+    },
   },
   {
     field: 'role',
@@ -186,6 +224,7 @@ export const formSchema: FormSchema[] = [
         { label: '管理员', value: 'ADMIN' },
         { label: '普通用户', value: 'USER' },
       ],
+      style: { width: '80%' },
     },
   },
   {
@@ -193,68 +232,99 @@ export const formSchema: FormSchema[] = [
     label: '所属单位',
     required: true,
     component: 'Input',
+    componentProps: {
+      style: { width: '80%' },
+    },
   },
   {
     field: 'personCharge',
     label: '责任人',
     required: true,
     component: 'Input',
+    componentProps: {
+      style: { width: '80%' },
+    },
   },
   {
     field: 'level',
     label: '权限等级',
     required: true,
     component: 'InputNumber',
+    componentProps: {
+      style: { width: '80%' },
+    },
   },
 ];
+
 export const Viewform: FormSchema[] = [
   {
     field: 'userName',
     required: true,
     label: '用户名',
     component: 'Input',
-    componentProps: { disabled: true },
+    componentProps: {
+      disabled: true,
+      style: { width: '80%' },
+    },
   },
   {
     field: 'userId',
     label: '用户ID',
     required: false,
     component: 'Input',
-    componentProps: { disabled: true },
+    componentProps: {
+      disabled: true,
+      style: { width: '80%' },
+    },
   },
   {
     field: 'password',
     label: '密码',
     required: true,
     component: 'InputPassword',
-    componentProps: { disabled: true },
+    componentProps: {
+      disabled: true,
+      style: { width: '80%' },
+    },
   },
   {
     field: 'role',
     label: '用户类型',
     required: true,
     component: 'Input',
-    componentProps: { disabled: true },
+    componentProps: {
+      disabled: true,
+      style: { width: '80%' },
+    },
   },
   {
     field: 'organization',
     label: '所属单位',
     required: true,
     component: 'Input',
-    componentProps: { disabled: true },
+    componentProps: {
+      disabled: true,
+      style: { width: '80%' },
+    },
   },
   {
     field: 'personCharge',
     label: '责任人',
     required: true,
     component: 'Input',
-    componentProps: { disabled: true },
+    componentProps: {
+      disabled: true,
+      style: { width: '80%' },
+    },
   },
   {
     field: 'level',
     label: '权限等级',
     required: true,
     component: 'Input',
-    componentProps: { disabled: true },
+    componentProps: {
+      disabled: true,
+      style: { width: '80%' },
+    },
   },
 ];

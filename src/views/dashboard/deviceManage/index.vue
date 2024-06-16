@@ -1,5 +1,12 @@
 <template>
-  <Card>
+  <Card
+    style="
+      border: 1px solid #ccc;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+      border-radius: 8px;
+      padding: 10px;
+    "
+  >
     <div class="custom-table-title" style="position: absolute; top: 133px; left: 50px">
       设备列表
     </div>
@@ -76,6 +83,10 @@
       type: Number,
       default: -1,
     },
+    showAction: {
+      type: Boolean,
+      default: true,
+    },
   });
 
   watch(
@@ -133,7 +144,7 @@
     },
     columns,
     formConfig: {
-      labelWidth: 120,
+      labelWidth: 160,
       schemas: searchFormSchema,
     },
     fetchSetting: {
@@ -156,6 +167,7 @@
       ellipsis: true,
       slots: { customRender: 'action' },
       fixed: 'right',
+      ifShow: () => props.showAction,
       customHeaderCell: () => {
         return {
           style: {
@@ -213,27 +225,6 @@
     font-weight: bold;
     font-size: 18px;
     margin-bottom: 16px;
-  }
-  .custom-search-label {
-    font-family: Arial, sans-serif; /* Change to desired font */
-    font-size: 14px;
-    font-weight: bold;
-  }
-  .custom-search-input {
-    border-radius: 10px; /* Rounded corners */
-    border: 2px solid #000; /* Darker border */
-    padding: 5px 10px;
-  }
-
-  .table-container {
-    width: 100%;
-    margin: 20px 0;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
   th.table-header-bold {

@@ -1,14 +1,19 @@
 <template>
-  <Card>
+  <Card
+    style="
+      border: 1px solid #ccc;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+      border-radius: 8px;
+      padding: 10px;
+    "
+  >
     <div class="custom-table-title" style="position: absolute; top: 90px; left: 40px">
       历史数据列表
     </div>
     <BasicTable :searchInfo="searchModel" @register="registerTable" :scroll="{ x: 2000, y: 3000 }">
       <template #toolbar>
         <a-button @click="toggleSortOrder" class="button-link">切换排序</a-button>
-        <a-button @click="handleExportSelected" class="button-link" type="primary">{{
-          loadText
-        }}</a-button>
+        <a-button @click="handleExportSelected" class="button-link" type="primary">{{ loadText }}</a-button>
         <a-button v-if="isLoadOut" type="primary" @click="quitLoadout" class="button-link">取消导出</a-button>
         <a-button v-if="isLoadOut" type="primary" @click="toggleSelectAll" class="button-link">{{
           selectAllText

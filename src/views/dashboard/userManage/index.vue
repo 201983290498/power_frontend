@@ -1,5 +1,12 @@
 <template>
-  <Card>
+  <Card
+    style="
+      border: 1px solid #ccc;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+      border-radius: 8px;
+      padding: 10px;
+    "
+  >
     <div class="custom-table-title" style="position: absolute; top: 120px; left: 50px">
       用户列表
     </div>
@@ -28,6 +35,7 @@
   import UserModal from './UserModel.vue';
   import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
+import { t } from '/@/hooks/web/useI18n';
   const props = defineProps({
     reSize: {
       type: Boolean,
@@ -93,7 +101,9 @@
     formConfig: {
       labelWidth: 120,
       schemas: searchFormSchema,
-      baseRowStyle: { height: '80px' },
+      baseRowStyle: {
+        height: '80px',
+      },
     },
     fetchSetting: {
       pageField: 'page',
@@ -228,5 +238,8 @@
   }
   .form-container {
     margin-bottom: 20px; /* 调整搜索表单的位置 */
+  }
+  .custom-label {
+    font-weight: bold !important;
   }
 </style>
