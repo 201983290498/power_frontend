@@ -10,7 +10,7 @@
     <div class="custom-table-title" style="position: absolute; top: 120px; left: 50px">
       用户列表
     </div>
-    <BasicTable :searchInfo="searchModel" @register="registerTable" :scroll="{ x: 2000, y: 3000 }">
+    <BasicTable :searchInfo="searchModel" @register="registerTable" :scroll="{ x: 1800, y: 3000 }">
       <template #toolbar>
         <a-button @click="toggleSortOrder" class="button-link">切换排序</a-button>
         <!-- 右上角的按钮 -->
@@ -35,7 +35,6 @@
   import UserModal from './UserModel.vue';
   import { Card } from 'ant-design-vue';
   import { Props } from '/@/components/Table/src/hooks/useTable';
-import { t } from '/@/hooks/web/useI18n';
   const props = defineProps({
     reSize: {
       type: Boolean,
@@ -116,7 +115,7 @@ import { t } from '/@/hooks/web/useI18n';
     pagination,
     canResize: props.reSize,
     actionColumn: {
-      width: 80,
+      width: 120, // 调整宽度确保内容对齐
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
@@ -126,6 +125,14 @@ import { t } from '/@/hooks/web/useI18n';
         return {
           style: {
             fontWeight: 'bold',
+            textAlign: 'center', // 确保表头居中
+          },
+        };
+      },
+      customCell: () => {
+        return {
+          style: {
+            textAlign: 'left', // 确保内容居中
           },
         };
       },

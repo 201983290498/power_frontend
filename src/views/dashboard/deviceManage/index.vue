@@ -172,6 +172,14 @@
         return {
           style: {
             fontWeight: 'bold',
+            textAlign: 'center', // 确保表头居中
+          },
+        };
+      },
+      customCell: () => {
+        return {
+          style: {
+            textAlign: 'center', // 确保内容居中
           },
         };
       },
