@@ -218,7 +218,6 @@
     font-size: 14px;
     font-weight: bold;
   }
-
   .custom-search-input {
     border-radius: 10px; /* Rounded corners */
     border: 2px solid #000; /* Darker border */

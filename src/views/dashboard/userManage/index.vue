@@ -61,7 +61,7 @@
     sortBy: 'user_id',
     sortOrder: 'asc',
     page: 1,
-    pageSize: 100,
+    pageSize: 1000,
     role: '',
   });
   const sortOrder = ref('asc'); // 排序方向
@@ -78,7 +78,8 @@
 
   const tableConfig: Props = {
     title: '用户列表',
-    api: (query) => getUserList({ ...query, ...searchModel }),
+    api: (query) => getUserList({ ...query, sortBy: 'user_id', sortOrder: sortOrder.value }),
+    //api: (query) => getUserList({ ...query, ...searchModel }),
     //beforeFetch: (params) => console.log('请求参数', params),
     afterFetch: (data) => {
       pagination.total = data.rowCount;
