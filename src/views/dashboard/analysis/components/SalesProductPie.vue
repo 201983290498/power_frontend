@@ -1,5 +1,5 @@
 <template>
-  <Card title="最新运维检修建议" :loading="loading" headStyle="font-weight: bold">
+  <Card title="最新运维检修建议" :loading="loading" style="background-color: #46B35F">
     <div ref="chartRef" :style="{ width, height }"></div>
   </Card>
 </template>
@@ -23,7 +23,7 @@
     },
     height: {
       type: String as PropType<string>,
-      default: '300px',
+      default: '350px',
     },
     result: {
       type: Object as PropType<any>,
@@ -37,6 +37,10 @@
     legend: {
       bottom: '0',
       left: 'center',
+      textStyle: {
+        color: '#fff',
+        fontSize: 18,
+      },
     },
     series: [
       {
@@ -45,6 +49,10 @@
         radius: '73%',
         center: ['50%', '50%'],
         color: ['#5ab1ef', '#67e0e3'],
+        label: {
+          color: '#fff',
+          fontSize: 18,
+        },
         data: [
           {
             value: props.result.riskRewardCostRatio,

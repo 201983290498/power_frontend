@@ -6,7 +6,7 @@
     :headStyle="headStyle"
     :body-style="{ padding: '5px' }"
   >
-    <Card class="w-88/100 !m-auto" title="变压器信息">
+    <Card class="w-88/100 !m-auto">
       <DeviceDetail :src="src" :device="device" />
     </Card>
     <Card :body-style="{ padding: '15px' }" class="!mt-4 !mb-4 w-9/10 !m-auto" :bordered="false">

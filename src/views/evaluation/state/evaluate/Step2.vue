@@ -62,7 +62,7 @@
     register1,
     { getFieldsValue: getFieldsValue1, setFieldsValue: setFieldsValue1, validate: validate1 },
   ] = useForm({
-    labelWidth: 200,
+    layout: 'vertical',
     schemas: step1Schemas(props.showMode),
     actionColOptions: {
       span: 24,
@@ -70,13 +70,17 @@
     showResetButton: false,
     showAdvancedButton: false,
     showSubmitButton: false,
+    baseRowStyle: {
+      fontSize: '20px',
+      fontWeight: 600,
+    },
   });
 
   const [
     register2,
     { getFieldsValue: getFieldsValue2, setFieldsValue: setFieldsValue2, validate: validate2 },
   ] = useForm({
-    labelWidth: 200,
+    layout: 'vertical',
     schemas: step2Schemas(props.showMode),
     actionColOptions: {
       span: 24,
@@ -84,13 +88,17 @@
     showResetButton: false,
     showAdvancedButton: false,
     showSubmitButton: false,
+    baseRowStyle: {
+      fontSize: '20px',
+      fontWeight: 600,
+    },
   });
 
   const [
     register3,
     { getFieldsValue: getFieldsValue3, setFieldsValue: setFieldsValue3, validate: validate3 },
   ] = useForm({
-    labelWidth: 200,
+    layout: 'vertical',
     schemas: step3Schemas(props.showMode),
     actionColOptions: {
       span: 24,
@@ -98,13 +106,17 @@
     showResetButton: false,
     showAdvancedButton: false,
     showSubmitButton: false,
+    baseRowStyle: {
+      fontSize: '20px',
+      fontWeight: 600,
+    }
   });
 
   const [
     register4,
     { getFieldsValue: getFieldsValue4, setFieldsValue: setFieldsValue4, validate: validate4 },
   ] = useForm({
-    labelWidth: 200,
+    layout: 'vertical',
     schemas: step4Schemas(props.showMode),
     actionColOptions: {
       span: 24,
@@ -112,13 +124,17 @@
     showResetButton: false,
     showAdvancedButton: false,
     showSubmitButton: false,
+    baseRowStyle: {
+      fontSize: '20px',
+      fontWeight: 600,
+    },
   });
 
   const [
     register5,
     { getFieldsValue: getFieldsValue5, setFieldsValue: setFieldsValue5, validate: validate5 },
   ] = useForm({
-    labelWidth: 200,
+    layout: 'vertical',
     schemas: step5Schemas(props.showMode),
     actionColOptions: {
       span: 24,
@@ -126,6 +142,10 @@
     showResetButton: false,
     showAdvancedButton: false,
     showSubmitButton: false,
+    baseRowStyle: {
+      fontSize: '20px',
+      fontWeight: 600,
+    },
   });
 
   async function submitData() {

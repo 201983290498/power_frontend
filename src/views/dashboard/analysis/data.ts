@@ -5,6 +5,7 @@ export interface GrowCardItem {
   total: number;
   color: string;
   action: string;
+  bgcolor: string;
 }
 
 export const growCardList: GrowCardItem[] = [
@@ -15,6 +16,7 @@ export const growCardList: GrowCardItem[] = [
     total: 120000,
     color: 'green',
     action: '总',
+    bgcolor: '#28a745',
   },
   {
     title: '历史评估记录',
@@ -23,6 +25,7 @@ export const growCardList: GrowCardItem[] = [
     total: 500000,
     color: 'blue',
     action: '总',
+    bgcolor: '#17a2b8',
   },
   {
     title: '异常设备',
@@ -31,6 +34,7 @@ export const growCardList: GrowCardItem[] = [
     total: 120000,
     color: 'orange',
     action: '总',
+    bgcolor: '#ffc107',
   },
   {
     title: '用户',
@@ -39,5 +43,6 @@ export const growCardList: GrowCardItem[] = [
     total: 50000,
     color: 'purple',
     action: '总',
+    bgcolor: '#dc3545',
   },
 ];

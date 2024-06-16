@@ -6,17 +6,17 @@
     :headStyle="headStyle"
     :body-style="{ padding: '5px' }"
   >
-    <Card class="w-88/100 !m-auto" title="变压器信息">
+    <Card class="w-88/100 !m-auto">
       <DeviceDetail :src="src" :device="device" />
     </Card>
     <div class="flex enter-y w-9/10 !m-auto !mt-4" :style="{ padding: '0px 15px' }">
       <Card class="w-48/100" title="建议检修方式" :headStyle="{ fontWeight: '700' }">
-        <div class="text-center" style="height: 200px; overflow-y: auto">
+        <div class="text-center text-lg" style="height: 200px; overflow-y: auto">
           {{ props.result.suggestedMaintenanceMethod }}
         </div>
       </Card>
       <Card class="w-48/100 !ml-4/100" title="检修内容" :headStyle="{ fontWeight: '700' }">
-        <div class="text-center" style="height: 200px; overflow-y: auto">
+        <div class="text-center text-lg" style="height: 200px; overflow-y: auto">
           {{ props.result.maintenanceContent }}
         </div>
       </Card>
@@ -27,8 +27,8 @@
       :bordered="false"
     >
       <CardGrid class="grid mr-4" :style="{ backgroundColor: textColor.success }">
-        <span class="text-3xl">{{ props.result.riskRewardCostRatio }}</span> <br />
-        <span>建议检修方式的风险收益成本比</span>
+        <span class="text-5xl">{{ props.result.riskRewardCostRatio }}</span> <br />
+        <span class="text-xl">建议检修方式的风险收益成本比</span>
       </CardGrid>
     </Card>
   </Card>

@@ -37,11 +37,10 @@ export function createDivider(name: string, restart = false): FormSchema {
     componentProps: {
       span: true,
       style: {
-        fontSize: '18px',
-        fontWeight: '500',
-        marginTop: '10px',
-        marginBottom: '10px',
-        marginLeft: '-100px',
+        fontSize: '20px',
+        fontWeight: '700',
+        marginTop: '50px !important',
+        marginBottom: '25px !important',
       },
     },
     colProps: {
@@ -67,7 +66,12 @@ export function createFormSchema(
     component: 'InputNumber',
     componentProps: {
       step: Math.pow(10, -digital),
-      style: { width: width }, // 设置输入框宽度为100%，可根据需要调整
+      style: { 
+        width: width, 
+        borderRadius: '6px',
+        boxShadow: '2px 2px 2px rgba(0,0,0,0.2)',
+        fontWeight: '500',
+      }, // 设置输入框宽度为100%，可根据需要调整
       disabled: showMode,
     },
     rules: [
@@ -95,7 +99,12 @@ export function createTextSchema(
     label: label,
     component: 'Input',
     componentProps: {
-      style: { width: width }, // 设置输入框宽度为100%，可根据需要调整
+      style: { 
+        width: width,
+        borderRadius: '6px',
+        boxShadow: '2px 2px 2px rgba(0,0,0,0.2)',
+        fontWeight: '500',
+       }, // 设置输入框宽度为100%，可根据需要调整
       disabled: showMode,
     },
     required: true,
@@ -117,7 +126,12 @@ export function createTimeSchema(
     label: label,
     component: 'DatePicker',
     componentProps: {
-      style: { width: width }, // 设置输入框宽度为100%，可根据需要调整
+      style: { 
+        width: width, 
+        borderRadius: '6px',
+        boxShadow: '2px 2px 2px rgba(0,0,0,0.2)',
+        fontWeight: '500',
+      }, // 设置输入框宽度为100%，可根据需要调整
       disabled: showMode,
     },
     required: true,
@@ -141,7 +155,12 @@ export function createOptionSchema(
     label: label,
     component: 'Select',
     componentProps: {
-      style: { width: width }, // 设置输入框宽度为100%，可根据需要调整
+      style: { 
+        width: width,
+        borderRadius: '6px',
+        boxShadow: '2px 2px 2px rgba(0,0,0,0.2)',
+        fontWeight: '500',
+      }, // 设置输入框宽度为100%，可根据需要调整
       options,
       mode,
       disabled: showMode,

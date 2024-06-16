@@ -9,7 +9,7 @@
         </span>
       </div>
     </template>
-    <DeviceManagement @chooseDevice="selectDevice" :re-size="!showDetail" :max-height="maxHeight" />
+    <DeviceManagement @chooseDevice="selectDevice" :re-size="!showDetail" :max-height="maxHeight" :showAction="false"/>
     <Card class="!mt-1" v-if="showDetail">
       <template #title> 关联测评 </template>
       <template #extra>

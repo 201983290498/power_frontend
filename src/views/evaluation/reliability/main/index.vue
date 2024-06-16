@@ -10,7 +10,7 @@
         </span>
       </div>
     </template>
-    <DeviceManagement @chooseDevice="selectDevice" :re-size="!showDetail" :max-height="maxHeight" />
+    <DeviceManagement @chooseDevice="selectDevice" :re-size="!showDetail" :max-height="maxHeight" :showAction="false"/>
     <DeviceInfo
       :src="logo"
       :buttonTexts="btnTexts"

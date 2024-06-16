@@ -30,7 +30,7 @@ import { transformDataToField } from '/@/utils/listToFiled';
     register1,
     { getFieldsValue: getFieldsValue1, setFieldsValue: setFieldsValue1, validate },
   ] = useForm({
-    labelWidth: 200,
+    layout: 'vertical',
     schemas: step1Schemas(props.showMode),
     actionColOptions: {
       span: 24,
@@ -38,6 +38,10 @@ import { transformDataToField } from '/@/utils/listToFiled';
     showResetButton: false,
     showAdvancedButton: false,
     showSubmitButton: false,
+    baseRowStyle: {
+      fontSize: '20px',
+      fontWeight: 600,
+    },
   });
 
   async function submitData() {
