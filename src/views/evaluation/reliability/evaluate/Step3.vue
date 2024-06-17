@@ -86,6 +86,7 @@
       if (props.loading) {
         return;
       }
+      console.log("lifespanProcess", props.result.lifespanProcess);
       setOptions1({
         tooltip: {
           trigger: 'item',
@@ -109,7 +110,7 @@
               {
                 value: 1 - props.result.thermalLifeLossRate / 100,
                 name:
-                  '已损失率:' +
+                  '剩余热寿命占比:' +
                   Math.round((100 - props.result.thermalLifeLossRate) * 10) / 10 +
                   '%',
               },
@@ -138,22 +139,22 @@
             type: 'pie',
             radius: '80%',
             center: ['50%', '50%'],
-            color: ['#3BA272', '#EE6666'],
+            color: ['#EE6666', '#3BA272'],
             data: [
               {
-                value: props.result.lifespanProcess / 100,
+                value: 1 - Math.abs(props.result.lifespanProcess) / 100,
                 name:
-                  '剩余寿命:' + (Math.round(props.result.lifespanProcess * 10) / 10 < 0
+                  '剩余寿命:' + (Math.round((100 - Math.abs(props.result.lifespanProcess)) * 10) / 10 < 0
                     ? 0
-                    : Math.round(props.result.lifespanProcess * 10) / 10) + '%',
+                    : Math.round((100 - Math.abs(props.result.lifespanProcess)) * 10) / 10) + '%',
               },
               {
-                value: 1 - props.result.lifespanProcess / 100,
+                value: Math.abs(props.result.lifespanProcess) / 100,
                 name:
                   '已用寿命:' +
-                  (Math.round((100 - props.result.lifespanProcess) * 10) / 10 > 100
+                  (Math.round(Math.abs(props.result.lifespanProcess) * 10) / 10 > 100
                     ? 100
-                    : Math.round((100 - props.result.lifespanProcess) * 10) / 10) +
+                    : Math.round(Math.abs(props.result.lifespanProcess)* 10) / 10) +
                   '%',
               },
             ].sort(function (a, b) {

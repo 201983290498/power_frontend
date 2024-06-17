@@ -56,28 +56,28 @@
         type: 'pie',
         radius: '80%',
         center: ['50%', '50%'],
-        color: ['#3BA272', '#EE6666'],
+        color: ['#EE6666', '#3BA272'],
         label: {
           color: '#fff',
           fontSize: 18,
         },
         data: [
           {
-            value: props.result.lifespanProcess / 100,
-            name:
-              '剩余寿命:' +
-              (Math.round(props.result.lifespanProcess * 10) / 10 < 0
-                ? 0
-                : Math.round(props.result.lifespanProcess * 10) / 10) +
-              '%',
-          },
-          {
             value: 1 - props.result.lifespanProcess / 100,
             name:
-              '已用寿命:' +
+              '剩余寿命:' +
               (Math.round((100 - props.result.lifespanProcess) * 10) / 10 > 100
                 ? 100
                 : Math.round((100 - props.result.lifespanProcess) * 10) / 10) +
+              '%',
+          },
+          {
+            value: props.result.lifespanProcess / 100,
+            name:
+              '已用寿命:' +
+              (Math.round(props.result.lifespanProcess * 10) / 10 < 0
+                ? 0
+                : Math.round(props.result.lifespanProcess * 10) / 10) +
               '%',
           },
         ].sort(function (a, b) {
