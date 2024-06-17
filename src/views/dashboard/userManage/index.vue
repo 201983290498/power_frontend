@@ -12,6 +12,7 @@
     </div>
     <BasicTable :searchInfo="searchModel" @register="registerTable" :scroll="{ x: 1800, y: 3000 }">
       <template #toolbar>
+        <a-button type="primary" class="button-link" @click="handleCreate">新增用户</a-button>
         <a-button @click="toggleSortOrder" class="button-link">切换排序</a-button>
         <!-- 右上角的按钮 -->
         <!-- 搜索表单 -->
@@ -115,7 +116,7 @@
     pagination,
     canResize: props.reSize,
     actionColumn: {
-      width: 120, // 调整宽度确保内容对齐
+      width: 60, // 调整宽度确保内容对齐
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
@@ -175,13 +176,6 @@
   function getActions(record) {
     const actions = [
       {
-        icon: 'ant-design:folder-add-filled',
-        color: 'undefined',
-        onClick: handleCreate.bind(record),
-        label: '增加',
-        auth: 'ADMIN',
-      },
-      {
         icon: 'clarity:note-edit-line',
         onClick: handleEdit.bind(null, record),
         label: '编辑',
@@ -209,7 +203,6 @@
         auth: 'ADMIN',
       });
     }
-
     return actions;
   }
 </script>
