@@ -404,6 +404,9 @@ export const formSchema: FormSchema[] = [
     label: '单位',
     required: true,
     component: 'Input',
+    componentProps: {
+      style: { width: '80%' },
+    },
   },
   {
     field: 'phase',

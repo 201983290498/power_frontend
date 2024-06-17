@@ -13,35 +13,18 @@
     <BasicTable
       :searchInfo="searchModel"
       :columns="columns"
+      :rowClassName="getRowClassName"
       @register="registerTable"
       @rowClick="itemonclick"
       :scroll="{ x: 2000, y: 3000 }"
     >
       <template #toolbar>
-        <!-- <a-button type="primary" @click="handleCreate">新增设备</a-button> -->
+        <a-button type="primary" class="button-link" @click="handleCreate">新增设备</a-button>
         <a-button @click="toggleSortOrder" class="button-link">切换排序</a-button>
       </template>
       <template #action="{ record }">
         <TableAction
           :actions="[
-            {
-              icon: 'ant-design:folder-add-filled',
-              color: 'undefined',
-              onClick: handleCreate.bind(record),
-              label: '增加',
-              auth: 'ADMIN',
-            },
-            {
-              icon: 'ant-design:delete-outlined',
-              label: '删除',
-              color: 'error',
-              popConfirm: {
-                title: '是否确认删除',
-                placement: 'left',
-                confirm: handleDelete.bind(null, record),
-              },
-              auth: 'ADMIN',
-            },
             {
               icon: 'clarity:note-edit-line',
               label: '编辑',
@@ -53,6 +36,17 @@
               color: 'success',
               label: '查看',
               onClick: handleView.bind(null, record),
+            },
+            {
+              icon: 'ant-design:delete-outlined',
+              label: '删除',
+              color: 'error',
+              popConfirm: {
+                title: '是否确认删除',
+                placement: 'left',
+                confirm: handleDelete.bind(null, record),
+              },
+              auth: 'ADMIN',
             },
           ]"
         />
@@ -132,7 +126,6 @@
     showQuickJumper: true,
     pageSizeOptions: ['5', '10', '20', '30', '40'],
   });
-
   const tableConfig: Props = {
     //title: '设备列表',
     api: (query) => getDeviceList({ ...query, sortBy: sortBy.value, sortOrder: sortOrder.value }),
@@ -213,11 +206,20 @@
       reload();
     });
   }
-
+  const selectedRowKeys = ref(new Set());
   function itemonclick(record) {
+    if (selectedRowKeys.value.has(record.equipId)) {
+      selectedRowKeys.value.delete(record.equipId);
+    } else {
+      selectedRowKeys.value.clear();
+      selectedRowKeys.value.add(record.equipId);
+    }
     emit('chooseDevice', record);
   }
 
+  function getRowClassName(record) {
+    return selectedRowKeys.value.has(record.equipId) ? 'highlight-row' : '';
+  }
   function handleSuccess() {
     reload();
   }
@@ -234,26 +236,12 @@
     font-size: 18px;
     margin-bottom: 16px;
   }
-
-  th.table-header-bold {
-    font-weight: bold;
-    background-color: #f4f4f4;
-    padding: 10px;
-  }
   .button-link {
     cursor: pointer;
     font-weight: bold;
     text-decoration: none;
   }
-
-  td {
-    color: #6c757d;
-    padding: 10px;
-  }
-
-  th,
-  td {
-    border: 1px solid #dee2e6;
-    text-align: left;
+  .highlight-row {
+    background-color: #f5f5f5;
   }
 </style>

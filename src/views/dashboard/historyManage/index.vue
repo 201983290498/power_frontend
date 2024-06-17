@@ -13,8 +13,12 @@
     <BasicTable :searchInfo="searchModel" @register="registerTable" :scroll="{ x: 2000, y: 3000 }">
       <template #toolbar>
         <a-button @click="toggleSortOrder" class="button-link">切换排序</a-button>
-        <a-button @click="handleExportSelected" class="button-link" type="primary">{{ loadText }}</a-button>
-        <a-button v-if="isLoadOut" type="primary" @click="quitLoadout" class="button-link">取消导出</a-button>
+        <a-button @click="handleExportSelected" class="button-link" type="primary">{{
+          loadText
+        }}</a-button>
+        <a-button v-if="isLoadOut" type="primary" @click="quitLoadout" class="button-link"
+          >取消导出</a-button
+        >
         <a-button v-if="isLoadOut" type="primary" @click="toggleSelectAll" class="button-link">{{
           selectAllText
         }}</a-button>
@@ -29,7 +33,7 @@
       </template>
       <template #reliabilityId="{ record }">
         <template v-if="record.reliabilityId !== -1">
-          <a @click="handleWatch(record, type1)" class="state-id-link" title="查看测评记录">{{
+          <a @click="handleWatch(record, type2)" class="state-id-link" title="查看测评记录">{{
             record.reliabilityId
           }}</a>
         </template>
@@ -37,7 +41,7 @@
       </template>
       <template #economyId="{ record }">
         <template v-if="record.economyId !== -1">
-          <a @click="handleWatch(record, type1)" class="state-id-link" title="查看测评记录">{{
+          <a @click="handleWatch(record, type3)" class="state-id-link" title="查看测评记录">{{
             record.economyId
           }}</a>
         </template>
@@ -45,7 +49,7 @@
       </template>
       <template #decisionId="{ record }">
         <template v-if="record.decisionId !== -1">
-          <a @click="handleWatch(record, type1)" class="state-id-link" title="查看测评记录">{{
+          <a @click="handleWatch(record, type4)" class="state-id-link" title="查看测评记录">{{
             record.decisionId
           }}</a>
         </template>
