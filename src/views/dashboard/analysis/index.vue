@@ -72,6 +72,10 @@
     evaluateState.setDeviceInfo(device);
     let tmp = await getHealthStatus({ equipId: device.equipId });
     tmp.status.unshift(0);
+    for(let i=0; i<tmp.times.length; i++){
+      tmp.times[i] = new Date(tmp.times[i]).toLocaleString('default', { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2月$3日$4时').replace(/,/g, '');
+    }
+    tmp.times.unshift('0');
     evaluteStatus.healthStatus = tmp;
     const result = await getRecentStatus({ equipId: device.equipId });
     if (

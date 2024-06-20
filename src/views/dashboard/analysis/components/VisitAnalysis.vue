@@ -89,10 +89,10 @@
     () => props.loading,
     () => {
       if (props.loading) return;
-      options.xAxis.data = [];
+      options.xAxis.data = props.result.times;
       options.series[1].data = [];
-      for (let i = 0; i <= props.result.status.length; i++) {
-        options.xAxis.data.push(''+i);
+      console.log("state", props.result.status);
+      for (let i = 0; i < props.result.status.length; i++) {
         options.series[1].data.push(60);
       }
       options.series[0].data = props.result.status;
@@ -103,14 +103,13 @@
     () => props.result,
     () => {
       if (props.loading) return;
-      options.xAxis.data = [];
+      options.xAxis.data = props.result.times;
       options.series[1].data = [];
+      console.log("state", props.result.status);
       for (let i = 1; i <= props.result.status.length; i++) {
-        options.xAxis.data.push(''+i);
         options.series[1].data.push(60);
       }
       options.series[0].data = props.result.status;
-      console.log(options.series[1].data);
       setOptions(options);
     },
   );

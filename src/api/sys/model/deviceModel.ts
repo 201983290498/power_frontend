@@ -55,6 +55,7 @@ export interface DeviceViewParams {
 
 export interface HealthStatusResults {
   status: Array<number>;
+  times: Array<string>;
 }
 
 export interface RecentEvalResults {
