@@ -4,11 +4,25 @@ import { exportHistory } from '/@/api/sys/history';
 import { ExportHistoryData } from '/@/api/sys/model/historyModal';
 export const columns: BasicColumn[] = [
   {
-    title: '设备Id',
-    dataIndex: 'equipId',
+    title: '变电站名称',
+    dataIndex: 'substationName',
     width: 50,
     ellipsis: true,
-    sorter: (a, b) => a.equipId - b.equipId,
+    sorter: (a, b) => a.substationName.localeCompare(b.substationName, 'zh-CN'),
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
+  },
+  {
+    title: '设备名称',
+    dataIndex: 'equipName',
+    width: 50,
+    ellipsis: true,
+    sorter: (a, b) => a.equipName.localeCompare(b.equipName, 'zh-CN'),
     customHeaderCell: () => {
       return {
         style: {
@@ -22,7 +36,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'equipNo',
     width: 50,
     ellipsis: true,
-    sorter: (a, b) => a.equipNo - b.equipNo,
+    // sorter: (a, b) => a.equipNo - b.equipNo,
     customHeaderCell: () => {
       return {
         style: {
@@ -212,6 +226,30 @@ export const searchFormSchema: FormSchema[] = [
   {
     field: 'equipNo',
     label: '设备编号',
+    component: 'Input',
+    colProps: { span: 4 },
+    componentProps: {
+      style: {
+        borderRadius: '20px', // 调整圆角半径
+        border: '2px solid #ccc', // 边框颜色改为灰色
+      },
+    },
+  },
+  {
+    field: 'substationName',
+    label: '变电站名称',
+    component: 'Input',
+    colProps: { span: 4 },
+    componentProps: {
+      style: {
+        borderRadius: '20px', // 调整圆角半径
+        border: '2px solid #ccc', // 边框颜色改为灰色
+      },
+    },
+  },
+  {
+    field: 'equipName',
+    label: '设备名称',
     component: 'Input',
     colProps: { span: 4 },
     componentProps: {

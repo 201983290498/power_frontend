@@ -129,6 +129,8 @@
     equipId: 0, // 初始化为number类型
     sortBy: 'evaluateTime', // 默认排序字段
     sortOrder: 'desc', // 默认降序
+    substationName: '',
+    equipName: '',
     page: 1,
     pageSize: 20,
     decisionId: 0, // 初始化为空值
@@ -155,7 +157,7 @@
 
   const tableConfig: Props = {
     //title: '历史数据列表',
-    api: (query) => getHistoryList({ ...query, ...searchModel }),
+    api: (query) => getHistoryList({ ...query }),
     afterFetch: (data) => {
       pagination.total = data.rowCount;
       pagination.current = data.pageCount;

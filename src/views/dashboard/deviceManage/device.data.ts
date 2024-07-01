@@ -17,19 +17,6 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '设备名称',
-    dataIndex: 'equipName',
-    width: 60,
-    ellipsis: true,
-    customHeaderCell: () => {
-      return {
-        style: {
-          fontWeight: 'bold',
-        },
-      };
-    },
-  },
-  {
     title: '设备编号',
     dataIndex: 'equipNo',
     width: 60,
@@ -46,6 +33,19 @@ export const columns: BasicColumn[] = [
   {
     title: '变电站名称',
     dataIndex: 'substationName',
+    width: 60,
+    ellipsis: true,
+    customHeaderCell: () => {
+      return {
+        style: {
+          fontWeight: 'bold',
+        },
+      };
+    },
+  },
+  {
+    title: '设备名称',
+    dataIndex: 'equipName',
     width: 60,
     ellipsis: true,
     customHeaderCell: () => {
@@ -299,7 +299,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'capacity',
-    label: '容量',
+    label: '容量(kVA)',
     required: true,
     component: 'InputNumber',
     componentProps: {
@@ -369,7 +369,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'noLoadCurrent',
-    label: '空载电流',
+    label: '空载电流(A)',
     required: true,
     componentProps: {
       step: 0.0001,
@@ -380,7 +380,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'noLoadLoss',
-    label: '空载损耗',
+    label: '空载损耗(kw)',
     required: true,
     componentProps: {
       step: 0.0001,
@@ -421,7 +421,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'ratedVoltage',
-    label: '额定电压',
+    label: '额定电压(kV)',
     required: true,
     componentProps: {
       step: 0.0001,
@@ -450,7 +450,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'systemNominalVoltage',
-    label: '系统标称电压',
+    label: '系统标称电压(kV)',
     required: true,
     componentProps: {
       step: 0.0001,
@@ -458,6 +458,7 @@ export const formSchema: FormSchema[] = [
       style: { width: '80%' },
     },
     component: 'InputNumber',
+    labelWidth: 120, // 设置label的宽度为120px
   },
 ];
 export const Viewform: FormSchema[] = [
@@ -533,7 +534,7 @@ export const Viewform: FormSchema[] = [
   },
   {
     field: 'capacity',
-    label: '容量',
+    label: '容量(kVA)',
     required: true,
     component: 'Input',
     componentProps: {
@@ -607,7 +608,7 @@ export const Viewform: FormSchema[] = [
   },
   {
     field: 'noLoadCurrent',
-    label: '空载电流',
+    label: '空载电流(A)',
     required: true,
     component: 'Input',
     componentProps: {
@@ -617,7 +618,7 @@ export const Viewform: FormSchema[] = [
   },
   {
     field: 'noLoadLoss',
-    label: '空载损耗',
+    label: '空载损耗(kw)',
     required: true,
     component: 'Input',
     componentProps: {
@@ -657,7 +658,7 @@ export const Viewform: FormSchema[] = [
   },
   {
     field: 'ratedVoltage',
-    label: '额定电压',
+    label: '额定电压(kV)',
     required: true,
     component: 'Input',
     componentProps: {
@@ -687,13 +688,15 @@ export const Viewform: FormSchema[] = [
   },
   {
     field: 'systemNominalVoltage',
-    label: '系统标称电压',
+    label: '系统标称电压(kV)',
     required: true,
-    component: 'Input',
     componentProps: {
+      step: 0.0001,
+      precision: 4,
       disabled: true,
       style: { width: '80%' },
     },
+    component: 'InputNumber',
   },
 ];
 
