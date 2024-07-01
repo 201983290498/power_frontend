@@ -21,7 +21,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'equipNo',
     width: 60,
     ellipsis: true,
-    sorter: (a, b) => a.equipNo.length - b.equipNo.length,
+    sorter: (a, b) => a.equipNo - b.equipNo,
     customHeaderCell: () => {
       return {
         style: {
