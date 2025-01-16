@@ -2,7 +2,7 @@
 
 [![license](https://img.shields.io/github/license/anncwb/vue-vben-admin.svg)](LICENSE)
 
-<h1>Vue vben admin</h1>
+<h1>Vue vben admin based power_fronted</h1>
 </div>
 
 **English** | [中文](./README.zh-CN.md)
@@ -45,6 +45,8 @@ Open the project in Gitpod (free online dev environment for GitHub) and start co
 ## Documentation
 
 [Document](https://vvbin.cn/doc-next/)
+## 接口说明
+https://apifox.com/apidoc/shared-ed6db6d7-2056-4b17-883f-46ea97c598f2
 
 ## Preparation
 
@@ -167,3 +169,4 @@ If you think this project is helpful to you, you can help the author buy a cup o
 ## License
 
 [MIT © Vben-2020](./LICENSE)
+
